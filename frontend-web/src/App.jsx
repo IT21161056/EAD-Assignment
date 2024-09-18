@@ -10,8 +10,9 @@ function App() {
 
   return (
     <>
-      <Button onClick={() => setLayout(!layout)}>Change Layout</Button>
-      {layout ? <MainLayout /> : <AdminLayout />}
+      {/* <Button onClick={() => setLayout(!layout)}>Change Layout</Button> */}
+       <MainLayout />
+       {/* <AdminLayout /> */}
     </>
   );
 }
