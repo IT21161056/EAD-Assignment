@@ -21,10 +21,10 @@ const MainNavbar = () => {
             <i className="bi bi-bag-check" style={{fontSize:'23px'}}></i>
             <Badge bg="secondary" className="position-absolute top-4">0</Badge>
             </Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown title="Dashboard" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/adminDashboard">Admin</NavDropdown.Item>
+              <NavDropdown.Item href="/csr">CSR</NavDropdown.Item>
+              <NavDropdown.Item href="/vendor">Vendor</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
