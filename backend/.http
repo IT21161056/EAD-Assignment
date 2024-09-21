@@ -1,0 +1,28 @@
+POST http://localhost:5050/api/auth/register
+Content-Type: application/json
+
+{
+    "firstname":"Anoj",
+    "lastname":"Peiris",
+    "email":"anoj@gmail.com",
+    "phone":"0710624368",
+    "password":"Anoj@1234"
+}
+
+
+###
+POST http://localhost:5050/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"anoj@gmail.com",
+    "password":"Anoj@1234"
+}
+
+
+
+
+###
+POST http://localhost:5050/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI0NTM4ODE0Mi1lODNkLTRlOTMtOWVmNC0xNmI4ZTZiY2JmOTciLCJlbWFpbCI6ImFub2pAZ21haWwuY29tIiwibmJmIjoxNzI2OTA0MjgyLCJleHAiOjE3MjY5MDc4ODIsImlhdCI6MTcyNjkwNDI4Mn0.lZ4NFRhoQi7IMPChBpoxjfBAiI_2OqTdSlnokDrQkQA
+Content-Type: application/json

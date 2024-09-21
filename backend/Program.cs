@@ -18,7 +18,10 @@ var mongoConnectionString = builder.Configuration["MongoDbSettings:ConnectionStr
 var mongoDatabaseName = builder.Configuration["MongoDbSettings:DatabaseName"];
 
 // Configure MongoDB Identity
-builder.Services.AddIdentity<User, Role>()
+builder.Services.AddIdentity<User, Role>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+})
     .AddMongoDbStores<User, Role, Guid>(mongoConnectionString, mongoDatabaseName)
     .AddDefaultTokenProviders();
 
@@ -51,6 +54,7 @@ builder.Services.AddAuthentication(x =>
 // Register your services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddAuthorization();
 
 // Add controllers or other services
 builder.Services.AddControllers();
