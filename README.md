@@ -20,8 +20,6 @@
 
 ## Mobile Application
 
----
-
 ### User Management
 
 ### Product Browsing and Purchasing
