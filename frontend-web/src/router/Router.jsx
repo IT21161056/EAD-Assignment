@@ -13,6 +13,7 @@ import ProductUpdate from "../pages/dashboradPages/ProductUpdate";
 import AdminDashboard from "../pages/AdminDashboard";
 import CreateVendor from "../pages/CreateVendor"
 import AllOrder from "../pages/AllOrder";
+import OrderCancelationRequest from "../pages/OrderCancelationRequest";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -40,6 +41,7 @@ const Router = () => {
       <Route path="adminDashboard" element={<AdminDashboard />} />
       <Route path="createVendor" element={<CreateVendor />} />
       <Route path="allOrders" element={<AllOrder />} />
+      <Route path="cancelRequest" element={<OrderCancelationRequest />} />
     </Routes>
   );
 };

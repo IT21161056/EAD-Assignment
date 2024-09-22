@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Badge from 'react-bootstrap/Badge';
-
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 const AllOrder = () => {
 
@@ -52,9 +53,14 @@ const AllOrder = () => {
     
     return (
         <Container className='mt-4'>
-            <div className='d-flex align-items-center justify-content-center'>
+            <div className='d-flex align-items-baseline justify-content-between'>
                 <p></p>
                 <h4>All Orders</h4>
+                <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Order cancellation requests</Tooltip>}>
+                <Link to="/cancelRequest"><i class="bi bi-bell-fill" style={{fontSize:'1.92rem'}}></i>
+                <Badge bg="secondary" className="position-absolute top-4">0</Badge>
+                </Link>
+                </OverlayTrigger>
             </div>
             <Table striped bordered hover className='mt-2'>
                 <thead>

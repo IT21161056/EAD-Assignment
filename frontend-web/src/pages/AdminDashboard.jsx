@@ -26,6 +26,17 @@ const AdminDashboard = () => {
           </Card.Body>
         </Card>
       </Link>
+
+      <Link to="/users">
+        <Card style={{ width: '15rem' }}>
+          <Card.Body className="d-flex justify-content-center align-items-center">
+            <div className="d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-people-fill" style={{ fontSize: '2rem' }}></i>
+              <p className="text-center">User Management</p>
+            </div>
+          </Card.Body>
+        </Card>
+      </Link>
     </div>
   );
 };
