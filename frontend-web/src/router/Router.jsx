@@ -6,6 +6,7 @@ import Listings from "../pages/Listings";
 import UserManagements from "../pages/UserManagements";
 import AdminDashboard from "../pages/AdminDashboard";
 import CreateVendor from "../pages/CreateVendor";
+import AllOrder from "../pages/AllOrder";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -24,6 +25,7 @@ const Router = () => {
       <Route path="/users" element={<UserManagements/>}/>
       <Route path="/adminDashboard" element={<AdminDashboard/>}/>
       <Route path="/createVendor" element={<CreateVendor/>}/>
+      <Route path="/allOrders" element={<AllOrder/>}/>
     </Routes>
   );
 };

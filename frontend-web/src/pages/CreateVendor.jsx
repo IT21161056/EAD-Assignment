@@ -16,10 +16,10 @@ const CreateVendor = () => {
     <Container className='mt-4'> 
       <div className='d-flex align-items-baseline justify-content-between'>
       <p></p>
-      <p>Vendors</p>
+      <h4>Vendors</h4>
       <Button variant="primary" onClick={handleShow}>Add New</Button>
       </div>
-      <Table striped bordered hover>
+      <Table striped bordered hover className='mt-2'>
       <thead>
         <tr>
           <th>Name</th>
