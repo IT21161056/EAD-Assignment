@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import p from "../../../assets/p.jpg";
+// import p from "../../../assets/p.jpg";
 
 const Products = () => {
   const [productData, setProductData] = useState([
