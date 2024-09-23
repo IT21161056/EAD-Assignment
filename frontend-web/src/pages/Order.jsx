@@ -54,26 +54,26 @@ const Order = () => {
                       </div>
                     ))}
 
-                    <div className='d-flex align-items-center justify-content-between gap-5 mt-3'>
-                      <Card.Subtitle className="mb-2 text-muted">Total Amount</Card.Subtitle>
-                      <Card.Subtitle className="mb-2 text-muted">Rs.{order.total}.00</Card.Subtitle>
-                    </div>
-
-                    <div className='d-flex align-items-baseline justify-content-between mt-2 gap-5'>
+                    <div className='d-flex align-items-baseline justify-content-between mt-3 gap-5'>
                       <Card.Subtitle className="mb-2 text-muted">Ordered Date</Card.Subtitle>
                       <Card.Subtitle className="mb-2 text-muted">{order.orderDate}</Card.Subtitle>
+                    </div>
+
+                    <div className='d-flex align-items-center justify-content-between gap-5 mt-2'>
+                      <Card.Subtitle className="mb-2 text-muted">Total Amount</Card.Subtitle>
+                      <Card.Subtitle className="mb-2 text-muted">Rs.{order.total}.00</Card.Subtitle>
                     </div>
                     <div className='d-flex align-items-baseline justify-content-between mt-2 gap-5'>
                       <Button variant="primary" className='mt-2'>{order.status}</Button>
                       <div className='d-flex gap-3'>
                         <div style={{
-                          backgroundColor: 'blue', padding: '1.2rem', width: '30px',cursor:'pointer',
+                          backgroundColor: '#ffcc00', padding: '1.2rem', width: '30px',cursor:'pointer',
                           height: '30px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center'
                         }}>
                           <i class="bi bi-pencil" style={{ fontSize: '1.3rem' }}></i></div>
 
                         <div style={{
-                          backgroundColor: 'red', padding: '1.2rem', width: '30px',cursor:'pointer',
+                          backgroundColor: '#ff0000', padding: '1.2rem', width: '30px',cursor:'pointer',
                           height: '30px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center'
                         }}><i class="bi bi-trash" style={{ fontSize: '1.3rem' }}></i></div>
                       </div>

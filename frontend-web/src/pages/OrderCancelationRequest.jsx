@@ -28,7 +28,8 @@ const OrderCancelationRequest = () => {
 
     return (
         <Container>
-            <div className='mt-5'>
+            <h6 className='mt-3'>Order Cancellation Requests</h6>
+            <div className='mt-4'>
                 {
                     cancelOrders.length > 0 && cancelOrders.map((order, index) => (
                         <Card style={{ width: '32rem', height: 'auto',marginTop:'1rem' }}>
