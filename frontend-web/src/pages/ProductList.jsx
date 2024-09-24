@@ -11,8 +11,6 @@ const ProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  // console.log("kkk>>>", cartData);
-
   useEffect(() => {
     // Replace API call with hardcoded data
     const hardcodedProducts = [

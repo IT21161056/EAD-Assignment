@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Order from "../pages/Order";
-import Listings from "../pages/Listings";
 import ProductList from "../pages/ProductList";
 import ProductCart from "../pages/ProductCart";
 
@@ -11,6 +10,10 @@ import UserManagement from "../pages/dashboradPages/UserManagement";
 import ProductManagement from "../pages/dashboradPages/ProdcutManagement";
 import ProdcutAdd from "../pages/dashboradPages/ProductAdd";
 import ProductUpdate from "../pages/dashboradPages/ProductUpdate";
+import AdminDashboard from "../pages/AdminDashboard";
+import CreateVendor from "../pages/CreateVendor"
+import AllOrder from "../pages/AllOrder";
+import OrderCancelationRequest from "../pages/OrderCancelationRequest";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -28,7 +31,6 @@ const Router = () => {
       <Route path="/" element={<ProductList />} />
       <Route path="/cart" element={<ProductCart />} />
       <Route path="/orders" element={<Order />} />
-      <Route path="/listings" element={<Listings />} />
       <Route path="/users" element={<UserManagement />} />
 
       {/* Dashboard component routes */}
@@ -36,6 +38,10 @@ const Router = () => {
       <Route path="dashboard/allproducts" element={<ProductManagement />} />
       <Route path="dashboard/addproduct" element={<ProdcutAdd />} />
       <Route path="dashboard/updateproduct/:id" element={<ProductUpdate />} />
+      <Route path="adminDashboard" element={<AdminDashboard />} />
+      <Route path="createVendor" element={<CreateVendor />} />
+      <Route path="allOrders" element={<AllOrder />} />
+      <Route path="cancelRequest" element={<OrderCancelationRequest />} />
     </Routes>
   );
 };

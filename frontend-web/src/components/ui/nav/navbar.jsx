@@ -24,7 +24,7 @@ const MainNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="gap-3 d-flex align-items-baseline">
-              <Nav.Link href="/">Products</Nav.Link>
+              <Nav.Link href="/">Product Listing</Nav.Link>
               <Nav.Link href="/orders">Orders</Nav.Link>
               <Nav.Link href="/listings">Listings</Nav.Link>
               <Nav.Link href="/users">User Management</Nav.Link>

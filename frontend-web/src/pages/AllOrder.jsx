@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Badge from 'react-bootstrap/Badge';
-
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 const AllOrder = () => {
 
@@ -18,7 +19,7 @@ const AllOrder = () => {
                 delivery_code: "dl##1",
                 vendor_id:"ven001",
                 quantity: 4,
-                status: "Pending"
+                status: "Purchased"
             },
             {   
                 id:'2',
@@ -52,9 +53,14 @@ const AllOrder = () => {
     
     return (
         <Container className='mt-4'>
-            <div className='d-flex align-items-center justify-content-center'>
+            <div className='d-flex align-items-baseline justify-content-between'>
                 <p></p>
                 <h4>All Orders</h4>
+                <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">Order cancellation requests</Tooltip>}>
+                <Link to="/cancelRequest"><i class="bi bi-bell-fill" style={{fontSize:'1.92rem'}}></i>
+                <Badge bg="secondary" className="position-absolute top-4">0</Badge>
+                </Link>
+                </OverlayTrigger>
             </div>
             <Table striped bordered hover className='mt-2'>
                 <thead>
@@ -81,12 +87,12 @@ const AllOrder = () => {
                                 <td className='d-flex align-items-center'>
                                     <Dropdown className='text-center'>
                                         <Dropdown.Toggle variant='info' style={{ backgroundColor: "white"}} className='dropdown_btn' id="dropdown-basic">
-                                            <Badge bg={order.status == "Pending" ? "danger" : order.status === "Delivered" ? "success" : "warning"} className='p-1'>
+                                            <Badge bg={order.status == "Purchased" ? "info" : order.status === "Delivered" ? "success" : "warning"} className='p-1'>
                                                 {order.status} <i className="fa-solid fa-angle-down"></i>
                                             </Badge>
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Pending")}>Pending</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Pending")}>Purchased</Dropdown.Item>
                                             <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Delivered")}>Delivered</Dropdown.Item>
                                             <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Partially delivered")}>Partially delivered</Dropdown.Item>
                                         </Dropdown.Menu>
