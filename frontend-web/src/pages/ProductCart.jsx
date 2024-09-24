@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCartContext } from "../components/providers/ContextProvider";
+import PlaceOrder from "../components/PlaceOrder";
 
 const ProductCart = () => {
   const { cartData, setCartData } = useCartContext();
   const [totalAmount, setTotalAmount] = useState(0);
+  const [show,setShow] = useState(false)
+
   const navigate = useNavigate();
 
   const incrementQuantity = (productId) => {
@@ -52,8 +55,10 @@ const ProductCart = () => {
   };
 
   const proceedToCheckout = (totAmount) => {
-    navigate(`/order/?total=${totAmount}`);
+    setShow(true)
   };
+
+  const handleClose = () => setShow(false);
 
   return (
     <div className="container mt-5">
@@ -134,6 +139,7 @@ const ProductCart = () => {
         </button>
       </div>
       <ToastContainer />
+      <PlaceOrder show={show} handleClose={handleClose} totalAmount={totalAmount}/>
     </div>
   );
 };
