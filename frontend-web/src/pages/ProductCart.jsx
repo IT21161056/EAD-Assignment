@@ -57,11 +57,12 @@ const ProductCart = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="mb-4">Product Cart</h1>
-      <table className="table table-success table-striped">
-        <thead>
+      <h2 className="mb-4">Product Cart</h2>
+      <table className="table table-hover text-center">
+        <thead className="table-light">
           <tr>
             <th scope="col">Product</th>
+            <th scope="col">Product Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
             <th scope="col">Action</th>
@@ -70,44 +71,68 @@ const ProductCart = () => {
         <tbody>
           {cartData.length > 0 ? (
             cartData.map((item, index) => (
-              <tr key={index}>
+              <tr key={index} className="">
+                <td>
+                  <img
+                    src={item.productImage}
+                    alt={item.productName}
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                </td>
                 <td>{item.productName}</td>
                 <td>{item.productPrice}</td>
                 <td>
-                  <button onClick={() => decrementQuantity(item._id)}>
-                    <i className="bi bi-dash-square-fill"></i>
-                  </button>
+                  <i
+                    className="bi bi-dash-square-fill"
+                    style={{
+                      cursor: "pointer",
+                      fontSize: "24px",
+                      marginRight: "10px",
+                    }}
+                    onClick={() => decrementQuantity(item._id)}
+                  ></i>
                   {item.count}
-                  <button onClick={() => incrementQuantity(item._id)}>
-                    <i className="bi bi-plus-square-fill"></i>
-                  </button>
+                  <i
+                    className="bi bi-plus-square-fill"
+                    style={{
+                      cursor: "pointer",
+                      fontSize: "24px",
+                      marginLeft: "10px",
+                    }}
+                    onClick={() => incrementQuantity(item._id)}
+                  ></i>
                 </td>
                 <td>
-                  <button onClick={() => removeProductFromCart(item._id)}>
-                    <i
-                      className="bi bi-trash"
-                      style={{ cursor: "pointer", color: "red" }}
-                    ></i>
-                  </button>
+                  <i
+                    className="bi bi-trash"
+                    style={{
+                      cursor: "pointer",
+                      color: "red",
+                      fontSize: "24px",
+                    }}
+                    onClick={() => removeProductFromCart(item._id)}
+                  ></i>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" className="text-center">
-                <h3>Your cart is empty!</h3>
+              <td colSpan="5" className="text-center">
+                <h3 className="text-danger">Your cart is empty!</h3>
               </td>
             </tr>
           )}
         </tbody>
       </table>
-      <h3>Total Amount: {totalAmount.toFixed(2)}</h3>
-      <button
-        className="btn btn-success"
-        onClick={() => proceedToCheckout(totalAmount)}
-      >
-        Proceed to checkout
-      </button>
+      <div className="d-flex justify-content-end align-items-center mt-4">
+        <h4 className="me-4">Total Amount: {totalAmount.toFixed(2)}</h4>
+        <button
+          className="btn btn-success"
+          onClick={() => proceedToCheckout(totalAmount)}
+        >
+          Proceed to checkout
+        </button>
+      </div>
       <ToastContainer />
     </div>
   );

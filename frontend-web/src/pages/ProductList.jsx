@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/ReactToastify.css";
 import { useCartContext } from "../components/providers/ContextProvider";
+import p from "../assets/p.jpg";
 
 const ProductList = () => {
   const { addToCart } = useCartContext();
@@ -14,14 +15,14 @@ const ProductList = () => {
   useEffect(() => {
     // Replace API call with hardcoded data
     const hardcodedProducts = [
-      { _id: 1, productName: "Papaya", productPrice: 150, productImage: null },
-      { _id: 2, productName: "Mango", productPrice: 200, productImage: null },
-      { _id: 3, productName: "Banana", productPrice: 50, productImage: null },
+      { _id: 1, productName: "Papaya", productPrice: 150, productImage: p },
+      { _id: 2, productName: "Mango", productPrice: 200, productImage: p },
+      { _id: 3, productName: "Banana", productPrice: 50, productImage: p },
       {
         _id: 4,
         productName: "Pine",
         productPrice: 300,
-        productImage: null,
+        productImage: p,
       },
     ];
     setProductData(hardcodedProducts);
