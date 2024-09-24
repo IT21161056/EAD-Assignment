@@ -2,66 +2,52 @@ import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { useCartContext } from "../components/providers/ContextProvider";
 
 const ProductCart = () => {
-  const [cartData, setCartData] = useState([]);
+  const { cartData, setCartData } = useCartContext();
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    try {
-      if (localStorage.cartLocalData) {
-        const localCartData = JSON.parse(localStorage.getItem("cartLocalData"));
-        setCartData(localCartData);
-      }
-    } catch (error) {
-      console.log("Error fetching cart data", error);
-    }
-  }, [setCartData]);
-
   const incrementQuantity = (productId) => {
-    const updatedQuantity = cartData.map((item) => {
-      item._id === productId ? { ...item, productQuantity: item + 1 } : item;
-    });
+    const updatedQuantity = cartData.map((item) =>
+      item._id === productId ? { ...item, count: item.count + 1 } : item
+    );
     setCartData(updatedQuantity);
-    localStorage.setItem("cartLocalData", JSON.stringify(updatedQuantity));
+    localStorage.setItem("localCartData", JSON.stringify(updatedQuantity));
   };
 
   const decrementQuantity = (productId) => {
-    const updatedQuantity = cartData.map((item) => {
-      item._id === productId ? { ...item, productQuantity: item - 1 } : item;
-    });
+    const updatedQuantity = cartData.map((item) =>
+      item._id === productId && item.count > 1
+        ? { ...item, count: item.count - 1 }
+        : item
+    );
     setCartData(updatedQuantity);
-    localStorage.setItem("cartLocalData", JSON.stringify(updatedQuantity));
+    localStorage.setItem("localCartData", JSON.stringify(updatedQuantity));
   };
 
   // accumulator -> the running total
+  const calculateTotalAmount = () => {
+    const calculatedAmount = cartData.reduce(
+      (accumulator, item) => accumulator + item.productPrice * item.count,
+      0
+    );
+    setTotalAmount(calculatedAmount);
+  };
+
   useEffect(() => {
-    const calculateTotalAmount = () => {
-      try {
-        const calculatedAmount = cartData.reduce(
-          (accumulator, item) =>
-            accumulator + item.productPrice * item.productQuantity,
-          0
-        );
-        setTotalAmount(calculatedAmount);
-      } catch (error) {
-        console.log("Error calculating the total amount", error);
-      }
-    };
     calculateTotalAmount();
   }, [cartData]);
 
   const removeProductFromCart = (productId) => {
-    const updatedCart = cartData.filter((item) => {
-      item._id !== productId;
-    });
+    const updatedCart = cartData.filter((item) => item._id !== productId);
     setCartData(updatedCart);
-    localStorage.setItem("cartLocalData", JSON.stringify(updatedCart));
+    localStorage.setItem("localCartData", JSON.stringify(updatedCart));
 
     toast.success("Product removed!", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 2000,
+      autoClose: 200,
+      position: "top-right",
     });
   };
 
@@ -83,29 +69,31 @@ const ProductCart = () => {
         </thead>
         <tbody>
           {cartData.map((item, index) => {
-            <tr key={index}>
-              <td>{item.productName}</td>
-              <td>{item.productPrice}</td>
-              <td>
-                <button onClick={() => decrementQuantity(item._id)}>
-                  <i class="bi bi-dash-square-fill"></i>
-                </button>
-                {item.quantity}
-                <button onClick={() => incrementQuantity(item._id)}>
-                  <i className="bi bi-plus-square-fill"></i>
-                </button>
-              </td>
-              <td>
-                <i
-                  className="bi bi-trash"
-                  style={{ cursor: "pointer", color: "red" }}
-                  onClick={() => removeProductFromCart(item._id)}
-                ></i>
-              </td>
-            </tr>;
+            return (
+              <tr key={index}>
+                <td>{item.productName}</td>
+                <td>{item.productPrice}</td>
+                <td>
+                  <button onClick={() => decrementQuantity(item._id)}>
+                    <i className="bi bi-dash-square-fill"></i>
+                  </button>
+                  {item.count}
+                  <button onClick={() => incrementQuantity(item._id)}>
+                    <i className="bi bi-plus-square-fill"></i>
+                  </button>
+                </td>
+                <td>
+                  <button onClick={() => removeProductFromCart(item._id)}>
+                    <i
+                      className="bi bi-trash"
+                      style={{ cursor: "pointer", color: "red" }}
+                    ></i>
+                  </button>
+                </td>
+              </tr>
+            );
           })}
         </tbody>
-        <ToastContainer />
       </table>
       <h3>Total Amount: {totalAmount.toFixed(2)}</h3>
       <button
@@ -114,6 +102,7 @@ const ProductCart = () => {
       >
         Proceed to checkout
       </button>
+      <ToastContainer />
     </div>
   );
 };

@@ -11,11 +11,9 @@ function App() {
 
   return (
     <>
-      {/* <Button onClick={() => setLayout(!layout)}>Change Layout</Button> */}
       <CartContextProvider>
         <MainLayout />
       </CartContextProvider>
-      {/* <AdminLayout /> */}
     </>
   );
 }
