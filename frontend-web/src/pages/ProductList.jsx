@@ -50,7 +50,7 @@ const ProductList = () => {
     <div>
       <div className="container mt-5">
         <div className="row mb-4">
-          <div className="col-md-8">
+          <div className="col-md-12">
             <input
               type="text"
               className="form-control"
@@ -58,11 +58,6 @@ const ProductList = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
-          <div className="col-md-4 text-md-start mt-2 mt-md-0 text-center">
-            <button className="btn btn-success" onClick={proceedToCart}>
-              Proceed to Cart
-            </button>
           </div>
         </div>
       </div>

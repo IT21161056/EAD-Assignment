@@ -56,7 +56,6 @@ const CartContextProvider = ({ children }) => {
       value={{ addToCart, itemCount, cartData, setCartData }}
     >
       {children}
-      <ToastContainer />
     </CartContext.Provider>
   );
 };
