@@ -68,8 +68,8 @@ const ProductCart = () => {
           </tr>
         </thead>
         <tbody>
-          {cartData.map((item, index) => {
-            return (
+          {cartData.length > 0 ? (
+            cartData.map((item, index) => (
               <tr key={index}>
                 <td>{item.productName}</td>
                 <td>{item.productPrice}</td>
@@ -91,8 +91,14 @@ const ProductCart = () => {
                   </button>
                 </td>
               </tr>
-            );
-          })}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4" className="text-center">
+                <h3>Your cart is empty!</h3>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       <h3>Total Amount: {totalAmount.toFixed(2)}</h3>
