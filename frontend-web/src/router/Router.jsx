@@ -14,6 +14,9 @@ import AdminDashboard from "../pages/AdminDashboard";
 import CreateVendor from "../pages/CreateVendor"
 import AllOrder from "../pages/AllOrder";
 import OrderCancelationRequest from "../pages/OrderCancelationRequest";
+import CSRDashboard from "../pages/dashboradPages/csrDashboard";
+import VendorDashboard from "../pages/dashboradPages/vendorDashboard";
+import VendorListings from "../pages/dashboradPages/VendorListings";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -42,6 +45,10 @@ const Router = () => {
       <Route path="createVendor" element={<CreateVendor />} />
       <Route path="allOrders" element={<AllOrder />} />
       <Route path="cancelRequest" element={<OrderCancelationRequest />} />
+      <Route path="csr" element={<CSRDashboard/>} />
+      <Route path="vendor" element={<VendorDashboard />} />
+      <Route path="vendorOrder" element={<VendorListings />} />
+      <Route path="products" element={<ProductManagement />} />
     </Routes>
   );
 };

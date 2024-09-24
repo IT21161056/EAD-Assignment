@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 
-const AdminDashboard = () => {
+const csrDashboards = () => {
   return (
     <Container>
-      <h5 className="d-flex justify-content-center align-items-center mt-4">Admin Dashboard</h5>
+      <h5 className="d-flex justify-content-center align-items-center mt-4">CSR Dashboard</h5>
       <div className="mt-5 d-flex justify-content-center align-items-center gap-3">
-        <Link to="/createVendor">
+        <Link to="/users">
           <Card style={{ width: '15rem' }}>
             <Card.Body className="d-flex justify-content-center align-items-center">
               <div className="d-flex flex-column justify-content-center align-items-center">
-                <i className="bi bi-person-lines-fill" style={{ fontSize: '2rem' }}></i>
-                <p className="text-center">Vendor Management</p>
+                <i class="bi bi-people-fill" style={{ fontSize: '2rem' }}></i>
+                <p className="text-center">User Management</p>
               </div>
             </Card.Body>
           </Card>
@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         </Link>
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default AdminDashboard;
+export default csrDashboards
