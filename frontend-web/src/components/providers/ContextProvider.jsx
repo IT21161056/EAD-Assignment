@@ -1,20 +1,63 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
-const cartContext = createContext();
+const CartContext = createContext();
 
 export const useCartContext = () => {
-  const context = useContext(cartContext);
+  const context = useContext(CartContext);
   if (!context) throw new Error("createContext is missing!");
   return context;
 };
 
 const CartContextProvider = ({ children }) => {
-  const [cartData, setCartData] = useState("");
+  const [cartData, setCartData] = useState([]);
+  const [itemCount, setItemCount] = useState(0);
+
+  let localCartData = [];
+
+  const addToCart = (product) => {
+    if (localStorage.getItem("localCartData") !== null) {
+      localCartData = JSON.parse(localStorage.getItem("localCartData"));
+
+      const checkAlreadyAdded = localCartData.some(
+        (item) => item._id === product._id
+      );
+
+      if (checkAlreadyAdded) {
+        toast.error("Item already added!", {
+          autoClose: 150,
+          position: "top-right",
+        });
+        return;
+      }
+    }
+
+    localCartData.push({ ...product, count: 1 });
+    setCartData(localCartData);
+    localStorage.setItem("localCartData", JSON.stringify(localCartData));
+
+    toast.success("Item added!", {
+      autoClose: 150,
+      position: "top-right",
+    });
+
+    setItemCount(localCartData.length);
+  };
+
+  useEffect(() => {
+    const storeData = JSON.parse(localStorage.getItem("localCartData"));
+    if (storeData && storeData.length > 0) {
+      setCartData(JSON.parse(localStorage.getItem("localCartData")));
+    }
+  }, []);
 
   return (
-    <cartContext.Provider value={{ cartData, setCartData }}>
+    <CartContext.Provider
+      value={{ addToCart, itemCount, cartData, setCartData }}
+    >
       {children}
-    </cartContext.Provider>
+      <ToastContainer />
+    </CartContext.Provider>
   );
 };
 
