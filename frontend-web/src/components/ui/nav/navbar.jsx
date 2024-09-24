@@ -26,10 +26,13 @@ const MainNavbar = () => {
             <Nav className="gap-3 d-flex align-items-baseline">
               <Nav.Link href="/">Product Listing</Nav.Link>
               <Nav.Link href="/orders">Orders</Nav.Link>
-              <Nav.Link href="/listings">Listings</Nav.Link>
               <Nav.Link href="/users">User Management</Nav.Link>
-              <button style={{ border: "none" }} onClick={hanldeOpenModal}>
-                <i className="bi bi-bag-check" style={{ fontSize: "23px" }}></i>
+              <button style={{ border: "none", marginRight: "10px" }}>
+                <i
+                  className="bi bi-bag-check"
+                  style={{ fontSize: "23px" }}
+                  onClick={hanldeOpenModal}
+                ></i>
                 <Badge bg="secondary" className="position-absolute top-4">
                   {itemCount}
                 </Badge>
