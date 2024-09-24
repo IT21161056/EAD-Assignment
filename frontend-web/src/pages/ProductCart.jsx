@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
 import { useCartContext } from "../components/providers/ContextProvider";
 
 const ProductCart = () => {
@@ -64,7 +64,7 @@ const ProductCart = () => {
             <th scope="col">Product</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Total Amount</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
