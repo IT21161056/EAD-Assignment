@@ -23,10 +23,9 @@ const CartModal = ({ show, onClose }) => {
             <ul className="list-group">
               {cartData.map((item, index) => {
                 return (
-                  <li key={index}>
+                  <li key={index} className="list-group-item">
                     <div>
                       <h5>{item.productName}</h5>
-                      <span>Quantity: {item.count}</span>
                     </div>
                     <span>Price: Rs. {item.productPrice}</span>
                   </li>
