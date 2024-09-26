@@ -3,7 +3,7 @@ import React from "react";
 const ProdcutManagement = () => {
   return (
     <div>
-      <p>Product Orders</p>
+      <p>Product Listings</p>
     </div>
   )
 };
