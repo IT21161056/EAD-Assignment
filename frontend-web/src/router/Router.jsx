@@ -16,7 +16,7 @@ import AllOrder from "../pages/AllOrder";
 import OrderCancelationRequest from "../pages/OrderCancelationRequest";
 import CSRDashboard from "../pages/dashboradPages/csrDashboard";
 import VendorDashboard from "../pages/dashboradPages/vendorDashboard";
-import VendorListings from "../pages/dashboradPages/VendorListings";
+import VendorOrders from "../pages/dashboradPages/VendorOrders";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -47,7 +47,7 @@ const Router = () => {
       <Route path="cancelRequest" element={<OrderCancelationRequest />} />
       <Route path="csr" element={<CSRDashboard/>} />
       <Route path="vendor" element={<VendorDashboard />} />
-      <Route path="vendorOrder" element={<VendorListings />} />
+      <Route path="vendorOrder" element={<VendorOrders />} />
       <Route path="products" element={<ProductManagement />} />
     </Routes>
   );
