@@ -14,7 +14,7 @@ const ProductCart = () => {
 
   const incrementQuantity = (productId) => {
     const updatedQuantity = cartData.map((item) =>
-      item._id === productId ? { ...item, count: item.count + 1 } : item
+      item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
     );
     setCartData(updatedQuantity);
     localStorage.setItem("localCartData", JSON.stringify(updatedQuantity));
@@ -22,8 +22,8 @@ const ProductCart = () => {
 
   const decrementQuantity = (productId) => {
     const updatedQuantity = cartData.map((item) =>
-      item._id === productId && item.count > 1
-        ? { ...item, count: item.count - 1 }
+      item.productId === productId && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
         : item
     );
     setCartData(updatedQuantity);
@@ -33,7 +33,7 @@ const ProductCart = () => {
   // accumulator -> the running total
   const calculateTotalAmount = () => {
     const calculatedAmount = cartData.reduce(
-      (accumulator, item) => accumulator + item.productPrice * item.count,
+      (accumulator, item) => accumulator + item.productPrice * item.quantity,
       0
     );
     setTotalAmount(calculatedAmount);
@@ -44,7 +44,7 @@ const ProductCart = () => {
   }, [cartData]);
 
   const removeProductFromCart = (productId) => {
-    const updatedCart = cartData.filter((item) => item._id !== productId);
+    const updatedCart = cartData.filter((item) => item.productId !== productId);
     setCartData(updatedCart);
     localStorage.setItem("localCartData", JSON.stringify(updatedCart));
 
@@ -94,9 +94,9 @@ const ProductCart = () => {
                       fontSize: "24px",
                       marginRight: "10px",
                     }}
-                    onClick={() => decrementQuantity(item._id)}
+                    onClick={() => decrementQuantity(item.productId)}
                   ></i>
-                  {item.count}
+                  {item.quantity}
                   <i
                     className="bi bi-plus-square-fill"
                     style={{
@@ -104,7 +104,7 @@ const ProductCart = () => {
                       fontSize: "24px",
                       marginLeft: "10px",
                     }}
-                    onClick={() => incrementQuantity(item._id)}
+                    onClick={() => incrementQuantity(item.productId)}
                   ></i>
                 </td>
                 <td>
@@ -115,7 +115,7 @@ const ProductCart = () => {
                       color: "red",
                       fontSize: "24px",
                     }}
-                    onClick={() => removeProductFromCart(item._id)}
+                    onClick={() => removeProductFromCart(item.productId)}
                   ></i>
                 </td>
               </tr>
