@@ -15,17 +15,25 @@ const ProductList = () => {
   useEffect(() => {
     // Replace API call with hardcoded data
     const hardcodedProducts = [
-      { _id: 1, productName: "Papaya", productPrice: 150, productImage: p },
-      { _id: 2, productName: "Mango", productPrice: 200, productImage: p },
-      { _id: 3, productName: "Banana", productPrice: 50, productImage: p },
+      { _id: "65074c59a3e8fa0c12345679", productName: "Papaya", productPrice: 150.45, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu',fulfillmentStatus:'Pending' },
+      { _id: "66f6e68c01146e059c116cb1", productName: "Mango", productPrice: 200.24, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu',fulfillmentStatus:'Pending'},
+      { _id: "65074c59a3e8fa0c12345679", productName: "Banana", productPrice: 50.21, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu',fulfillmentStatus:'Pending'},
       {
-        _id: 4,
+        _id: "66f6eda701146e059c116cb4",
         productName: "Pine",
-        productPrice: 300,
+        productPrice: 300.20,
         productImage: p,
+        productImage: p, 
+        vendorId:'65074c59a3e8fa0c12345679',
+        vendorName:'pasindu',
+        fulfillmentStatus:'Pending'
       },
     ];
-    setProductData(hardcodedProducts);
+        const updatedProducts = hardcodedProducts.map(product => {
+           const {_id, ...rest} = product
+           return {productId:_id,...rest}
+      })
+        setProductData(updatedProducts);
   }, []);
 
   const filterProductData = productData.filter((procudtItem) => {

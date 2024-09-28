@@ -20,7 +20,7 @@ const CartContextProvider = ({ children }) => {
       localCartData = JSON.parse(localStorage.getItem("localCartData"));
 
       const checkAlreadyAdded = localCartData.some(
-        (item) => item._id === product._id
+        (item) => item.productId === product.productId
       );
 
       if (checkAlreadyAdded) {
@@ -32,7 +32,7 @@ const CartContextProvider = ({ children }) => {
       }
     }
 
-    localCartData.push({ ...product, count: 1 });
+    localCartData.push({ ...product, quantity: 1 });
     setCartData(localCartData);
     localStorage.setItem("localCartData", JSON.stringify(localCartData));
 

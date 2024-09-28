@@ -2,34 +2,49 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import APIService from '../../APIService/APIService';
 
 const PlaceOrder = ({show,handleClose,totalAmount}) => {
     const [validated, setValidated] = useState(false);
-    const [name,setName] = useState("")
+    const [userName,setName] = useState("")
     const [shippingAddress,setShippingAddress] = useState("")
-    const [mobile,setMobile] = useState("")
+    const [mobileNumber,setMobile] = useState("")
+    const [status,setStatus] = useState("Pending")
+    const [userId,setUserId] = useState("65074c59a3e8fa0c12345679")
 
-    const orderDetails = localStorage.getItem("localCartData")
+    const orderDetails = JSON.parse(localStorage.getItem("localCartData"));
 
     const handleFormData = () => {
         const orderObj = {
-            name,
+            userId,
+            userName,
             shippingAddress,
-            mobile,
-            orderDetails:JSON.parse(orderDetails)
+            mobileNumber,
+            status,
+            totalAmount:parseFloat(totalAmount),
+            orderItems:orderDetails
         }
-        console.log(orderObj)
+        return orderObj
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }else{
             event.preventDefault();
-            handleFormData()
-            setValidated(true);
+            const orderObj = handleFormData()
+            console.log(orderObj)
+            console.log(typeof(totalAmount))
+            setValidated(true);      
+            try{    
+                const response = await APIService.purchaseOrder(orderObj)
+                console.log(response)
+                handleClose()
+            }catch(err){
+                console.error('Error placing order',err)
+            }
         }
     };
 
