@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import {useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import APIService from '../../APIService/APIService';
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+import {useCartContext} from "../components/providers/ContextProvider"
 
-const PlaceOrder = ({show,handleClose,totalAmount}) => {
+const PlaceOrder = ({ show, handleClose, totalAmount }) => {
     const [validated, setValidated] = useState(false);
-    const [userName,setName] = useState("")
-    const [shippingAddress,setShippingAddress] = useState("")
-    const [mobileNumber,setMobile] = useState("")
-    const [status,setStatus] = useState("Pending")
-    const [userId,setUserId] = useState("65074c59a3e8fa0c12345679")
+    const [userName, setName] = useState("")
+    const [shippingAddress, setShippingAddress] = useState("")
+    const [mobileNumber, setMobile] = useState("")
+    const [status, setStatus] = useState("Pending")
+    const [userId, setUserId] = useState("65074c59a3e8fa0c12345679")
 
+    const { setCartData } = useCartContext()
+
+    const navigate = useNavigate()
     const orderDetails = JSON.parse(localStorage.getItem("localCartData"));
 
     const handleFormData = () => {
@@ -21,8 +27,8 @@ const PlaceOrder = ({show,handleClose,totalAmount}) => {
             shippingAddress,
             mobileNumber,
             status,
-            totalAmount:parseFloat(totalAmount),
-            orderItems:orderDetails
+            totalAmount: parseFloat(totalAmount),
+            orderItems: orderDetails
         }
         return orderObj
     }
@@ -32,18 +38,30 @@ const PlaceOrder = ({show,handleClose,totalAmount}) => {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-        }else{
+        } else {
             event.preventDefault();
             const orderObj = handleFormData()
-            console.log(orderObj)
-            console.log(typeof(totalAmount))
-            setValidated(true);      
-            try{    
+            setValidated(true);
+            try {
                 const response = await APIService.purchaseOrder(orderObj)
                 console.log(response)
+                if (response.status == 201) {
+                    toast.success("Order Purchased Successfully!", {
+                        autoClose: 250,
+                        position: "top-right",
+                    });
+                }
+                setTimeout((() => {
+                    navigate('/orders')
+                    localStorage.removeItem("localCartData")
+                }), 1500)
                 handleClose()
-            }catch(err){
-                console.error('Error placing order',err)
+            } catch (err) {
+                console.error('Error placing order', err)
+                toast.error("Error Purchasing Order!", {
+                    autoClose: 250,
+                    position: "top-right",
+                });
             }
         }
     };
@@ -57,7 +75,7 @@ const PlaceOrder = ({show,handleClose,totalAmount}) => {
                 <Modal.Body>
                     <Form noValidate validated={validated} onSubmit={handleSubmit}>
 
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Total Amount Rs.</Form.Label>
                             <Form.Control
                                 required
@@ -111,7 +129,7 @@ const PlaceOrder = ({show,handleClose,totalAmount}) => {
                                 Please provide a mobile number.
                             </Form.Control.Feedback>
                         </Form.Group>
-                        
+
                         <div className='d-flex gap-3 justify-content-end'>
                             <Button variant="secondary" onClick={handleClose}>
                                 Close

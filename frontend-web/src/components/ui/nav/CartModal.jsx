@@ -10,6 +10,7 @@ const CartModal = ({ show, onClose }) => {
 
   const proceedToCart = () => {
     navigate(`/cart`);
+    onClose()
   };
 
   return (
