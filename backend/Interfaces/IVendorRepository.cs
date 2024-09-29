@@ -10,7 +10,7 @@ namespace backend.Interfaces
 
         Task<Vendor> CreateVendor(Vendor vendor);
 
-        Task<Vendor> UpdateVendorAsync(Vendor updatedVendor);
+        Task<Vendor> UpdateVendorAsync(Vendor vendor);
 
         Task DeleteVendorAsync(string id);
     }
