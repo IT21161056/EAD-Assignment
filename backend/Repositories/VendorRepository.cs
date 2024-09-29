@@ -28,17 +28,17 @@ namespace backend.Repositories{
         }
 
         // Get a particular Vendor
-        public async Task<Vendor> GetVendorByIdAsync(string id)
+        public async Task<Vendor> GetVendorByIdAsync(string Id)
         {
 
-            if(string.IsNullOrEmpty(id))
+            if(string.IsNullOrEmpty(Id))
             {
                 throw new ArgumentException("Vendor Id not valid");
             }
 
             try
             {
-                var filteredResult = Builders<Vendor>.Filter.Eq( v => v.Id, id);
+                var filteredResult = Builders<Vendor>.Filter.Eq( v => v.Id, Id);
 
                 // Retrives the first document that matches the filter
                 return await _vendor.Find(filteredResult).FirstOrDefaultAsync();
@@ -51,7 +51,7 @@ namespace backend.Repositories{
         }
 
         // Add a new Vendor
-        public async Task<Vendor> CreateVendor(Vendor vendor)
+        public async Task<Vendor> CreateVendorAsync(Vendor vendor)
         {
 
             ArgumentNullException.ThrowIfNull(vendor);
@@ -73,7 +73,7 @@ namespace backend.Repositories{
         {
             if(vendor == null)
             {
-                throw new ArgumentException("")
+                throw new ArgumentException("Vendor not found");
             }
 
             if(string.IsNullOrEmpty("Id"))
@@ -96,13 +96,13 @@ namespace backend.Repositories{
         }
 
         // Delete existing Vendor
-        public async Task DeleteVendorAsync(string id){
+        public async Task DeleteVendorAsync(string Id){
 
-            ArgumentException.ThrowIfNullOrEmpty(id);
+            ArgumentException.ThrowIfNullOrEmpty(Id);
 
             try
             {
-                var filteredResult = Builders<Vendor>.Filter.Eq(v => v.Id, id);
+                var filteredResult = Builders<Vendor>.Filter.Eq(v => v.Id, Id);
                 var deleteResult = await _vendor.DeleteOneAsync(filteredResult);
 
                 if (deleteResult.DeletedCount == 0)
