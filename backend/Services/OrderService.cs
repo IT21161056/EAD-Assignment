@@ -46,6 +46,7 @@ namespace backend.Services
             var order = new Order
             {
                 UserId = createOrderDto.UserId,
+                orderId = createOrderDto.orderId,
                 userName = createOrderDto.userName,
                 TotalAmount = createOrderDto.TotalAmount,
                 ShippingAddress = createOrderDto.ShippingAddress,
@@ -112,6 +113,7 @@ namespace backend.Services
             {
                 Id = order.Id,
                 UserId = order.UserId,
+                orderId = order.orderId,
                 userName = order.userName,
                 CreatedAt = order.CreatedAt,
                 status = order.Status,

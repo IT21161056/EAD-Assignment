@@ -15,9 +15,9 @@ const ProductList = () => {
   useEffect(() => {
     // Replace API call with hardcoded data
     const hardcodedProducts = [
-      { _id: "65074c59a3e8fa0c12345679", productName: "Papaya", productPrice: 150.45, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu',fulfillmentStatus:'Pending' },
-      { _id: "66f6e68c01146e059c116cb1", productName: "Mango", productPrice: 200.24, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu',fulfillmentStatus:'Pending'},
-      { _id: "65074c59a3e8fa0c12345679", productName: "Banana", productPrice: 50.21, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu',fulfillmentStatus:'Pending'},
+      { _id: "65074c59a3e8fa0c12345679", productName: "Papaya", productPrice: 150.45, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu'},
+      { _id: "66f6e68c01146e059c116cb1", productName: "Mango", productPrice: 200.24, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu'},
+      { _id: "65074c59a3e8fa0c12345679", productName: "Banana", productPrice: 50.21, productImage: p, vendorId:'65074c59a3e8fa0c12345679',vendorName:'pasindu'},
       {
         _id: "66f6eda701146e059c116cb4",
         productName: "Pine",
@@ -26,7 +26,6 @@ const ProductList = () => {
         productImage: p, 
         vendorId:'65074c59a3e8fa0c12345671',
         vendorName:'pasindu',
-        fulfillmentStatus:'Pending'
       },
     ];
         const updatedProducts = hardcodedProducts.map(product => {

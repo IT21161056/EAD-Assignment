@@ -13,6 +13,10 @@ namespace backend.Models
         public string Id { get; set; }
 
         [Required]
+        [BsonElement("orderId")]
+        public string orderId { get; set;}
+        
+        [Required]
         [BsonElement("userId")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }  // Reference to the User
