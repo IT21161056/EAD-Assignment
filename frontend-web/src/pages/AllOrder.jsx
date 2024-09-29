@@ -19,7 +19,7 @@ const AllOrder = () => {
                 delivery_code: "dl##1",
                 vendor_id:"ven001",
                 quantity: 4,
-                status: "Purchased"
+                status: "Pending"
             },
             {   
                 id:'2',
@@ -87,12 +87,12 @@ const AllOrder = () => {
                                 <td className='d-flex align-items-center'>
                                     <Dropdown className='text-center'>
                                         <Dropdown.Toggle variant='info' style={{ backgroundColor: "white"}} className='dropdown_btn' id="dropdown-basic">
-                                            <Badge bg={order.status == "Purchased" ? "info" : order.status === "Delivered" ? "success" : "warning"} className='p-1'>
+                                            <Badge bg={order.status == "Pending" ? "info" : order.status === "Delivered" ? "success" : "warning"} className='p-1'>
                                                 {order.status} <i className="fa-solid fa-angle-down"></i>
                                             </Badge>
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Pending")}>Purchased</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Pending")}>Pending</Dropdown.Item>
                                             <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Delivered")}>Delivered</Dropdown.Item>
                                             <Dropdown.Item onClick={() => handleStatusChanging(order.id,"Partially delivered")}>Partially delivered</Dropdown.Item>
                                         </Dropdown.Menu>
