@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import {useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -6,6 +6,7 @@ import APIService from '../../APIService/APIService';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import {useCartContext} from "../components/providers/ContextProvider"
+import { v4 as uuidv4 } from 'uuid';
 
 const PlaceOrder = ({ show, handleClose, totalAmount }) => {
     const [validated, setValidated] = useState(false);
@@ -14,25 +15,50 @@ const PlaceOrder = ({ show, handleClose, totalAmount }) => {
     const [mobileNumber, setMobile] = useState("")
     const [status, setStatus] = useState("Pending")
     const [userId, setUserId] = useState("65074c59a3e8fa0c12345679")
+    const [orderId,setOrderId] = useState()
 
     const { setCartData } = useCartContext()
+    
+    //generate random orderId for a order
+    function generateOrderId(){
+        const id = uuidv4().slice(0,6)
+        setOrderId(id)
+    }
+
+    useEffect(() => {
+        generateOrderId()
+    },[])
 
     const navigate = useNavigate()
     const orderDetails = JSON.parse(localStorage.getItem("localCartData"));
 
+    //add fulfillmentStatus for each sub order
+    const updatedOrderDetails = () => {
+           const updatedObj =  orderDetails.map((order) => {
+                return {
+                    ...order,
+                    fulfillmentStatus:'Pending'
+                }
+            })
+            return updatedObj
+    }
+
+    //format order object
     const handleFormData = () => {
         const orderObj = {
             userId,
+            orderId,
             userName,
             shippingAddress,
             mobileNumber,
             status,
-            totalAmount: parseFloat(totalAmount),
-            orderItems: orderDetails
+            totalAmount: parseFloat(totalAmount).toFixed(2),
+            orderItems: updatedOrderDetails()
         }
         return orderObj
     }
 
+    //handleSubmit for make the order
     const handleSubmit = async (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -82,7 +108,7 @@ const PlaceOrder = ({ show, handleClose, totalAmount }) => {
                                 type="number"
                                 placeholder="Order Total"
                                 readOnly
-                                value={totalAmount}
+                                value={totalAmount.toFixed(2)}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Please provide a name.

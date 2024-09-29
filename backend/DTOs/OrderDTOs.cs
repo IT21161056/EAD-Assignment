@@ -7,6 +7,7 @@ namespace backend.DTOs
     {
         public string Id { get; set; }
         public string UserId { get; set; }
+        public string orderId { get; set;}
         public DateTime CreatedAt { get; set; }
         public string status { get; set; }
         public decimal TotalAmount { get; set; }
@@ -19,6 +20,7 @@ namespace backend.DTOs
     public class CreateOrderDto
     {
         public string UserId { get; set; }
+        public string orderId { get; set;}
         public string ShippingAddress { get; set; }
         public decimal TotalAmount { get; set; }
         public string MobileNumber { get; set; }
