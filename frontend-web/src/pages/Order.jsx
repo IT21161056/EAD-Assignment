@@ -76,6 +76,7 @@ const Order = () => {
           autoClose: 300,
           position: "top-right",
         });
+        fetchOrders()
       }
     } catch (err) {
       console.error('Error cancelling order')

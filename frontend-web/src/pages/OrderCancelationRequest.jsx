@@ -1,59 +1,87 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import CancelConfirmModal from '../components/CancelConfirmModal';
+import APIService from '../../APIService/APIService';
 
 const OrderCancelationRequest = () => {
-
-    const [show, setShow] = useState(false)
+    const [orders, setOrders] = useState([]);
+    const [filterOrders, setFilterOrders] = useState([]);
+    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [cancelOrders, setCancelOrders] = useState([
-        {
-            orderId: 'Order##1',
-            item: 'back cover',
-            price: 'Rs.678.00',
-            description: 'Order Cancellation Request'
-        },
-        {
-            orderId: 'Order##2',
-            item: 'phone charger',
-            price: 'Rs.568.00',
-            description: 'Order Cancellation Request 2'
+    // Fetch orders
+    const fetchOrders = async () => {
+        try {
+            const response = await APIService.getAllOrders();
+            setOrders(response.data);
+        } catch (err) {
+            console.log('Error fetching orders');
         }
-    ])
+    };
+
+    // Filter cancelled orders
+    useEffect(() => {
+        setFilterOrders(orders.filter(order => order.status === 'Cancelled'));
+    }, [orders]);
+
+    // Execute API calls once when component mounts
+    useEffect(() => {
+        fetchOrders();
+    }, []);
 
     return (
         <Container>
-            <h6 className='mt-3'>Order Cancellation Requests</h6>
+            <h6 className='mt-3 d-flex align-items-center justify-content-center'>Order Cancellation Requests</h6>
             <div className='mt-4'>
                 {
-                    cancelOrders.length > 0 && cancelOrders.map((order, index) => (
-                        <Card style={{ width: '32rem', height: 'auto',marginTop:'1rem' }}>
-                            <Card.Body>
-                                <Card.Title>{order.orderId}</Card.Title>
-                                <div className='d-flex align-items-center justify-content-between'>
-                                    <Card.Subtitle className="mb-1 text-muted">{order.item}</Card.Subtitle>
-                                    <Card.Subtitle className="mb-1 text-muted">{order.price}</Card.Subtitle>
-                                </div>
-                                <div className='d-flex align-items-center justify-content-between'>
-                                    <Card.Text>{order.description}</Card.Text>
-                                    <Card.Subtitle><Button variant='danger'
-                                        onClick={handleShow}
-                                        className='py-0 px-4 mt-4'>Cancel</Button>
-                                    </Card.Subtitle>
-                                </div>
-                            </Card.Body>
-                        </Card>
-                    ))
+                    filterOrders.length > 0 ? (
+                        filterOrders.map((order, index) => (
+                            <Card style={{ width: '28rem', height: 'auto', marginTop: '1rem' }} key={index}>
+                                <Card.Body>
+                                    <div className='d-flex justify-content-between'>
+                                    <Card.Subtitle>orderId :</Card.Subtitle>
+                                    <Card.Subtitle>{order.orderId}</Card.Subtitle>
+                                    </div>
+                                    <div >
+                                        <div className='d-flex justify-content-between mt-3'>
+                                        <Card.Subtitle className="mb-1 text-muted">Customer Name :</Card.Subtitle> 
+                                        <Card.Subtitle className="mb-1 text-muted">{order.userName}</Card.Subtitle>
+                                        </div>
+                                        <div  className='d-flex justify-content-between mt-1'>
+                                        <Card.Subtitle className="mb-1 text-muted">TotalAmount :</Card.Subtitle>
+                                        <Card.Subtitle className="mb-1 text-muted">{order.totalAmount}</Card.Subtitle>
+                                        </div>
+                                    </div>
+                                        <div className='d-flex justify-content-between mt-1'>
+                                        <Card.Subtitle className="mb-1 text-muted">Shipping address :</Card.Subtitle>
+                                        <Card.Subtitle className="mb-1 text-muted">{order.shippingAddress}</Card.Subtitle>
+                                        </div>
+                                        <div>
+                                        <Card.Subtitle>
+                                            <Button
+                                                variant='danger'
+                                                onClick={handleShow}
+                                                className='py-0 px-4 mt-4'
+                                            >
+                                               Cancel
+                                            </Button>
+                                        </Card.Subtitle>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        ))
+                    ) : (
+                        <h4>No cancel requests were found</h4>
+                    )
                 }
             </div>
             <CancelConfirmModal show={show} handleClose={handleClose} />
         </Container>
-    )
-}
+    );
+};
 
-export default OrderCancelationRequest
+export default OrderCancelationRequest;

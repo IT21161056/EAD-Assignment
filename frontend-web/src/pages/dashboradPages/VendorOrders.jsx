@@ -28,42 +28,6 @@ const VendorListings = () => {
         orderDate: '2024.8.9',
         status: 'Purchased'
       },
-      {
-        product: 'IPhone',
-        orderId: 'Order001',
-        vendorId:'vendor001',
-        total: 450,
-        products: [
-          {
-            name: "Iphone",
-            quantity: 4
-          },
-          {
-            name: "Samsung",
-            quantity: 5
-          }
-        ],
-        orderDate: '2024.8.9',
-        status: 'Delivered'
-      },
-      {
-        product: 'IPhone',
-        orderId: 'Order001',
-        vendorId:'vendor001',
-        total: 450,
-        products: [
-          {
-            name: "Iphone",
-            quantity: 4
-          },
-          {
-            name: "Samsung",
-            quantity: 5
-          },
-        ],
-        orderDate: '2024.8.9',
-        status: 'Partially delivered'
-      }
     ]
   )
   return (
