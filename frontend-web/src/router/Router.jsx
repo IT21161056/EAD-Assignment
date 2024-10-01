@@ -42,7 +42,7 @@ const Router = () => {
       <Route path="dashboard/addproduct" element={<ProdcutAdd />} />
       <Route path="dashboard/updateproduct/:id" element={<ProductUpdate />} />
       <Route path="adminDashboard" element={<AdminDashboard />} />
-      <Route path="VendorManagement" element={<VendorManagement />} />
+      <Route path="vendors" element={<VendorManagement />} />
       <Route path="allOrders" element={<AllOrder />} />
       <Route path="cancelRequest" element={<OrderCancelationRequest />} />
       <Route path="csr" element={<CSRDashboard />} />
