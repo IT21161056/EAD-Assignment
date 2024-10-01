@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 
 const VendorModal = ({ show, handleClose }) => {
   const [validated, setValidated] = useState(false);
@@ -39,11 +39,7 @@ const VendorModal = ({ show, handleClose }) => {
 
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
               <Form.Label>Email address</Form.Label>
-              <Form.Control
-                required
-                type="email"
-                placeholder="Enter email"
-              />
+              <Form.Control required type="email" placeholder="Enter email" />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid email address.
               </Form.Control.Feedback>
@@ -74,13 +70,11 @@ const VendorModal = ({ show, handleClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <div className='d-flex gap-3 justify-content-end'>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button type="submit">
-              Save Changes
-            </Button>
+            <div className="d-flex gap-3 justify-content-end">
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button type="submit">Save Changes</Button>
             </div>
           </Form>
         </Modal.Body>
