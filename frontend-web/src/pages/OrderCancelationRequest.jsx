@@ -4,14 +4,39 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import CancelConfirmModal from '../components/CancelConfirmModal';
 import APIService from '../../APIService/APIService';
+import { ToastContainer, toast } from "react-toastify";
 
 const OrderCancelationRequest = () => {
     const [orders, setOrders] = useState([]);
     const [filterOrders, setFilterOrders] = useState([]);
     const [show, setShow] = useState(false);
+    const [comment, setComment] = useState('')
+    const [selectedObj, setSelectedObj] = useState()
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = (orderObj) => {
+        setShow(true)
+        setSelectedObj(orderObj)
+    }
+
+    //handle delete order and send a comment
+    const confirmCancel = async () => {
+        try {
+            const response = await APIService.deleteOrder(selectedObj.id)
+            if(response.status == 200){
+                toast.warning("Order deleted Successfully!", {
+                    autoClose: 300,
+                    position: "top-right",
+                  });
+                fetchOrders()
+            }
+        } catch (err) {
+            console.error('Error deleting order')
+        } finally {
+            setShow(false)
+            console.log(comment)
+        }
+    }
 
     // Fetch orders
     const fetchOrders = async () => {
@@ -43,31 +68,31 @@ const OrderCancelationRequest = () => {
                             <Card style={{ width: '28rem', height: 'auto', marginTop: '1rem' }} key={index}>
                                 <Card.Body>
                                     <div className='d-flex justify-content-between'>
-                                    <Card.Subtitle>orderId :</Card.Subtitle>
-                                    <Card.Subtitle>{order.orderId}</Card.Subtitle>
+                                        <Card.Subtitle>orderId :</Card.Subtitle>
+                                        <Card.Subtitle>{order.orderId}</Card.Subtitle>
                                     </div>
                                     <div >
                                         <div className='d-flex justify-content-between mt-3'>
-                                        <Card.Subtitle className="mb-1 text-muted">Customer Name :</Card.Subtitle> 
-                                        <Card.Subtitle className="mb-1 text-muted">{order.userName}</Card.Subtitle>
+                                            <Card.Subtitle className="mb-1 text-muted">Customer Name :</Card.Subtitle>
+                                            <Card.Subtitle className="mb-1 text-muted">{order.userName}</Card.Subtitle>
                                         </div>
-                                        <div  className='d-flex justify-content-between mt-1'>
-                                        <Card.Subtitle className="mb-1 text-muted">TotalAmount :</Card.Subtitle>
-                                        <Card.Subtitle className="mb-1 text-muted">{order.totalAmount}</Card.Subtitle>
+                                        <div className='d-flex justify-content-between mt-1'>
+                                            <Card.Subtitle className="mb-1 text-muted">TotalAmount :</Card.Subtitle>
+                                            <Card.Subtitle className="mb-1 text-muted">{order.totalAmount}</Card.Subtitle>
                                         </div>
                                     </div>
-                                        <div className='d-flex justify-content-between mt-1'>
+                                    <div className='d-flex justify-content-between mt-1'>
                                         <Card.Subtitle className="mb-1 text-muted">Shipping address :</Card.Subtitle>
                                         <Card.Subtitle className="mb-1 text-muted">{order.shippingAddress}</Card.Subtitle>
-                                        </div>
-                                        <div>
+                                    </div>
+                                    <div>
                                         <Card.Subtitle>
                                             <Button
                                                 variant='danger'
-                                                onClick={handleShow}
+                                                onClick={() => handleShow(order)}
                                                 className='py-0 px-4 mt-4'
                                             >
-                                               Cancel
+                                                Cancel
                                             </Button>
                                         </Card.Subtitle>
                                     </div>
@@ -79,7 +104,11 @@ const OrderCancelationRequest = () => {
                     )
                 }
             </div>
-            <CancelConfirmModal show={show} handleClose={handleClose} />
+            <CancelConfirmModal show={show}
+                handleClose={handleClose}
+                confirmCancel={confirmCancel}
+                setComment={setComment}
+            />
         </Container>
     );
 };

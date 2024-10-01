@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-const CancelConfirmModal = ({ show, handleClose }) => {
+const CancelConfirmModal = ({ show, handleClose, confirmCancel, setComment}) => {
 
     return (
         <div>
@@ -15,7 +15,7 @@ const CancelConfirmModal = ({ show, handleClose }) => {
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>Enter comment:</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
+                            <Form.Control as="textarea" rows={3} onChange={(e) => setComment(e.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -23,7 +23,7 @@ const CancelConfirmModal = ({ show, handleClose }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={confirmCancel}>
                         Confirm Cancel
                     </Button>
                 </Modal.Footer>
