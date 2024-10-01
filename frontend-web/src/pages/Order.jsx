@@ -146,7 +146,7 @@ const Order = () => {
                         <Button size='sm' variant={
                           order.status == "Pending" ? 'primary' :
                             order.status == "Delivered" ? 'success' :
-                              order.status == "Cancelled" ? 'warning' :
+                              order.status == "Cancelled" ? 'danger' :
                                 order.status == "PartiallyDelivered" ? 'warning' : 'Secondary'}
                           className='mt-2 px-3' style={{ color: 'white' }}>{order.status}</Button>
 
