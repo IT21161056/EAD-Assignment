@@ -18,6 +18,10 @@ import CSRDashboard from "../pages/dashboradPages/csrDashboard";
 import VendorDashboard from "../pages/dashboradPages/vendorDashboard";
 import VendorOrders from "../pages/dashboradPages/VendorOrders";
 
+//public
+import LoginForm from "../pages/public/login";
+import RegisterForm from "../pages/public/register";
+
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
     const { user } = useContext(AuthContext);
@@ -49,6 +53,10 @@ const Router = () => {
       <Route path="vendor" element={<VendorDashboard />} />
       <Route path="vendorOrder" element={<VendorOrders />} />
       <Route path="products" element={<ProductManagement />} />
+
+      {/* Public */}
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/register" element={<RegisterForm />} />
     </Routes>
   );
 };
