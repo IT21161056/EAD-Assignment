@@ -19,6 +19,7 @@ class APIService {
     deleteOrder(id){
         return axios.delete(`${BASE_URL}/api/order/${id}`)
     }
+    
 }
 
 export default new APIService;
