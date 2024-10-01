@@ -1,56 +1,60 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
-import "react-toastify/ReactToastify.css";
+import React, { useState } from "react";
 import { useCartContext } from "../components/providers/ContextProvider";
+import ProductCard from "../components/ProductCard";
 import p from "../assets/p.jpg";
+
+const hardcodedProducts = [
+  {
+    _id: "65074c59a3e8fa0c12345679",
+    productName: "Papaya",
+    productPrice: 150.45,
+    productImage: p,
+    vendorId: "65074c59a3e8fa0c12345679",
+    vendorName: "pasindu",
+  },
+  {
+    _id: "66f6e68c01146e059c116cb1",
+    productName: "Mango",
+    productPrice: 200.24,
+    productImage: p,
+    vendorId: "65074c59a3e8fa0c12345679",
+    vendorName: "pasindu",
+  },
+  {
+    _id: "65074c59a3e8fa0c12345680",
+    productName: "Banana",
+    productPrice: 50.21,
+    productImage: p,
+    vendorId: "65074c59a3e8fa0c12345679",
+    vendorName: "pasindu",
+  },
+  {
+    _id: "66f6eda701146e059c116cb4",
+    productName: "Pine",
+    productPrice: 300.2,
+    productImage: p,
+    vendorId: "65074c59a3e8fa0c12345671",
+    vendorName: "pasindu",
+  },
+];
 
 const ProductList = () => {
   const { addToCart } = useCartContext();
-  const [productData, setProductData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
+  const [filteredProducts, setFilteredProducts] = useState(hardcodedProducts);
 
-  useEffect(() => {
-    // Replace API call with hardcoded data
-    const hardcodedProducts = [
-      { _id: "65074c59a3e8fa0c12345679", productName: "Papaya", productPrice: 150.45, productImage: p, vendorId: '65074c59a3e8fa0c12345679', vendorName: 'pasindu' },
-      { _id: "66f6e68c01146e059c116cb1", productName: "Mango", productPrice: 200.24, productImage: p, vendorId: '65074c59a3e8fa0c12345679', vendorName: 'pasindu' },
-      { _id: "65074c59a3e8fa0c12345679", productName: "Banana", productPrice: 50.21, productImage: p, vendorId: '65074c59a3e8fa0c12345679', vendorName: 'pasindu' },
-      {
-        _id: "66f6eda701146e059c116cb4",
-        productName: "Pine",
-        productPrice: 300.20,
-        productImage: p,
-        vendorId: '65074c59a3e8fa0c12345671',
-        vendorName: 'pasindu',
-      },
-    ];
-    const updatedProducts = hardcodedProducts.map(product => {
-      const { _id, ...rest } = product
-      return { productId: _id, ...rest }
-    })
-    setProductData(updatedProducts);
-  }, []);
+  const handleSearchInputChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
 
-  const filterProductData = productData.filter((procudtItem) => {
-    const { productName, productPrice } = procudtItem;
-    const prodPrice = productPrice.toString();
-    const lowerCaseQuery = searchQuery.toLowerCase();
-
-    return (
-      productName.toLowerCase().includes(lowerCaseQuery) ||
-      prodPrice.includes(lowerCaseQuery)
+    const filtered = hardcodedProducts.filter((product) =>
+      product.productName.toLowerCase().includes(query)
     );
-  });
+    setFilteredProducts(filtered);
+  };
 
   const handleItemCart = (product) => {
     addToCart(product);
-  };
-
-  const proceedToCart = () => {
-    navigate(`/cart`);
   };
 
   return (
@@ -61,50 +65,31 @@ const ProductList = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search products..."
+              placeholder="Search products by name..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchInputChange}
             />
           </div>
         </div>
       </div>
       <div className="container">
         <div className="row justify-content-center">
-          {filterProductData.map((prData, index) => {
-            return (
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
               <div
-                className="col-lg-3 col-md-2 col-sm-6 col-12 d-flex justify-content-center mb-4"
-                key={index}
+                className="col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center mb-4"
+                key={product._id}
               >
-                <div
-                  className="card shadow-sm p-2 mb-5 bg-white rounded "
-                  style={{ width: "250px" }}
-                >
-                  <h5 className="card-title text-center">
-                    {prData.productName}
-                  </h5>
-                  <img
-                    src={prData.productImage}
-                    className="card-img-top mx-auto d-block"
-                    alt="product_img"
-                    style={{ width: "150px", height: "150px" }}
-                  />
-                  <div className="card-body text-center">
-                    <h5 className="">Price: Rs: {prData.productPrice}</h5>
-                    <button
-                      className=" btn btn-primary"
-                      onClick={() => handleItemCart(prData)}
-                    >
-                      Add To Cart
-                    </button>
-                  </div>
-                </div>
+                <ProductCard product={product} onAddToCart={handleItemCart} />
               </div>
-            );
-          })}
+            ))
+          ) : (
+            <div className="text-center">No products found.</div>
+          )}
         </div>
       </div>
     </div>
   );
 };
+
 export default ProductList;
