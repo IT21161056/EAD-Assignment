@@ -16,6 +16,10 @@ class APIService {
     return axios.put(`${BASE_URL}/api/order/${id}`, updateOrderObj);
   }
 
+  deleteOrder(id) {
+    return axios.delete(`${BASE_URL}/api/order/${id}`);
+  }
+
   // Vendor end points
 
   getAllVendors(config = {}) {
