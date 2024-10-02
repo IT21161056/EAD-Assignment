@@ -1,3 +1,5 @@
+using backend.Models;
+
 namespace backend.DTOs
 {
     public class VendorDTO
@@ -13,9 +15,9 @@ namespace backend.DTOs
         public required string VendorAddress {get; set;}
 
         public required string VendorCity {get; set;}
+        
+        public List<string> Products {get; set;} = new List<string>();
 
-        public List<string> CustomerFeedback {get; set;} = new List<string>();
-
-        public List<int> Rating {get; set;} = new List<int>();
+        public List<CustomerFeedback> Feedbacks {get; set;} = new List<CustomerFeedback>();
     }
 }
