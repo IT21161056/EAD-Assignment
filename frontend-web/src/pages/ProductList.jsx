@@ -15,15 +15,15 @@ const ProductList = () => {
   useEffect(() => {
     // Replace API call with hardcoded data
     const hardcodedProducts = [
-      { _id: "65074c59a3e8fa0c12345679", productName: "Papaya", productPrice: 150.45, productImage: p, vendorId: '65074c59a3e8fa0c12345679', vendorName: 'pasindu' },
-      { _id: "66f6e68c01146e059c116cb1", productName: "Mango", productPrice: 200.24, productImage: p, vendorId: '65074c59a3e8fa0c12345679', vendorName: 'pasindu' },
-      { _id: "65074c59a3e8fa0c12345679", productName: "Banana", productPrice: 50.21, productImage: p, vendorId: '65074c59a3e8fa0c12345679', vendorName: 'pasindu' },
+      { _id: "65074c59a3e8fa0c12345679", productName: "Papaya", productPrice: 150.45, productImage: p, vendorId: '66f83f563b2515a37642912e', vendorName: 'pasindu' },
+      { _id: "66f6e68c01146e059c116cb1", productName: "Mango", productPrice: 200.24, productImage: p, vendorId: '66fae4aecb782d55b7201141', vendorName: 'pasindu' },
+      { _id: "66f83f563b2515a37642912e", productName: "Banana", productPrice: 50.21, productImage: p, vendorId: '66faed586b2c00e94935146e', vendorName: 'pasindu' },
       {
         _id: "66f6eda701146e059c116cb4",
         productName: "Pine",
         productPrice: 300.20,
         productImage: p,
-        vendorId: '65074c59a3e8fa0c12345671',
+        vendorId: '66fc121db6769ec11e45718b',
         vendorName: 'pasindu',
       },
     ];
