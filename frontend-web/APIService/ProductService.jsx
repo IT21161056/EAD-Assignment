@@ -9,6 +9,10 @@ class ProductService {
   getVenderProducts(venderID) {
     return axiosAPI.get(`/products/vendor/${venderID}`);
   }
+
+  updateVenderProduct(product, productId) {
+    return axiosAPI.put(`/products/${productId}`, product);
+  }
 }
 
 export default new ProductService();

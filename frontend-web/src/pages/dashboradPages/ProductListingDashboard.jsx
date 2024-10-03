@@ -9,24 +9,30 @@ import {
   ListGroup,
   Modal,
   Image,
+  Badge,
 } from "react-bootstrap";
+import { ring } from "ldrs";
+import { CirclePlus, Pencil, Trash2 } from "lucide-react";
+
+ring.register();
 
 import ProductService from "../../../APIService/ProductService";
 
 const VendorDashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([
     {
       id: 1,
-      name: "Product 1",
-      price: 19.99,
+      productName: "Product 1",
+      productPrice: 19.99,
       description: "Description for Product 1",
       image:
         "https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_Colors_09142021_big.jpg.large.jpg",
     },
     {
       id: 2,
-      name: "Product 2",
-      price: 29.99,
+      productName: "Product 2",
+      productPrice: 29.99,
       description: "Description for Product 2",
       image:
         "https://www.greenware.lk/wp-content/uploads/2021/09/Apple-iPhone-13.jpg",
@@ -35,8 +41,8 @@ const VendorDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({
     id: null,
-    name: "",
-    price: "",
+    productName: "",
+    productPrice: "",
     description: "",
     imageUrl: null,
     stock: 0,
@@ -55,7 +61,6 @@ const VendorDashboard = () => {
   }, []);
 
   useEffect(() => {
-    // Cleanup function to revoke object URL when component unmounts or previewImage changes
     return () => {
       if (previewImage && previewImage.startsWith("blob:")) {
         URL.revokeObjectURL(previewImage);
@@ -64,10 +69,16 @@ const VendorDashboard = () => {
   }, [previewImage]);
 
   const handleShowModal = (
-    product = { id: null, name: "", price: "", description: "", image: null }
+    product = {
+      id: null,
+      productName: "",
+      productPrice: "",
+      description: "",
+      imageUrl: null,
+    }
   ) => {
     setCurrentProduct(product);
-    setPreviewImage(product.image || "");
+    setPreviewImage(product.imageUrl || "");
     setShowModal(true);
   };
 
@@ -75,8 +86,8 @@ const VendorDashboard = () => {
     setShowModal(false);
     setCurrentProduct({
       id: null,
-      name: "",
-      price: "",
+      productName: "",
+      productPrice: "",
       description: "",
       image: null,
     });
@@ -102,30 +113,19 @@ const VendorDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     const formData = new FormData();
-    formData.append("name", currentProduct.name);
-    formData.append("price", currentProduct.price);
+    formData.append("productName", currentProduct.productName);
+    formData.append("productPrice", currentProduct.productPrice);
     formData.append("description", currentProduct.description);
     if (currentProduct.image instanceof File) {
       formData.append("image", currentProduct.image);
     }
 
-    // For this example, we'll just update the local state
     if (currentProduct.id) {
-      // Update existing product
-      setProducts(
-        products.map((p) =>
-          p.id === currentProduct.id
-            ? { ...currentProduct, image: previewImage }
-            : p
-        )
-      );
+      await ProductService.updateVenderProduct(formData, currentProduct.id);
     } else {
-      // Add new product
-      // setProducts([
-      //   ...products,
-      //   { ...currentProduct, id: Date.now(), image: previewImage },
-      // ]);
       const response = await ProductService.addProduct(formData);
       if (response) {
         alert("product add successful");
@@ -133,49 +133,60 @@ const VendorDashboard = () => {
     }
     getProductList();
     handleCloseModal();
+    setIsLoading(false);
   };
 
   return (
-    <Container className="mt-4">
-      <h1 className="mb-4">Vendor Dashboard</h1>
+    <Container fluid className="py-4 px-3 px-md-4">
+      <Card className="shadow-sm mb-4">
+        <Card.Body>
+          <h1 className="h3 mb-0">Vendor Dashboard</h1>
+        </Card.Body>
+      </Card>
+
       <Row>
-        <Col md={8}>
-          <Card>
-            <Card.Header as="h5">Product Listings</Card.Header>
+        <Col lg={8} className="mb-4 mb-lg-0">
+          <Card className="shadow-sm h-100">
+            <Card.Header className="bg-primary text-white">
+              <h5 className="mb-0">Product Listings</h5>
+            </Card.Header>
             <ListGroup variant="flush">
               {products.map((product) => (
                 <ListGroup.Item
                   key={product.id}
-                  className="d-flex justify-content-between align-items-center"
+                  className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center py-3"
                 >
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center mb-2 mb-md-0">
                     <Image
                       src={product.imageUrl}
                       rounded
                       className="me-3"
-                      width={50}
-                      height={50}
+                      width={60}
+                      height={60}
+                      style={{ objectFit: "cover" }}
                     />
                     <div>
-                      <h6>{product.name}</h6>
-                      <small>Price: ${product.price}</small>
+                      <h6 className="mb-0">{product.productName}</h6>
+                      <Badge bg="success" className="mt-1">
+                        ${product.productPrice}
+                      </Badge>
                     </div>
                   </div>
-                  <div>
+                  <div className="d-flex">
                     <Button
                       variant="outline-primary"
                       size="sm"
                       className="me-2"
                       onClick={() => handleShowModal(product)}
                     >
-                      Edit
+                      <Pencil size={16} className="me-1" /> Edit
                     </Button>
                     <Button
                       variant="outline-danger"
                       size="sm"
                       onClick={() => handleDelete(product.id)}
                     >
-                      Delete
+                      <Trash2 size={16} className="me-1" /> Delete
                     </Button>
                   </div>
                 </ListGroup.Item>
@@ -183,11 +194,18 @@ const VendorDashboard = () => {
             </ListGroup>
           </Card>
         </Col>
-        <Col md={4}>
-          <Card>
-            <Card.Header as="h5">Quick Actions</Card.Header>
+        <Col lg={4}>
+          <Card className="shadow-sm">
+            <Card.Header className="bg-success text-white">
+              <h5 className="mb-0">Quick Actions</h5>
+            </Card.Header>
             <Card.Body>
-              <Button variant="primary" onClick={() => handleShowModal()}>
+              <Button
+                variant="primary"
+                className="w-100 d-flex align-items-center justify-content-center"
+                onClick={() => handleShowModal()}
+              >
+                <CirclePlus size={20} className="me-2" />
                 Add New Product
               </Button>
             </Card.Body>
@@ -195,38 +213,45 @@ const VendorDashboard = () => {
         </Col>
       </Row>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+      <Modal show={showModal} onHide={handleCloseModal} size="lg">
+        <Modal.Header closeButton className="bg-light">
           <Modal.Title>
             {currentProduct.id ? "Edit Product" : "Add New Product"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={currentProduct.name}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                name="price"
-                value={currentProduct.price}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Product Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="productName"
+                    value={currentProduct.productName}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="productPrice"
+                    value={currentProduct.productPrice}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
             <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
+                rows={3}
                 name="description"
                 value={currentProduct.description}
                 onChange={handleInputChange}
@@ -241,18 +266,42 @@ const VendorDashboard = () => {
                 onChange={handleImageChange}
                 accept="image/*"
               />
+              {previewImage && (
+                <div className="mt-2">
+                  <Image
+                    src={previewImage}
+                    rounded
+                    className="img-thumbnail"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      objectFit: "cover",
+                    }}
+                    alt="Product preview"
+                  />
+                </div>
+              )}
             </Form.Group>
-            {currentProduct.image && (
-              <Image
-                src={previewImage}
-                rounded
-                className="mb-3"
-                width={100}
-                height={100}
-              />
-            )}
-            <Button variant="primary" type="submit">
-              {currentProduct.id ? "Update Product" : "Add Product"}
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isLoading}
+              className="w-100"
+            >
+              <span className="d-flex align-items-center justify-content-center">
+                {isLoading && (
+                  <div className="me-2">
+                    <l-ring
+                      size="20"
+                      stroke="2"
+                      bg-opacity="0"
+                      speed="2"
+                      color="white"
+                    />
+                  </div>
+                )}
+                {currentProduct.id ? "Update Product" : "Add Product"}
+              </span>
             </Button>
           </Form>
         </Modal.Body>
