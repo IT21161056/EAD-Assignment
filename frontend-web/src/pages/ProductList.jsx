@@ -42,6 +42,7 @@ const ProductList = () => {
   const { addToCart } = useCartContext();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(hardcodedProducts);
+  const [Products,setProducts] = useState([])
 
   const handleSearchInputChange = (e) => {
     const query = e.target.value.toLowerCase();
