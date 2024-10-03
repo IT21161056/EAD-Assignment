@@ -19,6 +19,7 @@ import CSRDashboard from "../pages/dashboradPages/csrDashboard";
 import VendorDashboard from "../pages/dashboradPages/vendorDashboard";
 import VendorOrders from "../pages/dashboradPages/VendorOrders";
 import VendorRegistration from "../pages/dashboradPages/VendorRegistration";
+import ProductListingDashboard from "../pages/dashboradPages/ProductListingDashboard";
 
 //public
 import LoginForm from "../pages/public/login";
@@ -56,6 +57,7 @@ const Router = () => {
       <Route path="vendor" element={<VendorDashboard />} />
       <Route path="vendorOrder" element={<VendorOrders />} />
       <Route path="products" element={<ProductManagement />} />
+      <Route path="manage-products" element={<ProductListingDashboard />} />
 
       {/* Public */}
       <Route path="/login" element={<LoginForm />} />
