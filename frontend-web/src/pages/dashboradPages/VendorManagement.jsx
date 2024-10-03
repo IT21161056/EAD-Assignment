@@ -61,8 +61,10 @@ const VendorManagement = () => {
   });
 
   const navigateToUpdate = () => {
-    navigate(`/updatevendor`);
+    navigate(`/dashboard/updatevendor`);
   };
+
+  const deleteExistingVendor = () => {};
 
   console.log("???>", vendors);
 
@@ -92,7 +94,6 @@ const VendorManagement = () => {
               <th>Mobile</th>
               <th>Address</th>
               <th>City</th>
-              <th>Comments</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -105,7 +106,6 @@ const VendorManagement = () => {
                   <td>{venodrDta.vendorPhone}</td>
                   <td>{venodrDta.vendorAddress}</td>
                   <td>{venodrDta.vendorCity}</td>
-                  <td>tb</td>
                   <td>
                     <i
                       className="bi bi-pencil-square m-1"
@@ -138,39 +138,3 @@ const VendorManagement = () => {
 };
 
 export default VendorManagement;
-
-{
-  /*
-  <td>
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      style={{
-                        fontSize: "12px",
-                      }}
-                      onClick={handleShow}
-                    >
-                      Feedbacks
-                    </button>
-                  </td>
-                  <td>
-                    <i
-                      className="bi bi-pencil-square m-1"
-                      style={{
-                        cursor: "pointer",
-                        color: "blue",
-                        fontSize: "24px",
-                      }}
-                      onClick={navigateToUpdate}
-                    ></i>
-                    <i
-                      className="bi bi-trash m-1"
-                      style={{
-                        cursor: "pointer",
-                        color: "red",
-                        fontSize: "24px",
-                      }}
-                      onClick={handleShow}
-                    ></i>
-                  </td>*/
-}

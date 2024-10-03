@@ -12,11 +12,13 @@ import ProdcutAdd from "../pages/dashboradPages/ProductAdd";
 import ProductUpdate from "../pages/dashboradPages/ProductUpdate";
 import AdminDashboard from "../pages/AdminDashboard";
 import VendorManagement from "../pages/dashboradPages/VendorManagement";
+import UpdateVendor from "../pages/dashboradPages/UpdateVendor";
 import AllOrder from "../pages/AllOrder";
 import OrderCancelationRequest from "../pages/OrderCancelationRequest";
 import CSRDashboard from "../pages/dashboradPages/csrDashboard";
 import VendorDashboard from "../pages/dashboradPages/vendorDashboard";
 import VendorOrders from "../pages/dashboradPages/VendorOrders";
+import ProductListingDashboard from "../pages/dashboradPages/ProductListingDashboard";
 
 //public
 import LoginForm from "../pages/public/login";
@@ -46,13 +48,15 @@ const Router = () => {
       <Route path="dashboard/addproduct" element={<ProdcutAdd />} />
       <Route path="dashboard/updateproduct/:id" element={<ProductUpdate />} />
       <Route path="adminDashboard" element={<AdminDashboard />} />
-      <Route path="vendors" element={<VendorManagement />} />
+      <Route path="dashboard/vendors" element={<VendorManagement />} />
+      <Route path="/dashboard/updatevendor" element={<UpdateVendor />} />
       <Route path="allOrders" element={<AllOrder />} />
       <Route path="cancelRequest" element={<OrderCancelationRequest />} />
       <Route path="csr" element={<CSRDashboard />} />
       <Route path="vendor" element={<VendorDashboard />} />
       <Route path="vendorOrder" element={<VendorOrders />} />
       <Route path="products" element={<ProductManagement />} />
+      <Route path="manage-products" element={<ProductListingDashboard />} />
 
       {/* Public */}
       <Route path="/login" element={<LoginForm />} />

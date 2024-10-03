@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Badge from "react-bootstrap/Badge";
+import {
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Badge,
+  Image,
+} from "react-bootstrap";
 import { useCartContext } from "../../providers/ContextProvider";
 import CartModal from "./CartModal";
-import { Image } from "react-bootstrap"; // For the avatar
+import { ShoppingBag, User } from "lucide-react";
 
 const MainNavbar = () => {
   const { itemCount } = useCartContext();
@@ -17,19 +20,31 @@ const MainNavbar = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary" sticky="top">
+      <Navbar
+        expand="lg"
+        bg="light"
+        variant="light"
+        className="shadow-sm py-2"
+        sticky="top"
+      >
         <Container>
-          <Navbar.Brand href="#" className="me-5">
+          <Navbar.Brand href="#" className="font-weight-bold text-primary">
             E-com
           </Navbar.Brand>
-          {/* Toggle for mobile view */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            {/* Left-side navigation */}
-            <Nav className="me-auto gap-3">
-              <Nav.Link href="/">Product Listing</Nav.Link>
-              <Nav.Link href="/orders">Orders</Nav.Link>
-              <NavDropdown title="Dashboard" id="basic-nav-dropdown">
+            <Nav className="me-auto">
+              <Nav.Link href="/" className="mx-2">
+                Product Listing
+              </Nav.Link>
+              <Nav.Link href="/orders" className="mx-2">
+                Orders
+              </Nav.Link>
+              <NavDropdown
+                title="Dashboard"
+                id="basic-nav-dropdown"
+                className="mx-2"
+              >
                 <NavDropdown.Item href="/adminDashboard">
                   Admin
                 </NavDropdown.Item>
@@ -38,42 +53,52 @@ const MainNavbar = () => {
               </NavDropdown>
             </Nav>
 
-            {/* Right-side: Cart and Avatar */}
-            <Nav className="d-flex align-items-center">
-              {/* Cart Icon */}
-              <div
-                className="d-flex justify-content-center align-items-center position-relative me-3"
-                style={{ width: "30px", height: "30px" }}
-              >
-                <i
-                  className="bi bi-bag-check fs-4"
+            <Nav className="align-items-center">
+              <div className="position-relative me-3 d-flex align-items-center">
+                <ShoppingBag
+                  size={24}
                   onClick={handleOpenModal}
-                  style={{ cursor: "pointer" }}
-                ></i>
-                <Badge
-                  bg="primary"
-                  className="position-absolute top-0 start-100 translate-middle"
-                >
-                  {itemCount}
-                </Badge>
+                  className="text-primary cursor-pointer"
+                />
+                {itemCount > 0 && (
+                  <Badge
+                    bg="danger"
+                    pill
+                    className="position-absolute top-0 start-100 translate-middle"
+                  >
+                    {itemCount}
+                  </Badge>
+                )}
               </div>
 
-              {/* Avatar Dropdown for Login/Register */}
               <NavDropdown
                 align="end"
                 title={
-                  <Image
-                    src="https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg" // Placeholder for avatar
-                    roundedCircle
-                    width="30"
-                    height="30"
-                    alt="User Avatar"
-                  />
+                  <div className="d-inline-block">
+                    <Image
+                      src="https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
+                      roundedCircle
+                      width="32"
+                      height="32"
+                      alt="User Avatar"
+                      className="border border-primary"
+                    />
+                  </div>
                 }
                 id="user-nav-dropdown"
               >
-                <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                <NavDropdown.Item href="/register">Register</NavDropdown.Item>
+                <NavDropdown.Item
+                  href="/login"
+                  className="d-flex align-items-center"
+                >
+                  <User size={18} className="me-2" /> Login
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  href="/register"
+                  className="d-flex align-items-center"
+                >
+                  <User size={18} className="me-2" /> Register
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
