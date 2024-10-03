@@ -7,6 +7,7 @@ import Badge from 'react-bootstrap/Badge';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import APIService from '../../APIService/APIService';
+import { ToastContainer, toast } from "react-toastify";
 
 const AllOrder = () => {
 
@@ -43,6 +44,10 @@ const AllOrder = () => {
             const response = await APIService.updateOrderDetails(updatedObj, updatedObj.id)
             console.log(response)
             if (response.status == 200) {
+                toast.success("Order Status Update Success!", {
+                    autoClose: 300,
+                    position: "top-right",
+                  });
                 setOrders(orders.map(order =>
                     order.id === orderObj.id ? { ...order, status } : order
                 ))

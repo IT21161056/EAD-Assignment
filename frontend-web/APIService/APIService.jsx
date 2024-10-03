@@ -28,7 +28,7 @@ class APIService {
 
   addVendor() {}
 
-  updateVendor() {}
+  getVendorById() {}
 }
 
 export default new APIService();
