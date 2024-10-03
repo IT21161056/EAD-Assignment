@@ -138,6 +138,32 @@ namespace backend.Controllers
         return Ok(new {message = "Vendor successfully deleted!"});
     }
 
+    // [HttpPut("products/{id}")]
+
+    // public async Task<ActionResult> UpdateVendorProducts(string id, UpdateVendorDTO updateVendorDTO)
+    // {
+    //     if(id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
+
+    //     if(!ModelState.IsValid) return BadRequest(ModelState);
+
+    //     var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
+
+    //     if(updatedVendor == null) return NotFound();
+    // }
+
+    // [HttpPut("feedbacks/{id}")]
+    // public async Task<ActionResult> HandleUserFeedbacks(string id, UpdateVendorDTO updateVendorDTO)
+    // {
+    //     if(id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
+
+    //     if(!ModelState.IsValid) return BadRequest(ModelState);
+
+    //     var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
+
+    //     if(updatedVendor == null) return NotFound();
+    // }
+
     }
+
 
 }

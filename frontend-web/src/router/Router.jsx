@@ -18,6 +18,7 @@ import OrderCancelationRequest from "../pages/OrderCancelationRequest";
 import CSRDashboard from "../pages/dashboradPages/csrDashboard";
 import VendorDashboard from "../pages/dashboradPages/vendorDashboard";
 import VendorOrders from "../pages/dashboradPages/VendorOrders";
+import VendorRegistration from "../pages/dashboradPages/VendorRegistration";
 
 //public
 import LoginForm from "../pages/public/login";
@@ -59,6 +60,7 @@ const Router = () => {
       {/* Public */}
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
+      <Route path="/vendorregister" element={<VendorRegistration />} />
     </Routes>
   );
 };

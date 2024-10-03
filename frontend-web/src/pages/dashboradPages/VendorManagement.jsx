@@ -43,20 +43,13 @@ const VendorManagement = () => {
   const handleShow = () => setShow(true);
 
   const filterVendors = vendors.filter((vendorElement) => {
-    const {
-      vendorName = "",
-      vendorEmail = "",
-      vendorAddress = "",
-      vendorCity = "",
-    } = vendorElement;
+    const { vendorName = "", vendorEmail = "" } = vendorElement;
 
     const lowerCaseQuery = searchQuery.toLowerCase();
 
     return (
       vendorName.toLowerCase().includes(lowerCaseQuery) ||
-      vendorEmail.toLowerCase().includes(lowerCaseQuery) ||
-      vendorAddress.toLowerCase().includes(lowerCaseQuery) ||
-      vendorCity.toLowerCase().includes(lowerCaseQuery)
+      vendorEmail.toLowerCase().includes(lowerCaseQuery)
     );
   });
 
@@ -64,7 +57,16 @@ const VendorManagement = () => {
     navigate(`/dashboard/updatevendor`);
   };
 
-  const deleteExistingVendor = () => {};
+  const deleteExistingVendor = async (id) => {
+    try {
+      await APIService.deleteVendor(id);
+      const updatedList = vendors.filter((item) => id != item.id);
+      setVendors(updatedList);
+    } catch (error) {
+      setError("Error deleting the Vendor...");
+      console.log("Error deleting paticular Vendor!");
+    }
+  };
 
   console.log("???>", vendors);
 
@@ -73,9 +75,6 @@ const VendorManagement = () => {
       <div className="container mt-5">
         <div className="d-flex align-items-center justify-content-between mb-4">
           <h4>Vendor Management</h4>
-          <Button variant="primary" onClick={handleShow}>
-            Add New Vendor
-          </Button>
         </div>
         <div className="mb-3">
           <input
@@ -94,6 +93,7 @@ const VendorManagement = () => {
               <th>Mobile</th>
               <th>Address</th>
               <th>City</th>
+              <th>State</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -106,6 +106,15 @@ const VendorManagement = () => {
                   <td>{venodrDta.vendorPhone}</td>
                   <td>{venodrDta.vendorAddress}</td>
                   <td>{venodrDta.vendorCity}</td>
+                  <td>
+                    <button
+                      className={`btn ${
+                        isTrue ? " btn-primary" : "btn-success"
+                      }`}
+                    >
+                      {isTrue ? "Yes" : "No"}
+                    </button>
+                  </td>
                   <td>
                     <i
                       className="bi bi-pencil-square m-1"
@@ -123,7 +132,7 @@ const VendorManagement = () => {
                         color: "red",
                         fontSize: "24px",
                       }}
-                      onClick={handleShow}
+                      onClick={() => deleteExistingVendor(venodrDta.id)}
                     ></i>
                   </td>
                 </tr>

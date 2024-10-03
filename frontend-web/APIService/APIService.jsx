@@ -28,7 +28,13 @@ class APIService {
 
   addVendor() {}
 
-  getVendorById() {}
+  updateVendorDetails() {
+    return axios.put(`${BASE_URL}/api/vendor/${id}`);
+  }
+
+  deleteVendor() {
+    return axios.delete(`${BASE_URL}/api/vendor/${id}`);
+  }
 }
 
 export default new APIService();
