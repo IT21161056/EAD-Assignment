@@ -98,6 +98,10 @@ const Order = () => {
     }
   }
 
+  useEffect(() => {
+    giveFeedback()
+  },[])
+  
   return (
     <Container>
       <div className='mt-4'>
