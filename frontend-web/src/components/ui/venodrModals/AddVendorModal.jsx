@@ -116,7 +116,7 @@ const VendorModal = ({ show, handleClose }) => {
                 </Form.Group>
               </div>
 
-              <div className="col-md-6">
+              {/* <div className="col-md-6">
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlInput6"
@@ -131,14 +131,20 @@ const VendorModal = ({ show, handleClose }) => {
                     Please provide a password.
                   </Form.Control.Feedback>
                 </Form.Group>
-              </div>
+              </div> */}
             </div>
 
             <div className="d-flex gap-3 justify-content-end">
-              <Button variant="secondary" onClick={handleClose}>
+              <Button
+                variant="secondary"
+                onClick={handleClose}
+                style={{ width: "8rem" }}
+              >
                 Close
               </Button>
-              <Button type="submit">Save Changes</Button>
+              <Button type="submit" style={{ width: "8rem" }}>
+                Create
+              </Button>
             </div>
           </Form>
         </Modal.Body>

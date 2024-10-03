@@ -10,7 +10,7 @@ const AdminDashboard = () => {
         Admin Dashboard
       </h5>
       <div className="mt-5 d-flex justify-content-center align-items-center gap-3">
-        <Link to="/vendors">
+        <Link to="/dashboard/vendors">
           <Card style={{ width: "15rem" }}>
             <Card.Body className="d-flex justify-content-center align-items-center">
               <div className="d-flex flex-column justify-content-center align-items-center">
@@ -28,7 +28,7 @@ const AdminDashboard = () => {
           <Card style={{ width: "15rem" }}>
             <Card.Body className="d-flex justify-content-center align-items-center">
               <div className="d-flex flex-column justify-content-center align-items-center">
-                <i class="bi bi-box-fill" style={{ fontSize: "2rem" }}></i>
+                <i className="bi bi-box-fill" style={{ fontSize: "2rem" }}></i>
                 <p className="text-center">Order Management</p>
               </div>
             </Card.Body>
