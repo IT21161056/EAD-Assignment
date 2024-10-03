@@ -2,13 +2,13 @@ import React from "react";
 import MainNavbar from "../ui/nav/navbar";
 import Router from "../../router/Router";
 import { Container } from "react-bootstrap";
-import { useCartContext } from "../providers/ContextProvider";
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <MainNavbar />
-      <Container>
+
+      <Container className="flex-grow-1 d-flex">
         <Router />
       </Container>
     </div>

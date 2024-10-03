@@ -26,16 +26,8 @@ const VendorDashboard = () => {
       productName: "Product 1",
       productPrice: 19.99,
       description: "Description for Product 1",
-      image:
+      imageUrl:
         "https://www.apple.com/newsroom/images/product/iphone/standard/Apple_iPhone-13-Pro_Colors_09142021_big.jpg.large.jpg",
-    },
-    {
-      id: 2,
-      productName: "Product 2",
-      productPrice: 29.99,
-      description: "Description for Product 2",
-      image:
-        "https://www.greenware.lk/wp-content/uploads/2021/09/Apple-iPhone-13.jpg",
     },
   ]);
   const [showModal, setShowModal] = useState(false);
@@ -134,6 +126,14 @@ const VendorDashboard = () => {
     getProductList();
     handleCloseModal();
     setIsLoading(false);
+  };
+
+  const handleDelete = async (id) => {
+    console.log("id", id);
+    if (id) {
+      await ProductService.deleteVenderProduct(id);
+    }
+    getProductList();
   };
 
   return (

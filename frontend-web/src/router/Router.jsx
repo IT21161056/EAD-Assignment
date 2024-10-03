@@ -54,7 +54,7 @@ const Router = () => {
       <Route path="vendor" element={<VendorDashboard />} />
       <Route path="vendorOrder" element={<VendorOrders />} />
       <Route path="products" element={<ProductManagement />} />
-      <Route path="products-listing" element={<ProductListingDashboard />} />
+      <Route path="manage-products" element={<ProductListingDashboard />} />
 
       {/* Public */}
       <Route path="/login" element={<LoginForm />} />
