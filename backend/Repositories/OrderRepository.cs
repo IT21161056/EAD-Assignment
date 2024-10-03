@@ -9,10 +9,12 @@ namespace backend.Repositories
     public class OrderRepository : IOrderRepository
     {
         private readonly IMongoCollection<Order> _orders;
+        private readonly IMongoCollection<OrderItem> _orderItems;
 
         public OrderRepository(IMongoDatabase database)
         {
             _orders = database.GetCollection<Order>("Orders");
+            _orderItems = database.GetCollection<OrderItem>("orderItems");
         }
 
         // Get all orders
@@ -24,7 +26,7 @@ namespace backend.Repositories
         // Get order by ID
         public async Task<Order> GetOrderByIdAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id)) 
+            if (string.IsNullOrWhiteSpace(id))
                 return null;
 
             var filter = Builders<Order>.Filter.Eq(o => o.Id, id);
@@ -59,7 +61,7 @@ namespace backend.Repositories
         // Delete an order by ID
         public async Task DeleteOrderAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id)) 
+            if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Order ID cannot be null or empty.", nameof(id));
 
             var filter = Builders<Order>.Filter.Eq(o => o.Id, id);
@@ -68,5 +70,21 @@ namespace backend.Repositories
             if (result.DeletedCount == 0)
                 throw new KeyNotFoundException($"Order with ID {id} not found.");
         }
+
+        public async Task<List<string>> AddOrderItemsAsync(List<OrderItem> orderItems)
+        {
+            if (orderItems == null || orderItems.Count == 0)
+            {
+                throw new ArgumentException("Order items cannot be null or empty.");
+            }
+
+            // Insert multiple order items at once
+            await _orderItems.InsertManyAsync(orderItems);
+
+            // Return the inserted ObjectIds as strings
+            return orderItems.Select(item => item.Id.ToString()).ToList();
+        }
+
+
     }
 }

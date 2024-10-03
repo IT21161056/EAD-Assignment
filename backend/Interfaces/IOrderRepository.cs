@@ -11,5 +11,7 @@ namespace backend.Interfaces
         Task<Order> CreateOrderAsync(Order order);
         Task<Order> UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(string id);
+        Task<List<string>> AddOrderItemsAsync(List<OrderItem> orderItems);
+
     }
 }
