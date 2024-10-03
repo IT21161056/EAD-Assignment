@@ -28,7 +28,10 @@ class APIService {
 
   addVendor() {}
 
-  updateVendor() {}
+  updateVendor(id,vendorObj) {
+    return axios.put(`${BASE_URL}/api/vendor/${id}`,vendorObj);
+  }
+
 }
 
 export default new APIService();

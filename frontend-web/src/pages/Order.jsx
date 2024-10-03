@@ -89,6 +89,14 @@ const Order = () => {
     }
   }
 
+  const giveFeedback = async () => {
+    try {
+      const response = await APIService.updateVendor()
+      console.log(response)
+    } catch (err) {
+      console.error('Error giving feedback')
+    }
+  }
 
   return (
     <Container>
