@@ -7,20 +7,20 @@ namespace backend.DTOs
     {
         public string Id { get; set; }
         public string UserId { get; set; }
-        public string orderId { get; set;}
+        public string orderId { get; set; }
         public DateTime CreatedAt { get; set; }
         public string status { get; set; }
         public decimal TotalAmount { get; set; }
         public string ShippingAddress { get; set; }
-        public string MobileNumber { get; set; } 
-        public string userName { get; set; } 
+        public string MobileNumber { get; set; }
+        public string userName { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
     }
 
     public class CreateOrderDto
     {
         public string UserId { get; set; }
-        public string orderId { get; set;}
+        public string orderId { get; set; }
         public string ShippingAddress { get; set; }
         public decimal TotalAmount { get; set; }
         public string MobileNumber { get; set; }
@@ -42,6 +42,7 @@ namespace backend.DTOs
     {
         public string ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ImageUrl { get; set; }
         public decimal ProductPrice { get; set; }
         public int Quantity { get; set; }
         public string VendorId { get; set; }
