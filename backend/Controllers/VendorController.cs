@@ -14,9 +14,10 @@ namespace backend.Controllers
     [ApiController] // Automatic model validation enabled
     // [Authorize(Roles = "Administrator")]
 
-    public class VendorController(VendorService vendorService) : ControllerBase
+    public class VendorController(VendorService vendorService, EmailService emailService) : ControllerBase
     {
         private readonly VendorService _vendorService = vendorService;
+        private readonly EmailService _emailService = emailService;
 
     // Get all Vendors
 
@@ -109,20 +110,20 @@ namespace backend.Controllers
 
         if(updatedVendor == null) return NotFound();
 
-        var updatedVendorDTO = new VendorDTO
-        {
-            Id = updatedVendor.Id,
-            VendorName = updatedVendor.VendorName,
-            VendorEmail = updatedVendor.VendorEmail,
-            VendorPhone = updatedVendor.VendorPhone,
-            VendorAddress = updatedVendor.VendorAddress,
-            VendorCity = updatedVendor.VendorCity,
-            IsActive = updatedVendor.IsActive,
-            Products = updatedVendor.Products,
-            Feedbacks = updatedVendor.Feedbacks
-        };
+        // var updatedVendorDTO = new VendorDTO
+        // {
+        //     Id = updatedVendor.Id,
+        //     VendorName = updatedVendor.VendorName,
+        //     VendorEmail = updatedVendor.VendorEmail,
+        //     VendorPhone = updatedVendor.VendorPhone,
+        //     VendorAddress = updatedVendor.VendorAddress,
+        //     VendorCity = updatedVendor.VendorCity,
+        //     IsActive = updatedVendor.IsActive,
+        //     Products = updatedVendor.Products,
+        //     Feedbacks = updatedVendor.Feedbacks
+        // };
 
-        return Ok(updatedVendorDTO);  
+        return Ok(updatedVendor);  
     }
 
     // Delete existing Vendor

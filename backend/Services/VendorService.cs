@@ -2,14 +2,17 @@ using backend.DTOs;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using BCrypt.Net;
+using backend.Utilities;
 
 namespace backend.Services
 {
     // Constructor dependency injection
-    public class VendorService(IVendorRepository vendorRepository)
+    public class VendorService(IVendorRepository vendorRepository, EmailService emailService)
     {
         // _vendorReopository Can only be set in constructor and not changed afterward
         private readonly IVendorRepository _vendorReopository = vendorRepository;
+        private readonly EmailService _emailService = emailService;
 
         // Get All Vendors
 
@@ -116,7 +119,33 @@ namespace backend.Services
 
             };
 
-            var updatedVendor = await _vendorReopository.UpdateVendorAsync(vendor);
+            var (updatedVendor, wasInactive) = await _vendorReopository.UpdateVendorAsync(vendor);
+
+            // Send email if Vendor is activated
+            // if(!updateVendorDTO.IsActive && updatedVendor.IsActive)
+            if(wasInactive)
+            {
+                string newPassword = PasswordGenerator.GenerateRandomPassword();
+                vendor.HashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+                var emailDto = new EmailDTO
+                {
+                    ToEmail = updatedVendor.VendorEmail,
+                    Subject = "Your Account Has Been Activated",
+                    Body = $"Hello {updatedVendor.VendorName},\n\nYour account has been activated.\nUsername: {updatedVendor.VendorEmail}\nPassword: {newPassword}\n\nBest regards,\nE-com"
+                };
+
+                try
+                {
+                    await _emailService.SendEmailAsync(emailDto);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to send email to {updatedVendor.VendorEmail}. Error: {ex.Message}");
+
+                    throw new Exception("Vendor details updated but failed to send activation email. Please contact support.");
+                }
+            }
 
             // Map updated vendor to VendorDTO to response
 

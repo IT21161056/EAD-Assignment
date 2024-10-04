@@ -67,7 +67,7 @@ namespace backend.Repositories{
         }
 
         // Update existing Vendor
-        public async Task<Vendor> UpdateVendorAsync(Vendor vendor)
+        public async Task<(Vendor updatedVendor, bool wasInactive)> UpdateVendorAsync(Vendor vendor)
         {
             if(vendor == null)
                 throw new ArgumentException("Vendor not found");          
@@ -77,15 +77,44 @@ namespace backend.Repositories{
             
             try
             {
-                var filteredResult = Builders<Vendor>.Filter.Eq(v => v.Id, vendor.Id);
-                var result = await _vendor.FindOneAndReplaceAsync(filteredResult, vendor)
-                    ?? throw new KeyNotFoundException("Product is not found ");
+                var existingVendor = await GetVendorByIdAsync(vendor.Id);
+                
+                // Check if IsActive state has changed to true
+                bool wasInactive = existingVendor != null && !existingVendor.IsActive && vendor.IsActive;
 
-                return result;
+                var filteredResult = Builders<Vendor>.Filter.Eq(v => v.Id, vendor.Id);
+                var updatedVendor = await _vendor.FindOneAndReplaceAsync(filteredResult, vendor)
+                    ?? throw new KeyNotFoundException("Vendor is not found ");
+
+                return (updatedVendor, wasInactive);
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Error occured when updating a Vendor", ex);
+            }
+        }
+
+        // Activate paticular Vendor
+
+        public async Task ActivateVendorAsync(string id)
+        {
+             if(string.IsNullOrEmpty(id))
+                throw new ArgumentException("Invalid Vendor Id!");
+
+            var filter = Builders<Vendor>.Filter.Eq(v => v.Id, id);
+            var updateStatus = Builders<Vendor>.Update.Set(v => v.IsActive, true);
+
+            try
+            {
+                var result = await _vendor.UpdateOneAsync(filter, updateStatus);
+
+                if(result.ModifiedCount == 0)
+                    throw new KeyNotFoundException("Vendor not found or already active");
+                
+
+            } catch(Exception ex)
+            {
+                throw new ApplicationException("Error occured when updating status of a Vendor", ex);
             }
         }
 
