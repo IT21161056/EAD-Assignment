@@ -31,6 +31,10 @@ namespace backend.Models
 
         public required string VendorCity {get; set;}
 
+        public bool IsActive {get; set;} = false;
+
+        public string Password {get; set;}
+
         public List<string> Products {get; set;} = new List<string>();
 
         [BsonElement("CustomerFeedback")]

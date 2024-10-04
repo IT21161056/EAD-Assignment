@@ -32,6 +32,7 @@ namespace backend.Controllers
             VendorPhone = v.VendorPhone,
             VendorAddress = v.VendorAddress,
             VendorCity = v.VendorCity,
+            IsActive = v.IsActive,
             Products = v.Products,
             Feedbacks = v.Feedbacks
         });
@@ -57,6 +58,7 @@ namespace backend.Controllers
             VendorPhone = vendor.VendorPhone,
             VendorAddress = vendor.VendorAddress,
             VendorCity = vendor.VendorCity,
+            IsActive = vendor.IsActive,
             Products = vendor.Products,
             Feedbacks = vendor.Feedbacks
         };
@@ -115,6 +117,7 @@ namespace backend.Controllers
             VendorPhone = updatedVendor.VendorPhone,
             VendorAddress = updatedVendor.VendorAddress,
             VendorCity = updatedVendor.VendorCity,
+            IsActive = updatedVendor.IsActive,
             Products = updatedVendor.Products,
             Feedbacks = updatedVendor.Feedbacks
         };

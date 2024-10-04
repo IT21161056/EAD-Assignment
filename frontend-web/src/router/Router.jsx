@@ -50,7 +50,7 @@ const Router = () => {
       <Route path="dashboard/updateproduct/:id" element={<ProductUpdate />} />
       <Route path="adminDashboard" element={<AdminDashboard />} />
       <Route path="dashboard/vendors" element={<VendorManagement />} />
-      <Route path="/dashboard/updatevendor" element={<UpdateVendor />} />
+      <Route path="dashboard/updatevendor/:id" element={<UpdateVendor />} />
       <Route path="allOrders" element={<AllOrder />} />
       <Route path="cancelRequest" element={<OrderCancelationRequest />} />
       <Route path="csr" element={<CSRDashboard />} />

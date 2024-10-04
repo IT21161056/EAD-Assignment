@@ -15,6 +15,8 @@ namespace backend.DTOs
         public required string VendorAddress {get; set;}
 
         public required string VendorCity {get; set;}
+
+        public bool IsActive {get; set;} = false;
         
         public List<string> Products {get; set;} = new List<string>();
 

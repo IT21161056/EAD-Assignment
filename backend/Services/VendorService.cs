@@ -28,6 +28,7 @@ namespace backend.Services
                     VendorPhone = vendor.VendorPhone,
                     VendorAddress = vendor.VendorAddress,
                     VendorCity = vendor.VendorCity,
+                    IsActive = vendor.IsActive,
                     Products = vendor.Products,
                     Feedbacks = vendor.Feedbacks
                 });
@@ -50,6 +51,7 @@ namespace backend.Services
                 VendorPhone = vendor.VendorPhone,
                 VendorAddress = vendor.VendorAddress,
                 VendorCity = vendor.VendorCity,
+                IsActive = vendor.IsActive,
                 Products = vendor.Products,
                 Feedbacks = vendor.Feedbacks
             };
@@ -70,6 +72,7 @@ namespace backend.Services
                 VendorPhone = createVendorDTO.VendorPhone,
                 VendorAddress = createVendorDTO.VendorAddress,
                 VendorCity = createVendorDTO.VendorCity,
+                IsActive = createVendorDTO.IsActive,
                 Products = new List<string>(),
                 Feedbacks = new List<CustomerFeedback>()
             };
@@ -86,6 +89,7 @@ namespace backend.Services
                 VendorPhone = createdVendor.VendorPhone,
                 VendorAddress = createdVendor.VendorAddress,
                 VendorCity = createdVendor.VendorCity,
+                IsActive = createdVendor.IsActive,
                 Products = createdVendor.Products,
                 Feedbacks = createdVendor.Feedbacks,
             };
@@ -106,6 +110,7 @@ namespace backend.Services
                 VendorPhone = updateVendorDTO.VendorPhone,
                 VendorAddress = updateVendorDTO.VendorAddress,
                 VendorCity = updateVendorDTO.VendorCity,
+                IsActive = updateVendorDTO.IsActive,
                 Products = updateVendorDTO.Products,
                 Feedbacks = updateVendorDTO.Feedbacks,
 
@@ -123,6 +128,7 @@ namespace backend.Services
                 VendorPhone = updatedVendor.VendorPhone,
                 VendorAddress = updatedVendor.VendorAddress,
                 VendorCity = updatedVendor.VendorCity,
+                IsActive = updatedVendor.IsActive,
                 Products = updatedVendor.Products,
                 Feedbacks = updatedVendor.Feedbacks,
             };
