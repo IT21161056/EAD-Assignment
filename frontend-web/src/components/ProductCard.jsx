@@ -1,4 +1,3 @@
-// ProductCard.js
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -8,7 +7,7 @@ const ProductCard = ({ product, onAddToCart }) => {
     <Card className="mb-4 shadow-sm border">
       <Card.Img
         variant="top"
-        src={product.productImage}
+        src={product.imageUrl || "/path/to/default-image.jpg"} // Fallback image URL
         alt={product.productName}
       />
       <Card.Body>
@@ -36,12 +35,14 @@ const ProductCard = ({ product, onAddToCart }) => {
 
 ProductCard.propTypes = {
   product: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     productName: PropTypes.string.isRequired,
+    description: PropTypes.string,
     productPrice: PropTypes.number.isRequired,
-    productImage: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string,
     vendorId: PropTypes.string.isRequired,
     vendorName: PropTypes.string.isRequired,
+    stock: PropTypes.number,
   }).isRequired,
   onAddToCart: PropTypes.func.isRequired,
 };

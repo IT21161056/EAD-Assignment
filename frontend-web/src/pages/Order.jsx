@@ -16,7 +16,7 @@ const Order = () => {
   const [loading, setLoading] = useState(true);
   const [orderObj, setOrderObj] = useState()
   const [selectedOrder, setSelectedOrder] = useState()
-
+  console.log(orders)
   const [show, setShow] = useState(false);
   const [showEdit, setShowEdit] = useState(false)
   const [cancel, setCancel] = useState(false)
@@ -140,7 +140,7 @@ const Order = () => {
                         <Card.Text className="mb-1 text-muted">{order.orderId}</Card.Text>
                       </div>
 
-                      {order.orderItems.map((item, index) => (
+                      {order.orderItems?.map((item, index) => (
                         <div key={index} className='d-flex align-items-center justify-content-between mt-2 gap-5'>
                           <Card.Subtitle className="mb-1 text-muted">{item.productName}</Card.Subtitle>
                           <Card.Subtitle className="mb-1 text-muted">x&nbsp;&nbsp;{item.quantity}</Card.Subtitle>

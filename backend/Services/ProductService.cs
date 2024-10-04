@@ -31,6 +31,7 @@ namespace backend.Services
                     Description = product.Description,
                     ProductPrice = product.ProductPrice,
                     Stock = product.Stock,
+                    ImageUrl = product.ImageUrl,
                     VendorId = product.VendorId,
                     VendorName = product.VendorName
                 });
@@ -53,6 +54,7 @@ namespace backend.Services
                 ProductPrice = product.ProductPrice,
                 Stock = product.Stock,
                 VendorId = product.VendorId,
+                ImageUrl = product.ImageUrl,
                 VendorName = product.VendorName
             };
         }

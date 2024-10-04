@@ -88,7 +88,7 @@ const VendorListings = () => {
                       <Card.Text className="mb-1 text-muted">{order.orderId}</Card.Text>
                     </div>
 
-                    {order.orderItems.map((item, index) => (
+                    {order.orderItems?.map((item, index) => (
                       <div key={index} className='d-flex align-items-center justify-content-between mt-2 gap-5'>
                         <Card.Subtitle className="mb-1 text-muted">{item.productName}</Card.Subtitle>
                         <Card.Subtitle className="mb-1 text-muted">{item.vendorName}</Card.Subtitle>
