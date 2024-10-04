@@ -35,10 +35,10 @@ const PlaceOrder = ({ show, handleClose, totalAmount }) => {
     //add fulfillmentStatus for each sub order
     const updatedOrderDetails = () => {
         const updatedObj = orderDetails.map((order) => {
-            const { _id, ...rest } = order;
+            const { id, ...rest } = order;
             return {
                 ...rest,
-                ProductId: _id,
+                ProductId: id,
                 fulfillmentStatus: 'Pending',
             };
         });

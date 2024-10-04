@@ -20,7 +20,7 @@ const CartContextProvider = ({ children }) => {
       localCartData = JSON.parse(localStorage.getItem("localCartData"));
 
       const checkAlreadyAdded = localCartData.some(
-        (item) => item.productId === product.productId
+        (item) => item.id === product.id
       );
 
       if (checkAlreadyAdded) {

@@ -27,6 +27,7 @@ namespace backend.Controllers
                 Description = p.Description,
                 ProductPrice = p.ProductPrice,
                 Stock = p.Stock,
+                ImageUrl = p.ImageUrl,
                 VendorId = p.VendorId,
                 VendorName = p.VendorName
             });
@@ -48,6 +49,7 @@ namespace backend.Controllers
                 Description = product.Description,
                 ProductPrice = product.ProductPrice,
                 Stock = product.Stock,
+                ImageUrl = product.ImageUrl,
                 VendorId = product.VendorId,
                 VendorName = product.VendorName
             };
