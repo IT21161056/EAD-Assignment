@@ -100,7 +100,7 @@ const AllOrder = () => {
                                 <td>{order.shippingAddress}</td>
                                 <td>
                                     {
-                                        [...new Set(order.orderItems.map(item => item.vendorName))].join(', ')
+                                        [...new Set(order.orderItems?.map(item => item.vendorName))].join(', ')
                                     }
                                 </td>
                                 <td className='d-flex align-items-center'>

@@ -34,13 +34,15 @@ const PlaceOrder = ({ show, handleClose, totalAmount }) => {
 
     //add fulfillmentStatus for each sub order
     const updatedOrderDetails = () => {
-           const updatedObj =  orderDetails.map((order) => {
-                return {
-                    ...order,
-                    fulfillmentStatus:'Pending'
-                }
-            })
-            return updatedObj
+        const updatedObj = orderDetails.map((order) => {
+            const { id, ...rest } = order;
+            return {
+                ...rest,
+                ProductId: id,
+                fulfillmentStatus: 'Pending',
+            };
+        });
+        return updatedObj;
     }
 
     //format order object

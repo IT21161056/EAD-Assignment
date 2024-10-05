@@ -1,53 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCartContext } from "../components/providers/ContextProvider";
 import ProductCard from "../components/ProductCard";
 import p from "../assets/p.jpg";
-
-const hardcodedProducts = [
-  {
-    _id: "65074c59a3e8fa0c12345679",
-    productName: "Papaya",
-    productPrice: 150.45,
-    productImage: p,
-    vendorId: "65074c59a3e8fa0c12345679",
-    vendorName: "pasindu",
-  },
-  {
-    _id: "66f6e68c01146e059c116cb1",
-    productName: "Mango",
-    productPrice: 200.24,
-    productImage: p,
-    vendorId: "65074c59a3e8fa0c12345679",
-    vendorName: "pasindu",
-  },
-  {
-    _id: "65074c59a3e8fa0c12345680",
-    productName: "Banana",
-    productPrice: 50.21,
-    productImage: p,
-    vendorId: "65074c59a3e8fa0c12345679",
-    vendorName: "pasindu",
-  },
-  {
-    _id: "66f6eda701146e059c116cb4",
-    productName: "Pine",
-    productPrice: 300.2,
-    productImage: p,
-    vendorId: "65074c59a3e8fa0c12345671",
-    vendorName: "pasindu",
-  },
-];
+import ProductService from "../../APIService/ProductService";
 
 const ProductList = () => {
   const { addToCart } = useCartContext();
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(hardcodedProducts);
-
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [Products, setProducts] = useState([]);
+  console.log(Products)
   const handleSearchInputChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
-    const filtered = hardcodedProducts.filter((product) =>
+    const filtered = Products?.filter((product) =>
       product.productName.toLowerCase().includes(query)
     );
     setFilteredProducts(filtered);
@@ -56,6 +23,22 @@ const ProductList = () => {
   const handleItemCart = (product) => {
     addToCart(product);
   };
+
+  const fetchAllProducts = async () => {
+    const response = await ProductService.getAllProducts();
+    const productsWithDefaultImage = response.data.map((product) => ({
+      ...product,
+    }));
+    setProducts(productsWithDefaultImage);
+  };
+
+  useEffect(() => {
+    fetchAllProducts();
+  }, []);
+
+  useEffect(() => {
+    setFilteredProducts(Products);
+  }, [Products]);
 
   return (
     <div>
@@ -78,11 +61,13 @@ const ProductList = () => {
             filteredProducts.map((product) => (
               <div
                 className="col-lg-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center mb-4"
-                key={product._id}
+                key={product.id}
               >
                 <ProductCard product={product} onAddToCart={handleItemCart} />
               </div>
             ))
+          ) : Products.length === 0 ? (
+            <div className="text-center">Loading products...</div>
           ) : (
             <div className="text-center">No products found.</div>
           )}

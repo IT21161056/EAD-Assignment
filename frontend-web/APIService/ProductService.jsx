@@ -16,6 +16,9 @@ class ProductService {
   deleteVenderProduct(productId) {
     return axiosAPI.delete(`/products/${productId}`);
   }
+  getAllProducts(){
+    return axiosAPI.get(`/products`)
+  }
 }
 
 export default new ProductService();
