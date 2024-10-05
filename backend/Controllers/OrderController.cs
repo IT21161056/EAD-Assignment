@@ -99,5 +99,13 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("items")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetAllOrdersWithItems()
+        {
+            var orders = await _orderService.GetAllOrdersWithItemsAsync();
+            return Ok(orders);
+        }
+
+
     }
 }

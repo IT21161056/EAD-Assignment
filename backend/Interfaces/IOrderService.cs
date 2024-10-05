@@ -13,7 +13,7 @@ namespace backend.Interfaces
         Task DeleteOrderAsync(string id);
         Task<IEnumerable<OrderItemDto>> GetSubOrdersByVendorIdAsync(string vendorId);
         Task<OrderItemDto> UpdateOrderItemAsync(UpdateOrderItemDto updateOrderItemDto);
-
+        Task<IEnumerable<OrderDto>> GetAllOrdersWithItemsAsync();
 
     }
 }

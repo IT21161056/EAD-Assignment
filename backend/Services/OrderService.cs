@@ -182,5 +182,11 @@ namespace backend.Services
             };
         }
 
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersWithItemsAsync()
+        {
+            return await _orderRepository.GetAllOrdersWithItemsAsync();
+        }
+
+
     }
 }
