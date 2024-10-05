@@ -31,10 +31,23 @@ namespace backend.Models
 
         public required string VendorCity {get; set;}
 
+        public bool IsActive {get; set;} = false;
+
+        public string HashedPassword {get; set;}
+
         public List<string> Products {get; set;} = new List<string>();
 
         [BsonElement("CustomerFeedback")]
         public List<CustomerFeedback> Feedbacks {get; set;} = new List<CustomerFeedback>();
+
+            // Implementing Deconstruct method
+        public void Deconstruct(out string id, out string vendorName, out string vendorEmail, out bool isActive)
+        {
+            id = Id;
+            vendorName = VendorName;
+            vendorEmail = VendorEmail;
+            isActive = IsActive;
+        }
     }
 }
 

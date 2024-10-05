@@ -34,6 +34,9 @@ const MainNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
+              <Nav.Link href="/vendor/register" className="mx-2">
+                Connect With Us
+              </Nav.Link>
               <Nav.Link href="/" className="mx-2">
                 Product Listing
               </Nav.Link>
