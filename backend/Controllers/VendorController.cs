@@ -14,9 +14,10 @@ namespace backend.Controllers
     [ApiController] // Automatic model validation enabled
     // [Authorize(Roles = "Administrator")]
 
-    public class VendorController(VendorService vendorService) : ControllerBase
+    public class VendorController(VendorService vendorService, EmailService emailService) : ControllerBase
     {
         private readonly VendorService _vendorService = vendorService;
+        private readonly EmailService _emailService = emailService;
 
     // Get all Vendors
 
@@ -32,6 +33,7 @@ namespace backend.Controllers
             VendorPhone = v.VendorPhone,
             VendorAddress = v.VendorAddress,
             VendorCity = v.VendorCity,
+            IsActive = v.IsActive,
             Products = v.Products,
             Feedbacks = v.Feedbacks
         });
@@ -57,6 +59,7 @@ namespace backend.Controllers
             VendorPhone = vendor.VendorPhone,
             VendorAddress = vendor.VendorAddress,
             VendorCity = vendor.VendorCity,
+            IsActive = vendor.IsActive,
             Products = vendor.Products,
             Feedbacks = vendor.Feedbacks
         };
@@ -107,19 +110,20 @@ namespace backend.Controllers
 
         if(updatedVendor == null) return NotFound();
 
-        var updatedVendorDTO = new VendorDTO
-        {
-            Id = updatedVendor.Id,
-            VendorName = updatedVendor.VendorName,
-            VendorEmail = updatedVendor.VendorEmail,
-            VendorPhone = updatedVendor.VendorPhone,
-            VendorAddress = updatedVendor.VendorAddress,
-            VendorCity = updatedVendor.VendorCity,
-            Products = updatedVendor.Products,
-            Feedbacks = updatedVendor.Feedbacks
-        };
+        // var updatedVendorDTO = new VendorDTO
+        // {
+        //     Id = updatedVendor.Id,
+        //     VendorName = updatedVendor.VendorName,
+        //     VendorEmail = updatedVendor.VendorEmail,
+        //     VendorPhone = updatedVendor.VendorPhone,
+        //     VendorAddress = updatedVendor.VendorAddress,
+        //     VendorCity = updatedVendor.VendorCity,
+        //     IsActive = updatedVendor.IsActive,
+        //     Products = updatedVendor.Products,
+        //     Feedbacks = updatedVendor.Feedbacks
+        // };
 
-        return Ok(updatedVendorDTO);  
+        return Ok(updatedVendor);  
     }
 
     // Delete existing Vendor
@@ -138,6 +142,32 @@ namespace backend.Controllers
         return Ok(new {message = "Vendor successfully deleted!"});
     }
 
+    // [HttpPut("products/{id}")]
+
+    // public async Task<ActionResult> UpdateVendorProducts(string id, UpdateVendorDTO updateVendorDTO)
+    // {
+    //     if(id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
+
+    //     if(!ModelState.IsValid) return BadRequest(ModelState);
+
+    //     var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
+
+    //     if(updatedVendor == null) return NotFound();
+    // }
+
+    // [HttpPut("feedbacks/{id}")]
+    // public async Task<ActionResult> HandleUserFeedbacks(string id, UpdateVendorDTO updateVendorDTO)
+    // {
+    //     if(id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
+
+    //     if(!ModelState.IsValid) return BadRequest(ModelState);
+
+    //     var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
+
+    //     if(updatedVendor == null) return NotFound();
+    // }
+
     }
+
 
 }

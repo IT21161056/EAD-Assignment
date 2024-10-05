@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import AddVendorModal from "../../components/ui/venodrModals/AddVendorModal";
-import APIService from "../../../APIService/APIService";
+import VendorService from "../../../APIService/VendorService";
 
 const VendorManagement = () => {
-  const [show, setShow] = useState(false);
   const [vendors, setVendors] = useState([]);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
 
+  console.log(vendors);
+
   useEffect(() => {
     const abortController = new AbortController();
 
     const fetchVendorData = async () => {
       try {
-        const response = await APIService.getAllVendors({
+        const response = await VendorService.getAllVendors({
           signal: abortController.signal,
         });
         setVendors(response.data);
@@ -37,102 +36,117 @@ const VendorManagement = () => {
     };
   }, []);
 
-  console.log(">>.", vendors);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const filterVendors = vendors.filter((vendorElement) => {
-    const {
-      vendorName = "",
-      vendorEmail = "",
-      vendorAddress = "",
-      vendorCity = "",
-    } = vendorElement;
+    const { vendorName = "", vendorEmail = "" } = vendorElement;
 
     const lowerCaseQuery = searchQuery.toLowerCase();
 
     return (
       vendorName.toLowerCase().includes(lowerCaseQuery) ||
-      vendorEmail.toLowerCase().includes(lowerCaseQuery) ||
-      vendorAddress.toLowerCase().includes(lowerCaseQuery) ||
-      vendorCity.toLowerCase().includes(lowerCaseQuery)
+      vendorEmail.toLowerCase().includes(lowerCaseQuery)
     );
   });
 
-  const navigateToUpdate = () => {
-    navigate(`/dashboard/updatevendor`);
+  const navigateToUpdate = (id) => {
+    navigate(`/dashboard/updatevendor/${id}`);
   };
 
-  const deleteExistingVendor = () => {};
+  const deleteExistingVendor = async (id) => {
+    try {
+      const response = await VendorService.deleteVendor(id);
 
-  console.log("???>", vendors);
+      if (response.status === 200 || response.status === 204) {
+        const updatedList = vendors.filter((item) => id !== item.id);
+        setVendors(updatedList);
+      } else {
+        throw new Error("Failed to delete vendor on the server");
+      }
+    } catch (error) {
+      setError("Error deleting the Vendor...");
+      console.log("Error deleting paticular Vendor!", error);
+    }
+  };
+
+  console.log(">>>>", vendors);
 
   return (
-    <div>
-      <div className="container mt-5">
-        <div className="d-flex align-items-center justify-content-between mb-4">
-          <h4>Vendor Management</h4>
-          <Button variant="primary" onClick={handleShow}>
-            Add New Vendor
-          </Button>
-        </div>
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search vendors..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <table className="table table-hover text-center">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Mobile</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filterVendors.map((venodrDta, index) => {
-              return (
-                <tr key={index}>
-                  <td>{venodrDta.vendorName}</td>
-                  <td>{venodrDta.vendorEmail}</td>
-                  <td>{venodrDta.vendorPhone}</td>
-                  <td>{venodrDta.vendorAddress}</td>
-                  <td>{venodrDta.vendorCity}</td>
-                  <td>
-                    <i
-                      className="bi bi-pencil-square m-1"
-                      style={{
-                        cursor: "pointer",
-                        color: "blue",
-                        fontSize: "24px",
-                      }}
-                      onClick={navigateToUpdate}
-                    ></i>
-                    <i
-                      className="bi bi-trash m-1"
-                      style={{
-                        cursor: "pointer",
-                        color: "red",
-                        fontSize: "24px",
-                      }}
-                      onClick={handleShow}
-                    ></i>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <AddVendorModal show={show} handleClose={handleClose} />
+    <div className="container mt-5">
+      <div className="d-flex align-items-center mb-4">
+        <h4 className="text-center">Vendor Management</h4>
       </div>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search vendors..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      <table className="table table-hover text-center">
+        <thead className="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody className="table-light">
+          {filterVendors.map((vendorDta, index) => {
+            return (
+              <tr key={index}>
+                <td>{vendorDta.vendorName}</td>
+                <td>{vendorDta.vendorEmail}</td>
+                <td>{vendorDta.vendorPhone}</td>
+                <td>{vendorDta.vendorAddress}</td>
+                <td>{vendorDta.vendorCity}</td>
+                <td>
+                  {vendorDta.isActive ? (
+                    <button
+                      className="btn btn-primary"
+                      style={{ fontSize: "0.8rem", pointerEvents: "none" }}
+                    >
+                      Registered
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-danger"
+                      disabled
+                      style={{ fontSize: "0.8rem", pointerEvents: "none" }}
+                    >
+                      Un-registered
+                    </button>
+                  )}
+                </td>
+                <td>
+                  <i
+                    className="bi bi-pencil-square m-1"
+                    style={{
+                      cursor: "pointer",
+                      color: "blue",
+                      fontSize: "24px",
+                    }}
+                    onClick={() => navigateToUpdate(vendorDta.id)}
+                  ></i>
+                  <i
+                    className="bi bi-trash m-1"
+                    style={{
+                      cursor: "pointer",
+                      color: "red",
+                      fontSize: "24px",
+                    }}
+                    onClick={() => deleteExistingVendor(vendorDta.id)}
+                  ></i>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

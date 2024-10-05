@@ -2,14 +2,17 @@ using backend.DTOs;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using BCrypt.Net;
+using backend.Utilities;
 
 namespace backend.Services
 {
     // Constructor dependency injection
-    public class VendorService(IVendorRepository vendorRepository)
+    public class VendorService(IVendorRepository vendorRepository, EmailService emailService)
     {
         // _vendorReopository Can only be set in constructor and not changed afterward
         private readonly IVendorRepository _vendorReopository = vendorRepository;
+        private readonly EmailService _emailService = emailService;
 
         // Get All Vendors
 
@@ -28,6 +31,7 @@ namespace backend.Services
                     VendorPhone = vendor.VendorPhone,
                     VendorAddress = vendor.VendorAddress,
                     VendorCity = vendor.VendorCity,
+                    IsActive = vendor.IsActive,
                     Products = vendor.Products,
                     Feedbacks = vendor.Feedbacks
                 });
@@ -50,6 +54,7 @@ namespace backend.Services
                 VendorPhone = vendor.VendorPhone,
                 VendorAddress = vendor.VendorAddress,
                 VendorCity = vendor.VendorCity,
+                IsActive = vendor.IsActive,
                 Products = vendor.Products,
                 Feedbacks = vendor.Feedbacks
             };
@@ -70,6 +75,7 @@ namespace backend.Services
                 VendorPhone = createVendorDTO.VendorPhone,
                 VendorAddress = createVendorDTO.VendorAddress,
                 VendorCity = createVendorDTO.VendorCity,
+                IsActive = createVendorDTO.IsActive,
                 Products = new List<string>(),
                 Feedbacks = new List<CustomerFeedback>()
             };
@@ -86,6 +92,7 @@ namespace backend.Services
                 VendorPhone = createdVendor.VendorPhone,
                 VendorAddress = createdVendor.VendorAddress,
                 VendorCity = createdVendor.VendorCity,
+                IsActive = createdVendor.IsActive,
                 Products = createdVendor.Products,
                 Feedbacks = createdVendor.Feedbacks,
             };
@@ -106,12 +113,46 @@ namespace backend.Services
                 VendorPhone = updateVendorDTO.VendorPhone,
                 VendorAddress = updateVendorDTO.VendorAddress,
                 VendorCity = updateVendorDTO.VendorCity,
+                IsActive = updateVendorDTO.IsActive,
                 Products = updateVendorDTO.Products,
                 Feedbacks = updateVendorDTO.Feedbacks,
 
             };
 
-            var updatedVendor = await _vendorReopository.UpdateVendorAsync(vendor);
+            var (updatedVendor, wasInactive) = await _vendorReopository.UpdateVendorAsync(vendor);
+
+            // Send email if Vendor is activated
+            // if(!updateVendorDTO.IsActive && updatedVendor.IsActive)
+            if(wasInactive)
+            {
+                string newPassword = PasswordGenerator.GenerateRandomPassword();
+                vendor.HashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+                var emailDto = new EmailDTO
+                {
+                    ToEmail = updatedVendor.VendorEmail,
+                    Subject = "Your Account Has Been Activated",
+                    Body = $@"
+                        <h1>Hello {updatedVendor.VendorName},</h1>
+                        <h3>Your account has been activated.</h3>
+                        <p><b>Username:</b> {updatedVendor.VendorEmail}<br>
+                        <b>Password:</b> {newPassword}</p>
+                        <p>You can log in using the following link:</p>
+                        <p><a href='http://localhost:5173/login'>Login to your account</a></p>
+                        <p>Best regards,<br>E-com</p>"
+                };
+
+                try
+                {
+                    await _emailService.SendEmailAsync(emailDto);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to send email to {updatedVendor.VendorEmail}. Error: {ex.Message}");
+
+                    throw new Exception("Vendor details updated but failed to send activation email. Please contact support.");
+                }
+            }
 
             // Map updated vendor to VendorDTO to response
 
@@ -123,6 +164,7 @@ namespace backend.Services
                 VendorPhone = updatedVendor.VendorPhone,
                 VendorAddress = updatedVendor.VendorAddress,
                 VendorCity = updatedVendor.VendorCity,
+                IsActive = updatedVendor.IsActive,
                 Products = updatedVendor.Products,
                 Feedbacks = updatedVendor.Feedbacks,
             };
