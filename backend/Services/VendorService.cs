@@ -21,7 +21,7 @@ namespace backend.Services
             var vendorsResult = await _vendorReopository.GetAllVendorsAsync();
 
             var vendorDtos = new List<VendorDTO>();
-            foreach(var vendor in vendorsResult)
+            foreach (var vendor in vendorsResult)
             {
                 vendorDtos.Add(new VendorDTO
                 {
@@ -44,7 +44,7 @@ namespace backend.Services
         public async Task<VendorDTO> GetVendorByIdDTOAsync(string Id)
         {
             var vendor = await _vendorReopository.GetVendorByIdAsync(Id);
-            if(vendor == null) return null;
+            if (vendor == null) return null;
 
             var vendorDTO = new VendorDTO
             {
@@ -67,7 +67,7 @@ namespace backend.Services
         public async Task<VendorDTO> CreateVendorDTOAsync(CreateVendorDTO createVendorDTO)
         {
             // This needed because repository layer works with actual Vendor Model
-            
+
             var vendor = new Vendor
             {
                 VendorName = createVendorDTO.VendorName,
@@ -79,7 +79,7 @@ namespace backend.Services
                 Products = new List<string>(),
                 Feedbacks = new List<CustomerFeedback>()
             };
-            
+
             var createdVendor = await _vendorReopository.CreateVendorAsync(vendor);
 
             // Then map the vendor model to vendor dto to pass it to vendor controller
@@ -103,7 +103,7 @@ namespace backend.Services
 
         public async Task<VendorDTO> UpdateVendorDTOAsync(UpdateVendorDTO updateVendorDTO)
         {
-            if(string.IsNullOrEmpty(updateVendorDTO.Id)) throw new ArgumentException("Invalid Id");
+            if (string.IsNullOrEmpty(updateVendorDTO.Id)) throw new ArgumentException("Invalid Id");
 
             var vendor = new Vendor
             {
@@ -123,7 +123,7 @@ namespace backend.Services
 
             // Send email if Vendor is activated
             // if(!updateVendorDTO.IsActive && updatedVendor.IsActive)
-            if(wasInactive)
+            if (wasInactive)
             {
                 string newPassword = PasswordGenerator.GenerateRandomPassword();
                 vendor.HashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
@@ -157,7 +157,7 @@ namespace backend.Services
             // Map updated vendor to VendorDTO to response
 
             return new VendorDTO
-            {   
+            {
                 Id = updatedVendor.Id,
                 VendorName = updatedVendor.VendorName,
                 VendorEmail = updatedVendor.VendorEmail,
@@ -172,7 +172,18 @@ namespace backend.Services
 
         // Deleting a paticular Vendor
 
-        public  Task DeleteVendorDTOAsync(string id) => _vendorReopository.DeleteVendorAsync(id);
-        
+        public Task DeleteVendorDTOAsync(string id) => _vendorReopository.DeleteVendorAsync(id);
+        public async Task AddFeedbackToVendorAsync(string vendorId, CustomerFeedback feedback)
+        {
+            if (string.IsNullOrEmpty(vendorId))
+                throw new ArgumentException("Invalid Vendor Id!");
+
+            if (feedback == null)
+                throw new ArgumentNullException(nameof(feedback));
+
+            await _vendorReopository.AddFeedbackToVendorAsync(vendorId, feedback);
+        }
+
+
     }
 }
