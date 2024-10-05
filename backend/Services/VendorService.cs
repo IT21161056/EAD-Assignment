@@ -132,7 +132,14 @@ namespace backend.Services
                 {
                     ToEmail = updatedVendor.VendorEmail,
                     Subject = "Your Account Has Been Activated",
-                    Body = $"Hello {updatedVendor.VendorName},\n\nYour account has been activated.\nUsername: {updatedVendor.VendorEmail}\nPassword: {newPassword}\n\nBest regards,\nE-com"
+                    Body = $@"
+                        <h1>Hello {updatedVendor.VendorName},</h1>
+                        <h3>Your account has been activated.</h3>
+                        <p><b>Username:</b> {updatedVendor.VendorEmail}<br>
+                        <b>Password:</b> {newPassword}</p>
+                        <p>You can log in using the following link:</p>
+                        <p><a href='http://localhost:5173/login'>Login to your account</a></p>
+                        <p>Best regards,<br>E-com</p>"
                 };
 
                 try

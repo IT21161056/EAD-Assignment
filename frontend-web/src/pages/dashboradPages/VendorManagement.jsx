@@ -9,6 +9,8 @@ const VendorManagement = () => {
 
   const navigate = useNavigate();
 
+  console.log(vendors);
+
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -51,9 +53,14 @@ const VendorManagement = () => {
 
   const deleteExistingVendor = async (id) => {
     try {
-      await APIService.deleteVendor(id);
-      const updatedList = vendors.filter((item) => id !== item.id);
-      setVendors(updatedList);
+      const response = await VendorService.deleteVendor(id);
+
+      if (response.status === 200 || response.status === 204) {
+        const updatedList = vendors.filter((item) => id !== item.id);
+        setVendors(updatedList);
+      } else {
+        throw new Error("Failed to delete vendor on the server");
+      }
     } catch (error) {
       setError("Error deleting the Vendor...");
       console.log("Error deleting paticular Vendor!", error);
@@ -89,30 +96,29 @@ const VendorManagement = () => {
           </tr>
         </thead>
         <tbody className="table-light">
-          {filterVendors.map((venodrDta, index) => {
+          {filterVendors.map((vendorDta, index) => {
             return (
               <tr key={index}>
-                <td>{venodrDta.vendorName}</td>
-                <td>{venodrDta.vendorEmail}</td>
-                <td>{venodrDta.vendorPhone}</td>
-                <td>{venodrDta.vendorAddress}</td>
-                <td>{venodrDta.vendorCity}</td>
+                <td>{vendorDta.vendorName}</td>
+                <td>{vendorDta.vendorEmail}</td>
+                <td>{vendorDta.vendorPhone}</td>
+                <td>{vendorDta.vendorAddress}</td>
+                <td>{vendorDta.vendorCity}</td>
                 <td>
-                  {venodrDta.isActive ? (
+                  {vendorDta.isActive ? (
                     <button
                       className="btn btn-primary"
-                      diabled
                       style={{ fontSize: "0.8rem", pointerEvents: "none" }}
                     >
-                      Active
+                      Registered
                     </button>
                   ) : (
                     <button
                       className="btn btn-danger"
-                      diabled
+                      disabled
                       style={{ fontSize: "0.8rem", pointerEvents: "none" }}
                     >
-                      In-active
+                      Un-registered
                     </button>
                   )}
                 </td>
@@ -124,7 +130,7 @@ const VendorManagement = () => {
                       color: "blue",
                       fontSize: "24px",
                     }}
-                    onClick={() => navigateToUpdate(venodrDta.id)}
+                    onClick={() => navigateToUpdate(vendorDta.id)}
                   ></i>
                   <i
                     className="bi bi-trash m-1"
@@ -133,7 +139,7 @@ const VendorManagement = () => {
                       color: "red",
                       fontSize: "24px",
                     }}
-                    onClick={() => deleteExistingVendor(venodrDta.id)}
+                    onClick={() => deleteExistingVendor(vendorDta.id)}
                   ></i>
                 </td>
               </tr>

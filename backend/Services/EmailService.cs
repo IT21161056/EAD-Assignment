@@ -26,12 +26,12 @@ namespace backend.Services
         public async Task SendEmailAsync(EmailDTO emailDto)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Your Name", _fromEmail));
+            message.From.Add(new MailboxAddress("E-com", _fromEmail));
             message.To.Add(new MailboxAddress("", emailDto.ToEmail));
             message.Subject = emailDto.Subject;
 
             // Create the email body
-            message.Body = new TextPart("plain")
+            message.Body = new TextPart("html")
             {
                 Text = emailDto.Body
             };

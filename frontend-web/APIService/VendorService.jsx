@@ -12,15 +12,17 @@ class VendorService {
     return axios.get(`${BASE_URL}/api/vendor/${id}`, config);
   }
 
-  addVendor() {}
+  addVendor(vendor) {
+    return axios.post(`${BASE_URL}/api/vendor`, vendor);
+  }
 
   updateVendorDetails(id, venodr) {
     return axios.put(`${BASE_URL}/api/vendor/${id}`, venodr);
   }
 
-  updateVendorStatus() {
-    return axios.put(`${BASE_URL}/api/vendor/${id}`);
-  }
+  // updateVendorStatus() {
+  //   return axios.put(`${BASE_URL}/api/vendor/${id}`);
+  // }
 
   deleteVendor(id) {
     return axios.delete(`${BASE_URL}/api/vendor/${id}`);
