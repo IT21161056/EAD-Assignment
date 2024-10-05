@@ -127,10 +127,10 @@ const Order = () => {
             </div>
           ) : (
             orders?.length > 0 && orders?.map((order, index) => (
-              <Card style={{ maxWidth: '35rem', marginTop: '1rem', border: '1px solid grey' }} key={index}>
+              <Card style={{ maxWidth: '30rem', marginTop: '1rem', border: '1px solid grey' }} key={index}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                   <div style={{ border: '1px solid grey', borderRadius: '5px', maxWidth: '200px' }}>
-                    <Card.Img src="https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/plp/phones-20230509/nova-series/nova12-i.png" />
+                    <Card.Img src={order.imageUrl} />
                   </div>
                   <div>
                     <Card.Body>

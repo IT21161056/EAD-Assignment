@@ -13,6 +13,8 @@ namespace backend.DTOs
         public string VendorName { get; set; }
         public string FulfillmentStatus { get; set; }
         public decimal Amount { get; set; }  // Changed from double? to decimal
+        public string ShippingAddress { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
     public class UpdateOrderItemDto
@@ -26,6 +28,7 @@ namespace backend.DTOs
         public string VendorName { get; set; }
         public string FulfillmentStatus { get; set; }
         public decimal Amount { get; set; }
+        public string ShippingAddress { get; set; }
     }
 
     // You might want to add this DTO for creating new OrderItems
@@ -39,5 +42,7 @@ namespace backend.DTOs
         public string VendorName { get; set; }
         public string FulfillmentStatus { get; set; }
         public decimal Amount { get; set; }
+        public string ShippingAddress { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

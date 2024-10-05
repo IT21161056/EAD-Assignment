@@ -25,6 +25,7 @@ namespace backend.DTOs
         public decimal TotalAmount { get; set; }
         public string MobileNumber { get; set; }
         public string UserName { get; set; }
+        public DateTime CreatedAt { get; set; }
         public List<CreateOrderItemDto> OrderItems { get; set; }  // Changed from List<string> OrderItemsIds
     }
 

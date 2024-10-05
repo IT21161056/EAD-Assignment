@@ -14,7 +14,7 @@ const ProductCart = () => {
 
   const incrementQuantity = (productId) => {
     const updatedQuantity = cartData.map((item) =>
-      item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
     );
     setCartData(updatedQuantity);
     localStorage.setItem("localCartData", JSON.stringify(updatedQuantity));
@@ -22,7 +22,7 @@ const ProductCart = () => {
 
   const decrementQuantity = (productId) => {
     const updatedQuantity = cartData.map((item) =>
-      item.productId === productId && item.quantity > 1
+      item.id === productId && item.quantity > 1
         ? { ...item, quantity: item.quantity - 1 }
         : item
     );
@@ -44,7 +44,7 @@ const ProductCart = () => {
   }, [cartData]);
 
   const removeProductFromCart = (productId) => {
-    const updatedCart = cartData.filter((item) => item.productId !== productId);
+    const updatedCart = cartData.filter((item) => item.id !== productId);
     setCartData(updatedCart);
     localStorage.setItem("localCartData", JSON.stringify(updatedCart));
 
@@ -94,7 +94,7 @@ const ProductCart = () => {
                       fontSize: "24px",
                       marginRight: "10px",
                     }}
-                    onClick={() => decrementQuantity(item.productId)}
+                    onClick={() => decrementQuantity(item.id)}
                   ></i>
                   {item.quantity}
                   <i
@@ -104,7 +104,7 @@ const ProductCart = () => {
                       fontSize: "24px",
                       marginLeft: "10px",
                     }}
-                    onClick={() => incrementQuantity(item.productId)}
+                    onClick={() => incrementQuantity(item.id)}
                   ></i>
                 </td>
                 <td>
@@ -115,7 +115,7 @@ const ProductCart = () => {
                       color: "red",
                       fontSize: "24px",
                     }}
-                    onClick={() => removeProductFromCart(item.productId)}
+                    onClick={() => removeProductFromCart(item.id)}
                   ></i>
                 </td>
               </tr>
