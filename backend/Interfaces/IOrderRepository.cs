@@ -15,6 +15,8 @@ namespace backend.Interfaces
         Task<List<string>> AddOrderItemsAsync(List<OrderItem> orderItems);
         Task<IEnumerable<OrderItemDto>> GetSubOrdersByVendorIdAsync(string vendorId);
         Task<OrderItem> UpdateOrderItemAsync(UpdateOrderItemDto updateOrderItemDto);
+        Task<IEnumerable<OrderDto>> GetAllOrdersWithItemsAsync();
+
 
     }
 }

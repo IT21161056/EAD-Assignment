@@ -75,17 +75,17 @@ const VendorListings = () => {
         ) : (
           orders?.length > 0 && orders.map((order, index) => (
             <Card
-              style={{ maxWidth: '35rem', marginTop: '1rem', border: '1px solid grey' }}
+              style={{ maxWidth: '29rem', marginTop: '1rem', border: '1px solid grey' }}
               key={index}
             >
               <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ border: '1px solid grey', borderRadius: '5px', maxWidth: '200px' }}>
-                  {/* <Card.Img src="https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/plp/phones-20230509/nova-series/nova12-i.png" /> */}
-                </div>
+                {/* <div style={{ border: '1px solid grey', borderRadius: '5px', maxWidth: '200px' }}>
+                  <Card.Img src="https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/plp/phones-20230509/nova-series/nova12-i.png" />
+                </div> */}
                 <div>
                   <Card.Body>
                     <Card.Title>{order.productName}</Card.Title>
-                    <div style={{ display: 'flex', gap: '10rem' }}>
+                    <div style={{ display: 'flex', gap: '18.25rem' }}>
                       <Card.Text className="mb-1 text-muted">Order Id:</Card.Text>
                       <Card.Text className="mb-1 text-muted">{order.id.slice(0, 6)}</Card.Text>
                     </div>
@@ -96,7 +96,7 @@ const VendorListings = () => {
                     </div>
 
 
-                    <div className='d-flex align-items-baseline justify-content-between mt-3 gap-5'>
+                    <div className='d-flex align-items-baseline justify-content-between mt-1 gap-5'>
                       <Card.Subtitle className="mb-2 text-muted">Ordered Date</Card.Subtitle>
                       <Card.Subtitle className="mb-2 text-muted">{formatDate(order.createdAt)}</Card.Subtitle>
                     </div>
@@ -105,13 +105,19 @@ const VendorListings = () => {
                       <Card.Subtitle className="mb-2 text-muted">Vendor Name</Card.Subtitle>
                       <Card.Subtitle className="mb-1 text-muted">{order.vendorName}</Card.Subtitle>
                     </div>
+                    
+                    <div className='d-flex align-items-center justify-content-between gap-5 mt-0'>
+                      <Card.Subtitle className="mb-2 text-muted">Shipping address</Card.Subtitle>
+                      <Card.Subtitle className="mb-2 text-muted">{order.shippingAddress}</Card.Subtitle>
+                    </div>
 
                     <div className='d-flex align-items-center justify-content-between gap-5 mt-2'>
                       <Card.Subtitle className="mb-2 text-muted">Total Amount</Card.Subtitle>
                       <Card.Subtitle className="mb-2 text-muted">Rs.{order.productPrice}.00</Card.Subtitle>
                     </div>
 
-                    <div className='d-flex align-items-baseline justify-content-between mt-2 gap-5'>
+                    <div className='d-flex align-items-baseline mt-2 gap-3'>
+                    <Card.Subtitle className="mb-2 text-black">Edit Order Status: </Card.Subtitle>
                       <Dropdown className='text-center'>
                         <Dropdown.Toggle
                           variant='info'
@@ -131,7 +137,6 @@ const VendorListings = () => {
                           </Badge>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          {/* <Dropdown.Item onClick={() => handleStatusChanging(order, "Pending")}>mark as Pending</Dropdown.Item> */}
                           <Dropdown.Item onClick={() => handleStatusChanging(order, "Delivered")}>mark as Delivered</Dropdown.Item>
                           <Dropdown.Item onClick={() => handleStatusChanging(order, "PartiallyDelivered")}>mark as PartiallyDelivered</Dropdown.Item>
                         </Dropdown.Menu>

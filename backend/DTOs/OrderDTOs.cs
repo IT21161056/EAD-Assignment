@@ -15,6 +15,7 @@ namespace backend.DTOs
         public string MobileNumber { get; set; }
         public string UserName { get; set; }
         public List<string> OrderItemIds { get; set; }
+        public List<OrderItemDto> OrderItems { get; set; }
     }
 
     public class CreateOrderDto

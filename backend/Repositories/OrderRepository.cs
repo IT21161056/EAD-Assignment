@@ -149,5 +149,54 @@ namespace backend.Repositories
             return orderItem;
         }
 
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersWithItemsAsync()
+        {
+            // Get all orders
+            var orders = await _orders.Find(FilterDefinition<Order>.Empty).ToListAsync();
+
+            // Extract all order item IDs from all orders
+            var orderItemIds = orders.SelectMany(order => order.OrderItemIds).ToList();
+
+            // Retrieve the actual order items from the database using their IDs
+            var filter = Builders<OrderItem>.Filter.In(orderItem => orderItem.Id, orderItemIds);
+            var orderItems = await _orderItems.Find(filter).ToListAsync();
+
+            // Map the orders and their corresponding order items to OrderDto
+            var orderDtos = orders.Select(order => new OrderDto
+            {
+                Id = order.Id,
+                UserId = order.UserId,
+                CreatedAt = order.CreatedAt,
+                Status = order.Status,
+                OrderId = order.OrderId,
+                TotalAmount = order.TotalAmount,
+                UserName = order.UserName,
+                MobileNumber = order.MobileNumber,
+                ShippingAddress = order.ShippingAddress,
+                OrderItemIds = order.OrderItemIds,
+                OrderItems = order.OrderItemIds
+                    .Select(itemId => orderItems.FirstOrDefault(item => item.Id == itemId))
+                    .Where(item => item != null)
+                    .Select(item => new OrderItemDto
+                    {
+                        Id = item.Id,
+                        ProductId = item.ProductId,
+                        ProductName = item.ProductName,
+                        ProductPrice = item.ProductPrice,
+                        Quantity = item.Quantity,
+                        VendorId = item.VendorId,
+                        CreatedAt = item.CreatedAt,
+                        VendorName = item.VendorName,
+                        FulfillmentStatus = item.FulfillmentStatus,
+                        ShippingAddress = item.ShippingAddress,
+                        Amount = item.Amount
+                    })
+                    .ToList()
+            }).ToList();
+
+            return orderDtos;
+        }
+
+
     }
 }
