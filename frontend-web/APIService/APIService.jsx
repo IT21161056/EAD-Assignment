@@ -34,6 +34,13 @@ class APIService {
     return axios.put(`${BASE_URL}/api/vendor/${id}`, vendorObj);
   }
 
+  getVendorOrders(vendorId){
+    return axios.get(`${BASE_URL}/api/order/vendor/${vendorId}/suborders`)
+  }
+
+  updateOrderStatus(orderId,orderObj){
+    return axios.put(`${BASE_URL}/api/order/orderitems/${orderId}`,orderObj)
+  }
 }
 
 export default new APIService();

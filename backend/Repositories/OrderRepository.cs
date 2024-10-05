@@ -1,3 +1,4 @@
+using backend.DTOs;
 using backend.Interfaces;
 using backend.Models;
 using MongoDB.Driver;
@@ -85,6 +86,68 @@ namespace backend.Repositories
             return orderItems.Select(item => item.Id.ToString()).ToList();
         }
 
+        public async Task<IEnumerable<OrderItemDto>> GetSubOrdersByVendorIdAsync(string vendorId)
+        {
+            // Get all orders from the database
+            var orders = await _orders.Find(FilterDefinition<Order>.Empty).ToListAsync();
+
+            // Extract all order item IDs from all orders
+            var orderItemIds = orders
+                .SelectMany(order => order.OrderItemIds) // Assuming `OrderItemIds` is the list of order item IDs
+                .ToList();
+
+            // Retrieve the actual order items from the database using their IDs
+            var filter = Builders<OrderItem>.Filter.In(orderItem => orderItem.Id, orderItemIds);
+            var orderItems = await _orderItems.Find(filter).ToListAsync(); // Assuming `_orderItems` is your order item collection
+
+            // Filter order items by the given vendorId
+            var subOrders = orderItems
+                .Where(orderItem => orderItem.VendorId == vendorId)
+                .Select(orderItem => new OrderItemDto
+                {
+                    Id = orderItem.Id,
+                    ProductId = orderItem.ProductId,
+                    ProductName = orderItem.ProductName,
+                    ProductPrice = orderItem.ProductPrice,
+                    Quantity = orderItem.Quantity,
+                    VendorId = orderItem.VendorId,
+                    CreatedAt = orderItem.CreatedAt,
+                    VendorName = orderItem.VendorName,
+                    FulfillmentStatus = orderItem.FulfillmentStatus,
+                    ShippingAddress = orderItem.ShippingAddress,
+                    Amount = orderItem.Amount
+                })
+                .ToList();
+
+            return subOrders;
+        }
+
+        public async Task<OrderItem> UpdateOrderItemAsync(UpdateOrderItemDto updateOrderItemDto)
+        {
+            if (updateOrderItemDto == null)
+                throw new ArgumentNullException(nameof(updateOrderItemDto));
+
+            var filter = Builders<OrderItem>.Filter.Eq(item => item.Id, updateOrderItemDto.Id);
+            var orderItem = await _orderItems.Find(filter).FirstOrDefaultAsync();
+
+            if (orderItem == null)
+                throw new KeyNotFoundException($"OrderItem with ID {updateOrderItemDto.Id} not found.");
+
+            // Update the order item fields
+            orderItem.ProductId = updateOrderItemDto.ProductId;
+            orderItem.ProductName = updateOrderItemDto.ProductName;
+            orderItem.ProductPrice = updateOrderItemDto.ProductPrice;
+            orderItem.Quantity = updateOrderItemDto.Quantity;
+            orderItem.VendorId = updateOrderItemDto.VendorId;
+            orderItem.VendorName = updateOrderItemDto.VendorName;
+            orderItem.FulfillmentStatus = updateOrderItemDto.FulfillmentStatus;
+            orderItem.Amount = updateOrderItemDto.Amount;
+            orderItem.ShippingAddress = updateOrderItemDto.ShippingAddress;
+
+            // Replace the updated order item in the collection
+            await _orderItems.ReplaceOneAsync(filter, orderItem);
+            return orderItem;
+        }
 
     }
 }

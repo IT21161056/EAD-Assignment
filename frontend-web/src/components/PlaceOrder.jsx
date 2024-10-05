@@ -40,8 +40,10 @@ const PlaceOrder = ({ show, handleClose, totalAmount }) => {
                 ...rest,
                 ProductId: id,
                 fulfillmentStatus: 'Pending',
+                ShippingAddress: shippingAddress
             };
         });
+        console.log(updatedObj)
         return updatedObj;
     }
 

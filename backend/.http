@@ -115,3 +115,6 @@ Content-Type: application/json
   ]
 } 
 
+##
+GET Vendor Orders
+GET http://localhost:5050/api/order/vendor/66fff2bfe110a42348af40a8/suborders

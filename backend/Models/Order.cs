@@ -97,6 +97,14 @@ namespace backend.Models
 
         [BsonElement("amount")]
         public decimal Amount { get; set; }  // Changed from double? to decimal for consistency
+        
+        [Required]
+        [BsonElement("shippingAddress")]
+        public string ShippingAddress { get; set; }
+
+        [BsonElement("createdAt")]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 
     public enum OrderStatus
@@ -111,6 +119,7 @@ namespace backend.Models
     {
         Pending,
         Delivered,
+        PartiallyDelivered,
         Shipped,
     }
 }

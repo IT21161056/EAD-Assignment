@@ -65,5 +65,39 @@ namespace backend.Controllers
                 return StatusCode(500, new { Error = "An unexpected error occurred.", Details = ex.Message });
             }
         }
+
+        [HttpGet("vendor/{vendorId}/suborders")]
+        public async Task<ActionResult<IEnumerable<OrderItemDto>>> GetSubOrdersByVendor(string vendorId)
+        {
+            var subOrders = await _orderService.GetSubOrdersByVendorIdAsync(vendorId);
+
+            if (subOrders == null || !subOrders.Any())
+            {
+                return NotFound(new { Error = $"No sub-order items found for vendor ID {vendorId}." });
+            }
+
+            return Ok(subOrders);
+        }
+
+        [HttpPut("orderitems/{id}")]
+        public async Task<ActionResult<OrderItemDto>> UpdateOrderItem(string id, [FromBody] UpdateOrderItemDto updateOrderItemDto)
+        {
+            if (id != updateOrderItemDto.Id) return BadRequest("OrderItem ID mismatch.");
+
+            try
+            {
+                var updatedOrderItem = await _orderService.UpdateOrderItemAsync(updateOrderItemDto);
+                return Ok(updatedOrderItem);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = "An unexpected error occurred.", Details = ex.Message });
+            }
+        }
+
     }
 }
