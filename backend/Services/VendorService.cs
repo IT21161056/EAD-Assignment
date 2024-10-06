@@ -8,11 +8,17 @@ using backend.Utilities;
 namespace backend.Services
 {
     // Constructor dependency injection
-    public class VendorService(IVendorRepository vendorRepository, EmailService emailService)
+    public class VendorService
     {
         // _vendorReopository Can only be set in constructor and not changed afterward
-        private readonly IVendorRepository _vendorReopository = vendorRepository;
-        private readonly EmailService _emailService = emailService;
+        private readonly IVendorRepository _vendorReopository ;
+        private readonly EmailService _emailService;
+
+        public VendorService(IVendorRepository vendorRepository, EmailService emailService)
+        {
+            _vendorReopository = vendorRepository;
+            _emailService =emailService;
+        }
 
         // Get All Vendors
 
