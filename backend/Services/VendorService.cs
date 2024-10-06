@@ -39,7 +39,6 @@ namespace backend.Services
                     VendorCity = vendor.VendorCity,
                     IsActive = vendor.IsActive,
                     Products = vendor.Products,
-                    Feedbacks = vendor.Feedbacks
                 });
             }
             return vendorDtos;
@@ -62,7 +61,6 @@ namespace backend.Services
                 VendorCity = vendor.VendorCity,
                 IsActive = vendor.IsActive,
                 Products = vendor.Products,
-                Feedbacks = vendor.Feedbacks
             };
 
             return vendorDTO;
@@ -84,7 +82,6 @@ namespace backend.Services
                 HashedPassword = PasswordHelper.HashPassword(createVendorDTO.HashedPassword),
                 IsActive = createVendorDTO.IsActive,
                 Products = new List<string>(),
-                Feedbacks = new List<CustomerFeedback>()
             };
 
             var createdVendor = await _vendorReopository.CreateVendorAsync(vendor);
@@ -101,7 +98,6 @@ namespace backend.Services
                 VendorCity = createdVendor.VendorCity,
                 IsActive = createdVendor.IsActive,
                 Products = createdVendor.Products,
-                Feedbacks = createdVendor.Feedbacks,
             };
 
         }
@@ -143,7 +139,6 @@ namespace backend.Services
                 VendorCity = vendor.VendorCity,
                 IsActive = vendor.IsActive,
                 Products = vendor.Products,
-                Feedbacks = vendor.Feedbacks
             };
 
         }
@@ -213,17 +208,6 @@ namespace backend.Services
         // Deleting a paticular Vendor
 
         public Task DeleteVendorDTOAsync(string id) => _vendorReopository.DeleteVendorAsync(id);
-        public async Task AddFeedbackToVendorAsync(string vendorId, CustomerFeedback feedback)
-        {
-            if (string.IsNullOrEmpty(vendorId))
-                throw new ArgumentException("Invalid Vendor Id!");
-
-            if (feedback == null)
-                throw new ArgumentNullException(nameof(feedback));
-
-            await _vendorReopository.AddFeedbackToVendorAsync(vendorId, feedback);
-        }
-
-
+        
     }
 }

@@ -35,7 +35,6 @@ public class VendorController : ControllerBase
             VendorCity = v.VendorCity,
             IsActive = v.IsActive,
             Products = v.Products,
-            Feedbacks = v.Feedbacks
         });
 
         return Ok(vendorDtos);
@@ -61,7 +60,6 @@ public class VendorController : ControllerBase
             VendorCity = vendor.VendorCity,
             IsActive = vendor.IsActive,
             Products = vendor.Products,
-            Feedbacks = vendor.Feedbacks
         };
 
         return Ok(singleVendorDTO);
@@ -135,28 +133,5 @@ public class VendorController : ControllerBase
         //return NoContent(); // 204 successfully deleted, no response body
 
         return Ok(new { message = "Vendor successfully deleted!" });
-    }
-
-
-    [HttpPost("{vendorId}/feedback")]
-    public async Task<IActionResult> AddFeedback(string vendorId, [FromBody] CustomerFeedback feedback)
-    {
-        try
-        {
-            await _vendorService.AddFeedbackToVendorAsync(vendorId, feedback);
-            return Ok("Feedback added successfully.");
-        }
-        catch (KeyNotFoundException)
-        {
-            return NotFound("Vendor not found.");
-        }
-        catch (ApplicationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Internal server error: " + ex.Message);
-        }
     }
 }

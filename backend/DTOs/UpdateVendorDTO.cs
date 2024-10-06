@@ -32,6 +32,5 @@ namespace backend.DTOs
 
         public List<string> Products {get; set;} = new List<string>();
 
-        public List<CustomerFeedback> Feedbacks {get; set;} = new List<CustomerFeedback>();
     }
 }

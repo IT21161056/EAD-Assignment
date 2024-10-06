@@ -150,29 +150,31 @@ namespace backend.Repositories
 
         }
 
-        public async Task AddFeedbackToVendorAsync(string vendorId, CustomerFeedback feedback)
-        {
-            if (string.IsNullOrEmpty(vendorId))
-                throw new ArgumentException("Invalid Vendor Id!");
+        // Add Feedback to Vendor
 
-            if (feedback == null)
-                throw new ArgumentNullException(nameof(feedback));
+        // public async Task AddFeedbackToVendorAsync(string vendorId, CustomerFeedback feedback)
+        // {
+        //     if (string.IsNullOrEmpty(vendorId))
+        //         throw new ArgumentException("Invalid Vendor Id!");
 
-            var filter = Builders<Vendor>.Filter.Eq(v => v.Id, vendorId);
-            var update = Builders<Vendor>.Update.Push(v => v.Feedbacks, feedback);
+        //     if (feedback == null)
+        //         throw new ArgumentNullException(nameof(feedback));
 
-            try
-            {
-                var result = await _vendor.UpdateOneAsync(filter, update);
+        //     var filter = Builders<Vendor>.Filter.Eq(v => v.Id, vendorId);
+        //     var update = Builders<Vendor>.Update.Push(v => v.Feedbacks, feedback);
 
-                if (result.ModifiedCount == 0)
-                    throw new KeyNotFoundException("Vendor not found or feedback not added");
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Error occurred while adding feedback to vendor", ex);
-            }
-        }
+        //     try
+        //     {
+        //         var result = await _vendor.UpdateOneAsync(filter, update);
+
+        //         if (result.ModifiedCount == 0)
+        //             throw new KeyNotFoundException("Vendor not found or feedback not added");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         throw new ApplicationException("Error occurred while adding feedback to vendor", ex);
+        //     }
+        // }
 
     }
 }

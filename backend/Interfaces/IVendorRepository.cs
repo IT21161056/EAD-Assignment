@@ -18,7 +18,5 @@ namespace backend.Interfaces
         Task ActivateVendorAsync(string id);
 
         Task DeleteVendorAsync(string id);
-        Task AddFeedbackToVendorAsync(string vendorId, CustomerFeedback feedback);
-
     }
 }
