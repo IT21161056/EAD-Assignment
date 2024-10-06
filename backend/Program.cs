@@ -69,6 +69,11 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<VendorService>();
 builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 
+// Register Notification services
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+
 builder.Services.AddAuthorization();
 
 // Add controllers or other services
