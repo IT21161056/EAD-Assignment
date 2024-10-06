@@ -13,7 +13,11 @@ class VendorService {
   }
 
   addVendor(vendor) {
-    return axios.post(`${BASE_URL}/api/vendor`, vendor);
+    return axios.post(`${BASE_URL}/api/vendor/register`, vendor);
+  }
+
+  loginVendor(credentials) {
+    return axios.post(`${BASE_URL}/api/vendor/login`, credentials);
   }
 
   updateVendorDetails(id, venodr) {
