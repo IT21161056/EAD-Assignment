@@ -13,10 +13,13 @@ namespace backend.Interfaces
 
         Task<Vendor> CreateVendorAsync(Vendor vendor);
 
-        Task<(Vendor updatedVendor, bool wasInactive)> UpdateVendorAsync(Vendor vendor);
+        // Task<(Vendor updatedVendor, bool wasInactive)> UpdateVendorAsync(string id, Vendor vendor);
 
         Task ActivateVendorAsync(string id);
 
         Task DeleteVendorAsync(string id);
+
+        Task<Vendor> VendorUpdateAsync(Vendor vendor);
+
     }
 }

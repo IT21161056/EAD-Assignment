@@ -11,13 +11,13 @@ namespace backend.Services
     public class VendorService
     {
         // _vendorReopository Can only be set in constructor and not changed afterward
-        private readonly IVendorRepository _vendorReopository ;
+        private readonly IVendorRepository _vendorReopository;
         private readonly EmailService _emailService;
 
         public VendorService(IVendorRepository vendorRepository, EmailService emailService)
         {
             _vendorReopository = vendorRepository;
-            _emailService =emailService;
+            _emailService = emailService;
         }
 
         // Get All Vendors
@@ -144,68 +144,99 @@ namespace backend.Services
         }
 
         // Update existing Vendor
+        // public async Task<VendorDTO> UpdateVendorDTOAsync(string id, UpdateVendorDTO updateVendorDTO)
+        // {
 
-        public async Task<VendorDTO> UpdateVendorDTOAsync(UpdateVendorDTO updateVendorDTO)
+        //     var vendor = new Vendor
+        //     {
+        //         VendorName = updateVendorDTO.VendorName,
+        //         VendorEmail = updateVendorDTO.VendorEmail,
+        //         VendorPhone = updateVendorDTO.VendorPhone,
+        //         VendorAddress = updateVendorDTO.VendorAddress,
+        //         VendorCity = updateVendorDTO.VendorCity,
+        //         IsActive = updateVendorDTO.IsActive,
+
+        //     };
+
+        //     var (updatedVendor, wasInactive) = await _vendorReopository.UpdateVendorAsync(id, vendor);
+
+        //     // Send email if Vendor is activated
+        //     if (wasInactive)
+        //     {
+        //         var emailDto = new EmailDTO
+        //         {
+        //             ToEmail = updatedVendor.VendorEmail,
+        //             Subject = "Your Account Has Been Activated",
+        //             Body = $@"
+        //                 <h1>Hello {updatedVendor.VendorName},</h1>
+        //                 <h3>Your account has been activated.</h3>
+        //                 <p><b>Username:</b> {updatedVendor.VendorEmail}<br>
+        //                 <p>You can log in using the following link:</p>
+        //                 <p><a href='http://localhost:5173/vendor/login'>Login to your account</a></p>
+        //                 <p>Best regards,<br>E-com</p>"
+        //         };
+
+        //         try
+        //         {
+        //             await _emailService.SendEmailAsync(emailDto);
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             Console.WriteLine($"Failed to send email to {updatedVendor.VendorEmail}. Error: {ex.Message}");
+
+        //             throw new Exception("Vendor details updated but failed to send activation email. Please contact support.");
+        //         }
+        //     }
+
+        //     // Map updated vendor to VendorDTO to response
+
+        //     return new VendorDTO
+        //     {
+        //         Id = updatedVendor.Id,
+        //         VendorName = updatedVendor.VendorName,
+        //         VendorEmail = updatedVendor.VendorEmail,
+        //         VendorPhone = updatedVendor.VendorPhone,
+        //         VendorAddress = updatedVendor.VendorAddress,
+        //         VendorCity = updatedVendor.VendorCity,
+        //         IsActive = updatedVendor.IsActive,
+        //     };
+        // }
+
+        // Deleting a paticular Vendor
+
+        public async Task<VendorDTO> UpdateVendorAsync(string id, UpdateVendorDTO updateVendorDTO)
         {
-            if (string.IsNullOrEmpty(updateVendorDTO.Id)) throw new ArgumentException("Invalid Id");
+            // Check if the product exists
+            var existingVendor = await _vendorReopository.GetVendorByIdAsync(id);
+            if (existingVendor == null)
+            {
+                throw new KeyNotFoundException("Vendor not found.");
+            }
 
             var vendor = new Vendor
             {
-                Id = updateVendorDTO.Id,
-                VendorName = updateVendorDTO.VendorName,
-                VendorEmail = updateVendorDTO.VendorEmail,
-                VendorPhone = updateVendorDTO.VendorPhone,
-                VendorAddress = updateVendorDTO.VendorAddress,
-                VendorCity = updateVendorDTO.VendorCity,
-                IsActive = updateVendorDTO.IsActive,
-
+                Id = existingVendor.Id,
+                VendorName = updateVendorDTO.VendorName ?? existingVendor.VendorName,
+                VendorEmail = updateVendorDTO.VendorEmail ?? existingVendor.VendorEmail,
+                VendorPhone = updateVendorDTO.VendorPhone ?? existingVendor.VendorPhone,
+                VendorAddress = updateVendorDTO.VendorAddress ?? existingVendor.VendorAddress,
+                VendorCity = updateVendorDTO.VendorCity ?? existingVendor.VendorCity,
             };
 
-            var (updatedVendor, wasInactive) = await _vendorReopository.UpdateVendorAsync(vendor);
+            // Step 4: Update the product in the repository
+            var updatedProduct = await _vendorReopository.VendorUpdateAsync(vendor);
 
-            // Send email if Vendor is activated
-            if (wasInactive)
-            {
-                var emailDto = new EmailDTO
-                {
-                    ToEmail = updatedVendor.VendorEmail,
-                    Subject = "Your Account Has Been Activated",
-                    Body = $@"
-                        <h1>Hello {updatedVendor.VendorName},</h1>
-                        <h3>Your account has been activated.</h3>
-                        <p><b>Username:</b> {updatedVendor.VendorEmail}<br>
-                        <p>You can log in using the following link:</p>
-                        <p><a href='http://localhost:5173/vendor/login'>Login to your account</a></p>
-                        <p>Best regards,<br>E-com</p>"
-                };
-
-                try
-                {
-                    await _emailService.SendEmailAsync(emailDto);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Failed to send email to {updatedVendor.VendorEmail}. Error: {ex.Message}");
-
-                    throw new Exception("Vendor details updated but failed to send activation email. Please contact support.");
-                }
-            }
-
-            // Map updated vendor to VendorDTO to response
-
+            // Step 5: Return the updated product DTO
             return new VendorDTO
             {
-                Id = updatedVendor.Id,
-                VendorName = updatedVendor.VendorName,
-                VendorEmail = updatedVendor.VendorEmail,
-                VendorPhone = updatedVendor.VendorPhone,
-                VendorAddress = updatedVendor.VendorAddress,
-                VendorCity = updatedVendor.VendorCity,
-                IsActive = updatedVendor.IsActive,
+                Id = updatedProduct.Id,
+                VendorName = updatedProduct.VendorName,
+                VendorEmail = updatedProduct.VendorEmail,
+                VendorAddress = updatedProduct.VendorAddress,
+                VendorPhone = updatedProduct.VendorPhone,
+                VendorCity = updatedProduct.VendorCity
             };
         }
-
-        // Deleting a paticular Vendor
 
         public Task DeleteVendorDTOAsync(string id) => _vendorReopository.DeleteVendorAsync(id);
         
