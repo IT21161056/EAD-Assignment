@@ -25,6 +25,7 @@ import VendorLogin from "../pages/dashboradPages/VendorLogin";
 //public
 import LoginForm from "../pages/public/login";
 import RegisterForm from "../pages/public/register";
+import CustomerFeedbacks from "../pages/dashboradPages/CustomerFeedbacks";
 
 const Router = () => {
   const ProtectedRoute = ({ children }) => {
@@ -57,6 +58,7 @@ const Router = () => {
       <Route path="csr" element={<CSRDashboard />} />
       <Route path="vendor" element={<VendorDashboard />} />
       <Route path="vendorOrder" element={<VendorOrders />} />
+      <Route path="feedbacks" element={<CustomerFeedbacks />} />
       <Route path="products" element={<ProductManagement />} />
       <Route path="manage-products" element={<ProductListingDashboard />} />
 

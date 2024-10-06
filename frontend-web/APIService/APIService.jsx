@@ -20,30 +20,16 @@ class APIService {
     return axios.delete(`${BASE_URL}/api/order/${id}`);
   }
 
-  // Vendor end points
-
-  getAllVendors(config = {}) {
-    return axios.get(`${BASE_URL}/api/vendor`, config);
+  getVendorOrders(vendorId) {
+    return axios.get(`${BASE_URL}/api/order/vendor/${vendorId}/suborders`);
   }
 
-  addVendor() {}
-
-  getVendorById() {}
-
-  updateVendor(id,vendorObj){
-    return axios.put(`${BASE_URL}/api/vendor/${id}`, vendorObj);
+  updateOrderStatus(orderId, orderObj) {
+    return axios.put(`${BASE_URL}/api/order/orderitems/${orderId}`, orderObj);
   }
 
-  getVendorOrders(vendorId){
-    return axios.get(`${BASE_URL}/api/order/vendor/${vendorId}/suborders`)
-  }
-
-  updateOrderStatus(orderId,orderObj){
-    return axios.put(`${BASE_URL}/api/order/orderitems/${orderId}`,orderObj)
-  }
-
-  getOrderWithItems(){
-    return axios.get(`${BASE_URL}/api/order/items`)
+  getOrderWithItems() {
+    return axios.get(`${BASE_URL}/api/order/items`);
   }
 }
 
