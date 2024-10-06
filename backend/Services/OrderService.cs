@@ -73,6 +73,7 @@ namespace backend.Services
                 Quantity = itemDto.Quantity,
                 VendorId = itemDto.VendorId,
                 VendorName = itemDto.VendorName,
+                ShippingAddress = itemDto.ShippingAddress,
                 FulfillmentStatus = itemDto.FulfillmentStatus ?? FulfillmentStatusEnum.Pending.ToString(),
                 Amount = itemDto.Amount
             }).ToList();
@@ -157,5 +158,35 @@ namespace backend.Services
 
             await _orderRepository.DeleteOrderAsync(id);
         }
+        public async Task<IEnumerable<OrderItemDto>> GetSubOrdersByVendorIdAsync(string vendorId)
+        {
+            return await _orderRepository.GetSubOrdersByVendorIdAsync(vendorId);
+        }
+
+        public async Task<OrderItemDto> UpdateOrderItemAsync(UpdateOrderItemDto updateOrderItemDto)
+        {
+            var updatedOrderItem = await _orderRepository.UpdateOrderItemAsync(updateOrderItemDto);
+
+            return new OrderItemDto
+            {
+                Id = updatedOrderItem.Id,
+                ProductId = updatedOrderItem.ProductId,
+                ProductName = updatedOrderItem.ProductName,
+                ProductPrice = updatedOrderItem.ProductPrice,
+                Quantity = updatedOrderItem.Quantity,
+                VendorId = updatedOrderItem.VendorId,
+                CreatedAt = updatedOrderItem.CreatedAt,
+                VendorName = updatedOrderItem.VendorName,
+                FulfillmentStatus = updatedOrderItem.FulfillmentStatus,
+                Amount = updatedOrderItem.Amount
+            };
+        }
+
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersWithItemsAsync()
+        {
+            return await _orderRepository.GetAllOrdersWithItemsAsync();
+        }
+
+
     }
 }

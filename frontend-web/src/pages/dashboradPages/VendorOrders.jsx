@@ -15,7 +15,7 @@ const VendorListings = () => {
   const fetchVendorOrder = async () => {
     try {
       setLoading(true);
-      const response = await APIService.getAllOrders();
+      const response = await APIService.getVendorOrders('66fff290e110a42348af40a4');
       setOrders(response.data);
     } catch (err) {
       console.error('Error fetching vendor orders', err);
@@ -37,10 +37,11 @@ const VendorListings = () => {
     return `${year}.${month}.${day}`;
   }
 
-  const handleStatusChanging = async (orderObj, status) => {
+  const handleStatusChanging = async (orderObj, fulfillmentStatus) => {
     try {
-      const updatedObj = { ...orderObj, status };
-      const response = await APIService.updateOrderDetails(updatedObj, updatedObj.id);
+      const updatedObj = { ...orderObj, fulfillmentStatus };
+      console.log(updatedObj)
+      const response = await APIService.updateOrderStatus(updatedObj.id,updatedObj);
 
       if (response.status === 200) {
         toast.success("Order Status Update Success!", {
@@ -51,7 +52,7 @@ const VendorListings = () => {
         // Update order status locally after successful update
         setOrders(prevOrders =>
           prevOrders.map(order =>
-            order.id === orderObj.id ? { ...order, status } : order
+            order.id === orderObj.id ? { ...order, fulfillmentStatus } : order
           )
         );
       }
@@ -64,6 +65,7 @@ const VendorListings = () => {
     }
   };
 
+  console.log(orders)
   return (
     <Container>
       <div className='mt-4'>
@@ -73,39 +75,49 @@ const VendorListings = () => {
         ) : (
           orders?.length > 0 && orders.map((order, index) => (
             <Card
-              style={{ maxWidth: '35rem', marginTop: '1rem', border: '1px solid grey' }}
+              style={{ maxWidth: '29rem', marginTop: '1rem', border: '1px solid grey' }}
               key={index}
             >
               <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ border: '1px solid grey', borderRadius: '5px', maxWidth: '200px' }}>
+                {/* <div style={{ border: '1px solid grey', borderRadius: '5px', maxWidth: '200px' }}>
                   <Card.Img src="https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/plp/phones-20230509/nova-series/nova12-i.png" />
-                </div>
+                </div> */}
                 <div>
                   <Card.Body>
-                    <Card.Title>{order.product}</Card.Title>
-                    <div style={{ display: 'flex', gap: '10rem' }}>
+                    <Card.Title>{order.productName}</Card.Title>
+                    <div style={{ display: 'flex', gap: '18.25rem' }}>
                       <Card.Text className="mb-1 text-muted">Order Id:</Card.Text>
-                      <Card.Text className="mb-1 text-muted">{order.orderId}</Card.Text>
+                      <Card.Text className="mb-1 text-muted">{order.id.slice(0, 6)}</Card.Text>
                     </div>
 
-                    {order.orderItems?.map((item, index) => (
-                      <div key={index} className='d-flex align-items-center justify-content-between mt-2 gap-5'>
-                        <Card.Subtitle className="mb-1 text-muted">{item.productName}</Card.Subtitle>
-                        <Card.Subtitle className="mb-1 text-muted">{item.vendorName}</Card.Subtitle>
-                        <Card.Subtitle className="mb-1 text-muted">x&nbsp;&nbsp;{item.quantity}</Card.Subtitle>
-                      </div>
-                    ))}
+                    <div key={index} className='d-flex align-items-center justify-content-between mt-2 gap-5'>
+                      <Card.Subtitle className="mb-1 text-muted">{order.productName}</Card.Subtitle>
+                      <Card.Subtitle className="mb-1 text-muted">x&nbsp;&nbsp;{order.quantity}</Card.Subtitle>
+                    </div>
 
-                    <div className='d-flex align-items-baseline justify-content-between mt-3 gap-5'>
+
+                    <div className='d-flex align-items-baseline justify-content-between mt-1 gap-5'>
                       <Card.Subtitle className="mb-2 text-muted">Ordered Date</Card.Subtitle>
                       <Card.Subtitle className="mb-2 text-muted">{formatDate(order.createdAt)}</Card.Subtitle>
                     </div>
-                    <div className='d-flex align-items-center justify-content-between gap-5 mt-2'>
-                      <Card.Subtitle className="mb-2 text-muted">Total Amount</Card.Subtitle>
-                      <Card.Subtitle className="mb-2 text-muted">Rs.{order.totalAmount}.00</Card.Subtitle>
+
+                    <div className='d-flex align-items-baseline justify-content-between  gap-5'>
+                      <Card.Subtitle className="mb-2 text-muted">Vendor Name</Card.Subtitle>
+                      <Card.Subtitle className="mb-1 text-muted">{order.vendorName}</Card.Subtitle>
+                    </div>
+                    
+                    <div className='d-flex align-items-center justify-content-between gap-5 mt-0'>
+                      <Card.Subtitle className="mb-2 text-muted">Shipping address</Card.Subtitle>
+                      <Card.Subtitle className="mb-2 text-muted">{order.shippingAddress}</Card.Subtitle>
                     </div>
 
-                    <div className='d-flex align-items-baseline justify-content-between mt-2 gap-5'>
+                    <div className='d-flex align-items-center justify-content-between gap-5 mt-2'>
+                      <Card.Subtitle className="mb-2 text-muted">Total Amount</Card.Subtitle>
+                      <Card.Subtitle className="mb-2 text-muted">Rs.{order.productPrice}.00</Card.Subtitle>
+                    </div>
+
+                    <div className='d-flex align-items-baseline mt-2 gap-3'>
+                    <Card.Subtitle className="mb-2 text-black">Edit Order Status: </Card.Subtitle>
                       <Dropdown className='text-center'>
                         <Dropdown.Toggle
                           variant='info'
@@ -115,18 +127,16 @@ const VendorListings = () => {
                         >
                           <Badge
                             bg={
-                              order.status === "Pending" ? "info" :
-                              order.status === "Delivered" ? "success" :
-                              order.status === "PartiallyDelivered" ? "warning" :
-                              order.status === "Cancelled" ? "danger" : "secondary"
+                              order.fulfillmentStatus === "Pending" ? "info" :
+                                order.fulfillmentStatus === "Delivered" ? "success" :
+                                  order.fulfillmentStatus === "PartiallyDelivered" ? "warning" : ''
                             }
                             className='p-1'
                           >
-                            {order.status} <i className="fa-solid fa-angle-down"></i>
+                            {order.fulfillmentStatus} <i className="fa-solid fa-angle-down"></i>
                           </Badge>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          {/* <Dropdown.Item onClick={() => handleStatusChanging(order, "Pending")}>mark as Pending</Dropdown.Item> */}
                           <Dropdown.Item onClick={() => handleStatusChanging(order, "Delivered")}>mark as Delivered</Dropdown.Item>
                           <Dropdown.Item onClick={() => handleStatusChanging(order, "PartiallyDelivered")}>mark as PartiallyDelivered</Dropdown.Item>
                         </Dropdown.Menu>
