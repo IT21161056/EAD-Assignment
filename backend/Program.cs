@@ -8,6 +8,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
+using AspNetCore.Identity.MongoDbCore.Models;
+using MongoDB.Bson;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +30,11 @@ builder.Services.AddScoped<IMongoDatabase>(provider =>
     provider.GetService<IMongoClient>().GetDatabase(mongoSettings.DatabaseName));
 
 // Configure MongoDB Identity
-builder.Services.AddIdentity<User, Role>(options =>
+builder.Services.AddIdentity<User, MongoIdentityRole<ObjectId>>(options =>
 {
     options.User.RequireUniqueEmail = true;
 })
-.AddMongoDbStores<User, Role, Guid>(mongoSettings.ConnectionString, mongoSettings.DatabaseName)
+.AddMongoDbStores<User, MongoIdentityRole<ObjectId>, ObjectId>(mongoSettings.ConnectionString, mongoSettings.DatabaseName)
 .AddDefaultTokenProviders();
 
 // JWT configuration
