@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import CancelConfirmModal from "../components/CancelConfirmModal";
 import APIService from "../../APIService/APIService";
 import { ToastContainer, toast } from "react-toastify";
+import NotificationService from "../../APIService/NotificationService"
 
 const OrderCancelationRequest = () => {
   const [orders, setOrders] = useState([]);
@@ -12,12 +13,28 @@ const OrderCancelationRequest = () => {
   const [show, setShow] = useState(false);
   const [comment, setComment] = useState("");
   const [selectedObj, setSelectedObj] = useState();
+  const [senderId, setSenderId] = useState("6702222f947bc258340f9f01")
+  const [title, setTitle] = useState("Your Order Deleted Successfully")
+
+  console.log(filterOrders)
 
   const handleClose = () => setShow(false);
   const handleShow = (orderObj) => {
     setShow(true);
     setSelectedObj(orderObj);
   };
+
+  //notify user
+
+  const sendNotification = async (notifyObj) => {
+    try {
+      console.log('object',notifyObj)
+      const response = await NotificationService.addNotification(notifyObj)
+      console.log(response)
+    } catch (err) {
+      console.error('Error send notification', err)
+    }
+  }
 
   //handle delete order and send a comment
   const confirmCancel = async () => {
@@ -29,6 +46,14 @@ const OrderCancelationRequest = () => {
           position: "top-right",
         });
         fetchOrders();
+        const notifyObj = {
+          customerId: selectedObj?.userId,
+          senderId,
+          title,
+          description: comment
+        }
+      
+        await sendNotification(notifyObj)
       }
     } catch (err) {
       console.error("Error deleting order");
