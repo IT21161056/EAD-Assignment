@@ -105,26 +105,22 @@ public class VendorController : ControllerBase
     // Update existing Vendor
 
     [HttpPut("{id}")]
-
     public async Task<ActionResult<VendorDTO>> UpdateVendor(string id, [FromBody] UpdateVendorDTO updateVendorDTO)
     {
-
-        if (id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
 
         // Check model binding and validation succeed
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
+        var updatedVendor = await _vendorService.UpdateVendorAsync(id, updateVendorDTO);
 
         if (updatedVendor == null) return NotFound();
 
         return Ok(updatedVendor);
     }
 
+
     // Delete existing Vendor
-
     [HttpDelete("{id}")]
-
     public async Task<ActionResult> DeleteVendor(string id)
     {
         var result = await _vendorService.GetVendorByIdDTOAsync(id);

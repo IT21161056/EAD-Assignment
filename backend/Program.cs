@@ -100,6 +100,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+    await next.Invoke();
+});
+
 app.MapGet("/", () => "Hello World!");
 
 // Add endpoints, middleware, etc.
