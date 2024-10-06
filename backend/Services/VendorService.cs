@@ -101,7 +101,6 @@ namespace backend.Services
         }
 
         // Login for Vendor
-
         public async Task<VendorDTO> LoginAsync(VendorLoginDTO vendorLoginDTO)
         {
             var vendor = await _vendorReopository.GetVendorByEmailAsync(vendorLoginDTO.VendorEmail);
@@ -140,7 +139,7 @@ namespace backend.Services
                 Products = vendor.Products,
                 Feedbacks = vendor.Feedbacks
             };
-            
+
         }
 
         // Update existing Vendor
@@ -164,7 +163,7 @@ namespace backend.Services
             var (updatedVendor, wasInactive) = await _vendorReopository.UpdateVendorAsync(vendor);
 
             // Send email if Vendor is activated
-            if(wasInactive)
+            if (wasInactive)
             {
                 var emailDto = new EmailDTO
                 {
