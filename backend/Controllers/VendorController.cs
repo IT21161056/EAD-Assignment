@@ -1,11 +1,9 @@
 using backend.Interfaces;
 using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using backend.Models;
 using backend.Services;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Http.HttpResults;
+
 
 namespace backend.Controllers
 {
@@ -78,20 +76,29 @@ namespace backend.Controllers
 
         if(newVendor != null)
         {
-            // var createdVendorDTO = new VendorDTO
-            // {
-            //     Id = newVendor.Id,
-            //     VendorName = newVendor.VendorName,
-            //     VendorEmail = newVendor.VendorEmail,
-            //     VendorPhone = newVendor.VendorPhone,
-            //     VendorAddress = newVendor.VendorAddress,
-            //     VendorCity = newVendor.VendorCity
-            // };
-
             return CreatedAtAction(nameof(GetVendorById), new { id = newVendor.Id }, newVendor);
         }
 
         return BadRequest("Vendor creation failed!");
+    }
+
+    // Login for vendor
+
+    [HttpPost("login")]
+
+    public async Task<ActionResult> Login([FromBody] VendorLoginDTO vendorLoginDTO)
+    {
+        if(!ModelState.IsValid) return BadRequest(ModelState);
+
+       try
+       {
+            var vendorDto = await _vendorService.LoginAsync(vendorLoginDTO);
+            return Ok(vendorDto);
+       }
+       catch(UnauthorizedAccessException ex)
+       {
+            return Unauthorized(ex.Message);
+       }
     }
 
     // Update existing Vendor
@@ -109,19 +116,6 @@ namespace backend.Controllers
         var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
 
         if(updatedVendor == null) return NotFound();
-
-        // var updatedVendorDTO = new VendorDTO
-        // {
-        //     Id = updatedVendor.Id,
-        //     VendorName = updatedVendor.VendorName,
-        //     VendorEmail = updatedVendor.VendorEmail,
-        //     VendorPhone = updatedVendor.VendorPhone,
-        //     VendorAddress = updatedVendor.VendorAddress,
-        //     VendorCity = updatedVendor.VendorCity,
-        //     IsActive = updatedVendor.IsActive,
-        //     Products = updatedVendor.Products,
-        //     Feedbacks = updatedVendor.Feedbacks
-        // };
 
         return Ok(updatedVendor);  
     }
@@ -141,31 +135,6 @@ namespace backend.Controllers
 
         return Ok(new {message = "Vendor successfully deleted!"});
     }
-
-    // [HttpPut("products/{id}")]
-
-    // public async Task<ActionResult> UpdateVendorProducts(string id, UpdateVendorDTO updateVendorDTO)
-    // {
-    //     if(id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
-
-    //     if(!ModelState.IsValid) return BadRequest(ModelState);
-
-    //     var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
-
-    //     if(updatedVendor == null) return NotFound();
-    // }
-
-    // [HttpPut("feedbacks/{id}")]
-    // public async Task<ActionResult> HandleUserFeedbacks(string id, UpdateVendorDTO updateVendorDTO)
-    // {
-    //     if(id != updateVendorDTO.Id) return BadRequest("Id mismatch!");
-
-    //     if(!ModelState.IsValid) return BadRequest(ModelState);
-
-    //     var updatedVendor = await _vendorService.UpdateVendorDTOAsync(updateVendorDTO);
-
-    //     if(updatedVendor == null) return NotFound();
-    // }
 
     }
 

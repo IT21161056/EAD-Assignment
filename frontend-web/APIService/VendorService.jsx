@@ -16,6 +16,10 @@ class VendorService {
     return axios.post(`${BASE_URL}/api/vendor`, vendor);
   }
 
+  loginVendor(credentials) {
+    return axios.post(`${BASE_URL}/api/vendor/login`, credentials);
+  }
+
   updateVendorDetails(id, venodr) {
     return axios.put(`${BASE_URL}/api/vendor/${id}`, venodr);
   }

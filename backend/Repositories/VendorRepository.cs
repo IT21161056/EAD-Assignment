@@ -27,7 +27,7 @@ namespace backend.Repositories{
             }
         }
 
-        // Get a particular Vendor
+        // Get a particular Vendor by Id
         public async Task<Vendor> GetVendorByIdAsync(string id)
         {
 
@@ -46,6 +46,12 @@ namespace backend.Repositories{
                 throw new ApplicationException("Error fetching Vendor with this particular Id", ex);
             }
             
+        }
+
+        public async Task<Vendor> GetVendorByEmailAsync(string vendorEmail)
+        {
+            var filter = Builders<Vendor>.Filter.Eq(v => v.VendorEmail, vendorEmail);
+            return await _vendor.Find(filter).FirstOrDefaultAsync();
         }
 
         // Add a new Vendor
