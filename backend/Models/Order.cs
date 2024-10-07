@@ -20,7 +20,6 @@ namespace backend.Models
 
         [Required]
         [BsonElement("userId")]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string UserId { get; set; }
 
         [BsonElement("createdAt")]
@@ -83,7 +82,6 @@ namespace backend.Models
 
         [Required]
         [BsonElement("vendorId")]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string VendorId { get; set; }
 
         [Required]
@@ -97,7 +95,7 @@ namespace backend.Models
 
         [BsonElement("amount")]
         public decimal Amount { get; set; }  // Changed from double? to decimal for consistency
-        
+
         [Required]
         [BsonElement("shippingAddress")]
         public string ShippingAddress { get; set; }
