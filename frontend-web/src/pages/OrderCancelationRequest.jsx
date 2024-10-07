@@ -13,10 +13,15 @@ const OrderCancelationRequest = () => {
   const [show, setShow] = useState(false);
   const [comment, setComment] = useState("");
   const [selectedObj, setSelectedObj] = useState();
-  const [senderId, setSenderId] = useState("6702222f947bc258340f9f01")
+  const [senderId, setSenderId] = useState("")
   const [title, setTitle] = useState("Your Order Deleted Successfully")
 
   console.log(filterOrders)
+
+  const getUserId = () => {
+    const user = JSON.parse(localStorage.getItem("user"))
+    setSenderId(user.userId)
+  }
 
   const handleClose = () => setShow(false);
   const handleShow = (orderObj) => {
@@ -28,7 +33,7 @@ const OrderCancelationRequest = () => {
 
   const sendNotification = async (notifyObj) => {
     try {
-      console.log('object',notifyObj)
+      console.log('object', notifyObj)
       const response = await NotificationService.addNotification(notifyObj)
       console.log(response)
     } catch (err) {
@@ -52,7 +57,7 @@ const OrderCancelationRequest = () => {
           title,
           description: comment
         }
-      
+
         await sendNotification(notifyObj)
       }
     } catch (err) {
@@ -81,6 +86,7 @@ const OrderCancelationRequest = () => {
   // Execute API calls once when component mounts
   useEffect(() => {
     fetchOrders();
+    getUserId()
   }, []);
 
   return (
