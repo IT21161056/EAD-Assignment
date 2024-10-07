@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import AuthService from "../../../APIService/AuthService";
+import { useAuth } from "../../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  const { setAuthData } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const response = await AuthService.login({ email, password });
 
     if (response.status === 200) {
-      localStorage.setItem("authToken", response.data.token);
+      setAuthData(response.data);
+      setIsLoading(false);
+      navigate("/");
     }
   };
 
@@ -54,7 +62,19 @@ const LoginForm = () => {
                   variant="primary"
                   type="submit"
                   className="w-100 py-2 mt-3"
+                  disabled={isLoading}
                 >
+                  {isLoading && (
+                    <div className="me-2">
+                      <l-ring
+                        size="20"
+                        stroke="2"
+                        bg-opacity="0"
+                        speed="2"
+                        color="white"
+                      />
+                    </div>
+                  )}
                   Log In
                 </Button>
               </Form>
