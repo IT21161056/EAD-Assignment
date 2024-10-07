@@ -13,11 +13,13 @@ const UserManagements = () => {
   const [filteredUser, setFilteredUsers] = useState([])
   console.log(users)
 
+  //fetch all users
   const getAllUsers = async () => {
     const response = await UserService.getAllUsers()
     setUsers(response?.data)
   }
 
+  //change status of the user
   const handleAccountStatus = async (selectedObj, status) => {
     try {
       const updatedUserObj = {
@@ -38,6 +40,7 @@ const UserManagements = () => {
    
   }
 
+  //filter users only
   const filteredUsers = () => {
     const filtered = users?.filter((user) => user.role == "user")
     setFilteredUsers(filtered)
