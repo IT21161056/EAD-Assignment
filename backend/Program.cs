@@ -31,11 +31,11 @@ builder.Services.AddScoped<IMongoDatabase>(provider =>
     provider.GetService<IMongoClient>().GetDatabase(mongoSettings.DatabaseName));
 
 // Configure MongoDB Identity
-builder.Services.AddIdentity<User, MongoIdentityRole<ObjectId>>(options =>
+builder.Services.AddIdentity<User, MongoIdentityRole<string>>(options =>
 {
     options.User.RequireUniqueEmail = true;
 })
-.AddMongoDbStores<User, MongoIdentityRole<ObjectId>, ObjectId>(mongoSettings.ConnectionString, mongoSettings.DatabaseName)
+.AddMongoDbStores<User, MongoIdentityRole<string>, string>(mongoSettings.ConnectionString, mongoSettings.DatabaseName)
 .AddDefaultTokenProviders();
 
 // JWT configuration
@@ -70,8 +70,6 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<EmailService>();
-builder.Services.AddScoped<VendorService>();
-builder.Services.AddScoped<IVendorRepository, VendorRepository>();
 
 // Register Notification services
 builder.Services.AddScoped<INotificationService, NotificationService>();
