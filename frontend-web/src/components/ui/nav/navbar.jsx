@@ -10,8 +10,10 @@ import {
 import { useCartContext } from "../../providers/ContextProvider";
 import CartModal from "./CartModal";
 import { ShoppingBag, User } from "lucide-react";
+import { useAuth } from "../../../context/authContext";
 
 const MainNavbar = () => {
+  const { user, logout, isLoading } = useAuth();
   const { itemCount } = useCartContext();
   const [showCartModal, setShowCartModal] = useState(false);
 
@@ -94,7 +96,16 @@ const MainNavbar = () => {
                   href="/login"
                   className="d-flex align-items-center"
                 >
-                  <User size={18} className="me-2" /> Login
+                  {user ? (
+                    <span>
+                      <User size={18} className="me-2" onClick={logout} />{" "}
+                      Logout
+                    </span>
+                  ) : (
+                    <span>
+                      <User size={18} className="me-2" /> Login
+                    </span>
+                  )}
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   href="/register"
