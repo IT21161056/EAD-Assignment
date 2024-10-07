@@ -30,6 +30,7 @@ const PlaceOrder = ({ show, handleClose, totalAmount }) => {
         setOrderId(id)
     }
 
+    //execute when page loads
     useEffect(() => {
         generateOrderId()
         getUserId()

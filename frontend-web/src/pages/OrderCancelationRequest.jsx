@@ -18,19 +18,20 @@ const OrderCancelationRequest = () => {
 
   console.log(filterOrders)
 
+  //get the user object from local storage and covert to JSON 
   const getUserId = () => {
     const user = JSON.parse(localStorage.getItem("user"))
     setSenderId(user.userId)
   }
 
+  //handle modal show close
   const handleClose = () => setShow(false);
   const handleShow = (orderObj) => {
     setShow(true);
     setSelectedObj(orderObj);
   };
 
-  //notify user
-
+  //notify user after cancel the order
   const sendNotification = async (notifyObj) => {
     try {
       console.log('object', notifyObj)
