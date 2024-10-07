@@ -41,7 +41,6 @@ const ProductList = () => {
   return (
     <div className="container-fluid ">
       <div className="container-fluid mt-5">
-        {" "}
         {/* container-fluid for full width */}
         <div className="row mb-4">
           <div className="col-md-12">
@@ -57,7 +56,6 @@ const ProductList = () => {
       </div>
 
       <div className="container-fluid">
-        {" "}
         {/* container-fluid to ensure full width */}
         <div
           className="row justify-content-start w-100"
