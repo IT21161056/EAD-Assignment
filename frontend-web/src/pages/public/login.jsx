@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+} from "react-bootstrap";
 import AuthService from "../../../APIService/AuthService";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
@@ -10,18 +18,28 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const response = await AuthService.login({ email, password });
 
-    if (response.status === 200) {
-      setAuthData(response.data);
-      setIsLoading(false);
-      navigate("/");
+    try {
+      const response = await AuthService.login({ email, password });
+      if (response.status === 200) {
+        setAuthData(response.data);
+        navigate("/");
+      }
+      if (response.status === 401) {
+        setError("Invalid Credentials");
+      }
+    } catch (error) {
+      setError(error.response.data);
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -32,6 +50,15 @@ const LoginForm = () => {
       <Row className="w-100 justify-content-center">
         <Col xs={12} md={6} lg={4}>
           <Card className="shadow-lg p-4 rounded">
+            {error && (
+              <Alert
+                variant="danger"
+                onClose={() => setError(null)}
+                dismissible
+              >
+                {error}
+              </Alert>
+            )}
             <Card.Body>
               <h2 className="text-center text-primary mb-4">Login</h2>
 
@@ -63,17 +90,21 @@ const LoginForm = () => {
                   type="submit"
                   className="w-100 py-2 mt-3"
                   disabled={isLoading}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "20px",
+                    justifyContent: "center",
+                  }}
                 >
                   {isLoading && (
-                    <div className="me-2">
-                      <l-ring
-                        size="20"
-                        stroke="2"
-                        bg-opacity="0"
-                        speed="2"
-                        color="white"
-                      />
-                    </div>
+                    <l-ring
+                      size="20"
+                      stroke="2"
+                      bg-opacity="0"
+                      speed="2"
+                      color="white"
+                    />
                   )}
                   Log In
                 </Button>
