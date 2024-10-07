@@ -15,18 +15,22 @@ const UserManagements = () => {
 
   //fetch all users
   const getAllUsers = async () => {
-    const response = await UserService.getAllUsers()
-    setUsers(response?.data)
+    try {
+      const response = await UserService.getAllUsers()
+      setUsers(response?.data)
+    } catch (err) {
+      console.error('Error fetching users')
+    }
   }
 
   //change status of the user
   const handleAccountStatus = async (selectedObj, status) => {
     try {
       const updatedUserObj = {
-        ...selectedObj,status
+        ...selectedObj, status
       }
       console.log(updatedUserObj)
-      const response = await UserService.updateUserStatus(selectedObj.id,updatedUserObj)
+      const response = await UserService.updateUserStatus(selectedObj.id, updatedUserObj)
       if (response.status == 200) {
         toast.success("User status updated Success!", {
           autoClose: 250,
@@ -37,7 +41,7 @@ const UserManagements = () => {
     } catch (err) {
       console.error('Error Updating status of user')
     }
-   
+
   }
 
   //filter users only
