@@ -27,7 +27,6 @@ namespace backend.Models
         public int Stock { get; set; }
 
         [BsonElement("vendorId")]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string VendorId { get; set; }
         public string VendorName { get; set; }
 

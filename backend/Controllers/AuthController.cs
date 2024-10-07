@@ -2,6 +2,7 @@ using backend.DTOs;
 using backend.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -59,7 +60,7 @@ public class AuthController : ControllerBase
 
     [HttpPut("update/{userId}")]
     [Authorize]
-    public async Task<IActionResult> UpdateUser(Guid userId, UserUpdateDTO userUpdateDTO)
+    public async Task<IActionResult> UpdateUser(string userId, UserUpdateDTO userUpdateDTO)
     {
 
         var result = await _authService.UpdateUser(userId, userUpdateDTO);

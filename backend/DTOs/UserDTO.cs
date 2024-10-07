@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs
@@ -25,7 +24,7 @@ namespace backend.DTOs
         public string Role { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public bool IsApproved { get; set; }
     }
     public class UserLoginDTO
     {
@@ -45,4 +44,24 @@ namespace backend.DTOs
         public string Role { get; set; }
         public string Token { get; set; }
     }
+
+    public class UserUpdateDTO
+    {
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Phone { get; set; }
+        public string Role { get; set; }
+        public bool Status { get; set; }
+    }
+
+    public class CreateVendorDTO : UserRegisterDTO
+    {
+        public decimal Rank { get; set; } = 0;
+    }
+
+    public class UpdateVendorDto : UserUpdateDTO
+    {
+        public decimal Rank { get; set; }
+    }
+
 }
