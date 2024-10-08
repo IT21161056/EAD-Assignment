@@ -107,6 +107,7 @@ namespace backend.Services
                     return new UserLoginResponseDTO
                     {
                         IsSuccess = false,
+                        UserName = null,
                         Message = "Your registration is still pending admin validation. Please try again later or contact support for assistance."
                     };
                 }
@@ -117,8 +118,7 @@ namespace backend.Services
                 {
                     IsSuccess = true,
                     UserId = user.Id.ToString(),
-                    Firstname = user.Firstname,
-                    Lastname = user.Lastname,
+                    UserName = $"{user.Firstname} {user.Lastname}",
                     Role = user.Role,
                     Token = token
                 };
