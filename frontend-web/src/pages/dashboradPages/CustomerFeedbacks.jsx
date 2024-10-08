@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from "react";
 import VendorService from "../../../APIService/VendorService";
+import { useAuth } from "../../context/authContext";
 
 const CustomerFeedbacks = () => {
   const [feedbacks, setFeedbacks] = useState([]);
+  const [rating, setRating] = useState(0);
   const [error, setError] = useState(null);
 
+  const { user } = useAuth();
+
   useEffect(() => {
-    const fetchVendorData = async () => {
-      try {
-        const response = await VendorService.getCustomerFeedback();
-        setVendors(response.data);
-      } catch (error) {
-        setError("Error fetching Vendor data...");
-        console.log("Error fetching Vendor data", error);
-      }
-    };
+    if (feedbacks.length > 0) {
+      const totalRating = feedbacks.reduce(
+        (acc, feedback) => acc + feedback.rating,
+        0
+      );
+      setRating(totalRating / feedbacks.length);
+    } else {
+      setRating(0);
+    }
+  }, [feedbacks]);
+
+  const fetchVendorData = async () => {
+    try {
+      const response = await VendorService.getCustomerFeedback();
+      setFeedbacks(response.data);
+    } catch (error) {
+      setError("Error fetching Vendor data...");
+      console.log("Error fetching Vendor data", error);
+    }
+  };
+
+  useEffect(() => {
     fetchVendorData();
-  }, []);
+  }, [user]);
 
   console.log(feedbacks);
 
@@ -34,7 +51,7 @@ const CustomerFeedbacks = () => {
           <h4 className="text-primary">Average Rating</h4>
           <span>
             <h4>
-              80%
+              {rating * 10}
               <i className="bi bi-star-fill" style={{ color: "#FFD700" }}></i>
             </h4>
           </span>
