@@ -23,6 +23,7 @@ import VendorRegistration from "../pages/dashboradPages/VendorRegistration";
 import VendorLogin from "../pages/dashboradPages/VendorLogin";
 import LoginForm from "../pages/public/login";
 import RegisterForm from "../pages/public/register";
+import CustomerFeedbacks from "../pages/dashboradPages/CustomerFeedbacks";
 
 const Router = () => {
   const { user, isLoading } = useAuth();

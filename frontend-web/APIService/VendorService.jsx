@@ -30,6 +30,10 @@ class VendorService {
   deleteVendor(id) {
     return axiosAPI.delete(`/vendor/${id}`);
   }
+
+  getCustomerFeedback() {
+    return axios.get(`${BASE_URL}/api/feedback`);
+  }
 }
 
 export default new VendorService();
