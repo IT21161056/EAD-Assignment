@@ -24,6 +24,7 @@ import VendorLogin from "../pages/dashboradPages/VendorLogin";
 import LoginForm from "../pages/public/login";
 import RegisterForm from "../pages/public/register";
 import CustomerFeedbacks from "../pages/dashboradPages/CustomerFeedbacks";
+import VendorAccountManagements from "../pages/dashboradPages/VendorAccountManagements";
 
 const Router = () => {
   const { user, isLoading } = useAuth();
@@ -185,6 +186,14 @@ const Router = () => {
             <ProductListingDashboard />
           </ProtectedRoute>
         }
+      />
+      <Route
+      path="approveVendor"
+      element={
+        <ProtectedRoute>
+          <VendorAccountManagements/>
+        </ProtectedRoute>
+      }
       />
     </Routes>
   );

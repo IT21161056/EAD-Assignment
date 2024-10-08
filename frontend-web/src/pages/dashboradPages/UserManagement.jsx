@@ -24,15 +24,11 @@ const UserManagements = () => {
   }
 
   //change status of the user
-  const handleAccountStatus = async (selectedObj, status) => {
+  const handleAccountStatus = async (userId) => {
     try {
-      const updatedUserObj = {
-        ...selectedObj, status
-      }
-      console.log(updatedUserObj)
-      const response = await UserService.updateUserStatus(selectedObj.id, updatedUserObj)
+      const response = await UserService.updateUserStatus(userId)
       if (response.status == 200) {
-        toast.success("User status updated Success!", {
+        toast.success("User account activated Successfully!", {
           autoClose: 250,
           position: "top-right",
         });
@@ -85,13 +81,12 @@ const UserManagements = () => {
                 <td className='d-flex align-items-center'>
                   <Dropdown className='text-center'>
                     <Dropdown.Toggle variant='info' style={{ backgroundColor: "white" }} className='dropdown_btn' id="dropdown-basic">
-                      <Badge bg={user.status == 0 ? "danger" : "success"} className='p-1'>
-                        {user.status == 0 ? 'Deactive' : 'Active'} <i className="fa-solid fa-angle-down"></i>
+                      <Badge bg={user.isApproved == 0 ? "danger" : "success"} className='p-1'>
+                        {user.isApproved == false ? 'Deactive' : 'Active'} <i className="fa-solid fa-angle-down"></i>
                       </Badge>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => handleAccountStatus(user, "Active")}>Active</Dropdown.Item>
-                      <Dropdown.Item onClick={() => handleAccountStatus(user, "Deactive")}>Deactive</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleAccountStatus(user.id)}>Active</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </td>
