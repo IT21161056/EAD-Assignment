@@ -3,6 +3,7 @@ using backend.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using backend.Models;
 using backend.Services;
+using System;
 
 
 namespace backend.Controllers
@@ -60,7 +61,7 @@ namespace backend.Controllers
             return Ok(productDto);
         }
 
-        // Add new Feedback
+        //Add new Feedback
 
         [HttpPost]
 
@@ -81,7 +82,7 @@ namespace backend.Controllers
                     Rating = createFeedbackDTO.Rating
                 };
 
-                return CreatedAtAction(nameof(GetFeedbackById, new { id = newFeedback.FeedbackId }, createdFeedbackDto));
+                return CreatedAtAction(nameof(GetFeedbackById), new { id = newFeedback.FeedbackId }, createdFeedbackDto);
             }
 
             return  BadRequest("Feedback adding failed.");
