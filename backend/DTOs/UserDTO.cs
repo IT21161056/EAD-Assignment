@@ -63,6 +63,8 @@ namespace backend.DTOs
 
     public class UserLoginResponseDTO
     {
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; }
         public string UserId { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
