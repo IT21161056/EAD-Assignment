@@ -35,7 +35,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           onClick={() => onAddToCart(product)}
           className="mt-auto w-100"
         >
-          Add to Cart
+          View
         </Button>
       </Card.Body>
     </Card>
