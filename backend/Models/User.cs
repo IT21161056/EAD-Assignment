@@ -19,10 +19,8 @@ namespace backend.Models
         public string Lastname { get; set; }
 
         [PersonalData]
-        [BsonElement("phone")]
         public string Phone { get; set; }
 
-        [BsonElement("role")]
         public string Role { get; set; }
 
         [BsonElement("isApprove")]
