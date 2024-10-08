@@ -11,6 +11,7 @@ import {
 import AuthService from "../../../APIService/AuthService";
 import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
+import k from "../../assets/k.png";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -64,6 +65,22 @@ const LoginForm = () => {
       className="d-flex flex-column flex-grow-1 justify-content-center align-items-center bg-light"
     >
       <Row className="w-100 justify-content-center">
+        <Col
+          xs={10}
+          md={6}
+          lg={4}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <img
+            src={k}
+            alt="Vendor"
+            className="img-fluid"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+          />
+        </Col>
         <Col xs={12} md={6} lg={4}>
           <Card className="shadow-lg p-4 rounded">
             {error && (
