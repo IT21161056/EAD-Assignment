@@ -116,19 +116,22 @@ const MainNavbar = () => {
                 }
                 id="user-nav-dropdown"
               >
-                <NavDropdown.Item
-                  href="/login"
-                  className="d-flex align-items-center"
-                >
-                  <User size={18} className="me-2" /> Login
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => logout()}
-                  className="d-flex align-items-center"
-                >
-                  <User size={18} className="me-2" />
-                  Logout
-                </NavDropdown.Item>
+                {!user ? (
+                  <NavDropdown.Item
+                    href="/login"
+                    className="d-flex align-items-center"
+                  >
+                    <User size={18} className="me-2" /> Login
+                  </NavDropdown.Item>
+                ) : (
+                  <NavDropdown.Item
+                    onClick={() => logout()}
+                    className="d-flex align-items-center"
+                  >
+                    <User size={18} className="me-2" />
+                    Logout
+                  </NavDropdown.Item>
+                )}
                 <NavDropdown.Item
                   href="/register"
                   className="d-flex align-items-center"
