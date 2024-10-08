@@ -59,7 +59,7 @@ namespace backend.Controllers
         }
 
         [HttpPatch("approve/{id}")]
-        public async Task<IActionResult> ApproveVendor(string id)
+        public async Task<IActionResult> ApproveUser(string id)
         {
             try
             {
@@ -76,6 +76,32 @@ namespace backend.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
+        // // PATCH : api/user/deactivate
+        // [HttpPatch("deactivate/{id}")]
+        // public async Task<IActionResult> DeactivateUser(string id)
+        // {
+        //     if (string.IsNullOrEmpty(id))
+        //     {
+        //         return BadRequest("User ID cannot be null or empty.");
+        //     }
+
+        //     try
+        //     {
+        //         var result = await _userService.DeactivateUser(id);
+        //         if (result.Succeeded)
+        //         {
+        //             return Ok(new { message = "User deactivated successfully!" });
+        //         }
+
+        //         return BadRequest(result.Errors);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return StatusCode(500, $"Internal server error: {ex.Message}");
+        //     }
+        // }
 
 
         // GET: api/User/unApproved

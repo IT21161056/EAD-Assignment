@@ -17,6 +17,8 @@ namespace backend.Interfaces
 
         Task<IdentityResult> ApproveUser(string id);
 
+        // Task<IdentityResult> DeactivateUser(string id);
+
         Task<IEnumerable<UserDTO>> GetAllUnApprovedUsersAsync();
         Task<IEnumerable<UserDTO>> GetAllUnApprovedVendorsAsync();
     }

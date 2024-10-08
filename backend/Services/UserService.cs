@@ -1,11 +1,9 @@
-using System;
 using backend.DTOs;
 using backend.Interfaces;
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
+
 
 namespace backend.Service
 {
@@ -68,6 +66,7 @@ namespace backend.Service
 
         }
 
+        // Approve user
         public async Task<IdentityResult> ApproveUser(string id)
         {
             // Find the user by ID
@@ -100,7 +99,32 @@ namespace backend.Service
             return result;
         }
 
+        // // Deactivate user
+        // public async Task<IdentityResult> DeactivateUser(string id)
+        // {
+        //     // Find the user by ID
+        //     var user = await _userRepository.FindByIdAsync(id);
 
+        //     // Check if user exists
+        //     if (user == null)
+        //     {
+        //         return IdentityResult.Failed(new IdentityError { Description = "User not found." });
+        //     }
+
+        //     user.IsApproved = false;
+
+        //     var result = await _userRepository.UpdateUserAsync(user);
+
+        //     if (result.Succeeded)
+        //     {
+        //         return IdentityResult.Success;
+        //     }
+
+        //     return result;
+        // }
+
+
+        // Get all approved users
         public async Task<IEnumerable<UserDTO>> GetAllUnApprovedUsersAsync()
         {
             var users = await _userRepository.GetUnapprovedUsersAsync();
@@ -121,6 +145,7 @@ namespace backend.Service
             return userDtos;
         }
 
+        // Get all unapproved vendors
         public async Task<IEnumerable<UserDTO>> GetAllUnApprovedVendorsAsync()
         {
             var users = await _userRepository.GetUnapprovedVendorsAsync();
