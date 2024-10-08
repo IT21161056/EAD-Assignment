@@ -23,7 +23,6 @@ namespace backend.Models
 
         public string Role { get; set; }
 
-        [BsonElement("isApprove")]
         public bool IsApproved { get; set; } = false;
     }
 

@@ -77,7 +77,7 @@ namespace backend.DTOs
         public string Lastname { get; set; }
         public string Phone { get; set; }
         public string Role { get; set; }
-        public bool Status { get; set; }
+        public bool IsApproved { get; set; }
     }
 
     public class CreateVendorDTO : UserRegisterDTO

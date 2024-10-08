@@ -168,7 +168,7 @@ namespace backend.Services
             user.Firstname = userUpdateDTO.Firstname ?? user.Firstname;
             user.Lastname = userUpdateDTO.Lastname ?? user.Lastname;
             user.Phone = userUpdateDTO.Phone ?? user.Phone;
-            user.IsApproved = userUpdateDTO.Status;
+            user.IsApproved = userUpdateDTO.IsApproved;
 
             return await _userRepository.UpdateUserAsync(user);
         }
