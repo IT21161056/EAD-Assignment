@@ -200,7 +200,7 @@ const Router = () => {
         path="approveVendor"
         element={
           <ProtectedRoute>
-            <ProductListingDashboard />
+            <VendorAccountManagements />
           </ProtectedRoute>
         }
       />

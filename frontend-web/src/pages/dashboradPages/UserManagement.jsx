@@ -81,8 +81,8 @@ const UserManagements = () => {
                 <td className='d-flex align-items-center'>
                   <Dropdown className='text-center'>
                     <Dropdown.Toggle variant='info' style={{ backgroundColor: "white" }} className='dropdown_btn' id="dropdown-basic">
-                      <Badge bg={user.isApproved == 0 ? "danger" : "success"} className='p-1'>
-                        {user.isApproved == false ? 'Deactive' : 'Active'} <i className="fa-solid fa-angle-down"></i>
+                      <Badge bg={user.IsApproved == 0 ? "danger" : "success"} className='p-1'>
+                        {user.IsApproved == false ? 'Deactive' : 'Active'} <i className="fa-solid fa-angle-down"></i>
                       </Badge>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
