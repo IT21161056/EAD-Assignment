@@ -57,9 +57,9 @@ const MainNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/vendor/register" className="mx-2">
+              {/* <Nav.Link href="/vendor/register" className="mx-2">
                 Connect With Us
-              </Nav.Link>
+              </Nav.Link> */}
               <Nav.Link href="/" className="mx-2">
                 Product Listing
               </Nav.Link>
@@ -83,7 +83,7 @@ const MainNavbar = () => {
             </Nav>
 
             <Nav className="align-items-center">
-              <div className="position-relative me-3 d-flex align-items-center">
+              {/* <div className="position-relative me-3 d-flex align-items-center">
                 <ShoppingBag
                   size={24}
                   onClick={handleOpenModal}
@@ -98,7 +98,7 @@ const MainNavbar = () => {
                     {itemCount}
                   </Badge>
                 )}
-              </div>
+              </div> */}
 
               <NavDropdown
                 align="end"
