@@ -2,6 +2,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.DTOs
 {
+    public class UserDTO
+    {
+
+        public string Id { get; set; }
+        [Required]
+        public string Firstname { get; set; }
+
+        [Required]
+        public string Lastname { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        public string Phone { get; set; }
+
+
+        [Required]
+        public string Role { get; set; }
+
+        [Required]
+        public bool IsApproved { get; set; }
+    }
+
     public class UserRegisterDTO
     {
         [Required]
