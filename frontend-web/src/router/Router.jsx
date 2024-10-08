@@ -188,7 +188,7 @@ const Router = () => {
         }
       />
       <Route
-        path=""
+        path="/feedbacks"
         element={
           <ProtectedRoute>
             <CustomerFeedbacks />
