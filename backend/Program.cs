@@ -68,6 +68,8 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IFeedBackRepository, FeedbackRepository>();
+builder.Services.AddScoped<FeedbackService>();
 
 builder.Services.AddScoped<EmailService>();
 

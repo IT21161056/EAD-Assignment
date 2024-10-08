@@ -30,6 +30,7 @@ namespace backend.Controllers
             {
                 FeedbackId = feedback.FeedbackId,
                 UserId = feedback.UserId,
+                VendorId = feedback.VendorId,
                 FirstName = feedback.FirstName,
                 LastName = feedback.LastName,
                 CustomerFeedbackText = feedback.CustomerFeedbackText,
@@ -52,6 +53,7 @@ namespace backend.Controllers
             {
                 FeedbackId = feedback.FeedbackId,
                 UserId = feedback.UserId,
+                VendorId = feedback.VendorId,
                 FirstName = feedback.FirstName,
                 LastName = feedback.LastName,
                 CustomerFeedbackText = feedback.CustomerFeedbackText,
@@ -65,7 +67,7 @@ namespace backend.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<CustomerFeedbackDTO>> AddFeedback([FromForm] CreateFeedbackDTO createFeedbackDTO)
+        public async Task<ActionResult<CustomerFeedbackDTO>> AddFeedback([FromBody] CreateFeedbackDTO createFeedbackDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -76,6 +78,7 @@ namespace backend.Controllers
                 var createdFeedbackDto = new CustomerFeedbackDTO
                 {
                     UserId = createFeedbackDTO.UserId,
+                    VendorId = createFeedbackDTO.VendorId,
                     FirstName = createFeedbackDTO.FirstName,
                     LastName = createFeedbackDTO.LastName,
                     CustomerFeedbackText = createFeedbackDTO.CustomerFeedbackText,
@@ -86,6 +89,19 @@ namespace backend.Controllers
             }
 
             return  BadRequest("Feedback adding failed.");
+        }
+
+        // Update customer feedback
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<CustomerFeedbackDTO>> UpdateFeedback(string id, [FromForm] UpdateFeedbackDTO updateFeedbackDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var updatedfeedback = await _feedbackService.UpdateFeedbackAsync(id, updateFeedbackDTO);
+            if (updatedfeedback == null) return NotFound();
+
+            return Ok(updatedfeedback);
         }
 
     }

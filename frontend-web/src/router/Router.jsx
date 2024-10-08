@@ -188,12 +188,21 @@ const Router = () => {
         }
       />
       <Route
-      path="approveVendor"
-      element={
-        <ProtectedRoute>
-          <VendorAccountManagements/>
-        </ProtectedRoute>
-      }
+        path=""
+        element={
+          <ProtectedRoute>
+            <CustomerFeedbacks />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="approveVendor"
+        element={
+          <ProtectedRoute>
+            <ProductListingDashboard />
+          </ProtectedRoute>
+        }
       />
     </Routes>
   );

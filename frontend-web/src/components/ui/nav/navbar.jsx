@@ -57,9 +57,9 @@ const MainNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/vendor/register" className="mx-2">
+              {/* <Nav.Link href="/vendor/register" className="mx-2">
                 Connect With Us
-              </Nav.Link>
+              </Nav.Link> */}
               <Nav.Link href="/" className="mx-2">
                 Product Listing
               </Nav.Link>
@@ -83,7 +83,7 @@ const MainNavbar = () => {
             </Nav>
 
             <Nav className="align-items-center">
-              <div className="position-relative me-3 d-flex align-items-center">
+              {/* <div className="position-relative me-3 d-flex align-items-center">
                 <ShoppingBag
                   size={24}
                   onClick={handleOpenModal}
@@ -98,7 +98,7 @@ const MainNavbar = () => {
                     {itemCount}
                   </Badge>
                 )}
-              </div>
+              </div> */}
 
               <NavDropdown
                 align="end"
@@ -116,19 +116,22 @@ const MainNavbar = () => {
                 }
                 id="user-nav-dropdown"
               >
-                <NavDropdown.Item
-                  href="/login"
-                  className="d-flex align-items-center"
-                >
-                  <User size={18} className="me-2" /> Login
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => logout()}
-                  className="d-flex align-items-center"
-                >
-                  <User size={18} className="me-2" />
-                  Logout
-                </NavDropdown.Item>
+                {!user ? (
+                  <NavDropdown.Item
+                    href="/login"
+                    className="d-flex align-items-center"
+                  >
+                    <User size={18} className="me-2" /> Login
+                  </NavDropdown.Item>
+                ) : (
+                  <NavDropdown.Item
+                    onClick={() => logout()}
+                    className="d-flex align-items-center"
+                  >
+                    <User size={18} className="me-2" />
+                    Logout
+                  </NavDropdown.Item>
+                )}
                 <NavDropdown.Item
                   href="/register"
                   className="d-flex align-items-center"
