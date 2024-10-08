@@ -19,11 +19,13 @@ namespace backend.Models
         public string Lastname { get; set; }
 
         [PersonalData]
+        [BsonElement("phone")]
         public string Phone { get; set; }
 
+        [BsonElement("role")]
         public string Role { get; set; }
 
-        [BsonElement("status")]
+        [BsonElement("isApprove")]
         public bool IsApproved { get; set; } = false;
     }
 
