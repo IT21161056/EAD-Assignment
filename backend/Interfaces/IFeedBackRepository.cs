@@ -11,6 +11,8 @@ namespace backend.Interfaces
         Task <CustomerFeedback> GetFeedbackByIdAsync(string id);
 
         Task<CustomerFeedback> AddFeedbackAsync(CustomerFeedback customerFeedback);
+
+        Task<CustomerFeedback> UpdateFeedbackAsync(string id, CustomerFeedback customerFeedback);
     }
 
 }

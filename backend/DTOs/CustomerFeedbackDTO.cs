@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace backend.DTOs
 {
     public class CustomerFeedbackDTO
@@ -5,6 +7,8 @@ namespace backend.DTOs
         public string FeedbackId {get; set;}
 
         public string UserId { get; set; }  
+
+        public string VendorId { get; set; } 
 
         public string FirstName {get; set;}
 
@@ -19,27 +23,35 @@ namespace backend.DTOs
     {
         public string UserId { get; set; }  
 
+        public string VendorId { get; set; } 
+
         public string FirstName {get; set;}
 
         public string LastName {get; set;}
 
+        [StringLength(100, ErrorMessage = "Feedback cannot exceed 100 characters.")]
         public string CustomerFeedbackText {get; set;}
 
+        [Range(0, int.MaxValue, ErrorMessage = "Rating cannot be negative.")]
         public int Rating {get; set;}
     }
 
-    // public class UpdateFeedbackDTO
-    // {
-    //     public string FeedbackId {get; set;}
+    public class UpdateFeedbackDTO
+    {
+        public string FeedbackId {get; set;}
 
-    //     public string UserId { get; set; }  
+        public string UserId { get; set; }  
 
-    //     public string FirstName {get; set;}
+        public string VendorId { get; set; } 
 
-    //     public string LastName {get; set;}
+        public string FirstName {get; set;}
 
-    //     public string CustomerFeedbackText {get; set;}
+        public string LastName {get; set;}
 
-    //     public int Rating {get; set;}
-    // }
+        [StringLength(100, ErrorMessage = "Feedback cannot exceed 100 characters.")]
+        public string CustomerFeedbackText {get; set;}
+
+        [Range(0, int.MaxValue, ErrorMessage = "Rating cannot be negative.")]
+        public int Rating {get; set;}
+    }
 }

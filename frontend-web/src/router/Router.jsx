@@ -186,6 +186,14 @@ const Router = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path=""
+        element={
+          <ProtectedRoute>
+            <CustomerFeedbacks />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

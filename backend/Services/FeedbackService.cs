@@ -20,6 +20,7 @@ namespace backend.Services
             {
                 FeedbackId = feedback.FeedbackId,
                 UserId = feedback.UserId,
+                VendorId = feedback.VendorId,
                 FirstName = feedback.FirstName,
                 LastName = feedback.LastName,
                 CustomerFeedbackText = feedback.CustomerFeedbackText,
@@ -37,6 +38,7 @@ namespace backend.Services
             {
                 FeedbackId = feedback.FeedbackId,
                 UserId = feedback.UserId,
+                VendorId = feedback.VendorId,
                 FirstName = feedback.FirstName,
                 LastName = feedback.LastName,
                 CustomerFeedbackText = feedback.CustomerFeedbackText,
@@ -50,6 +52,7 @@ namespace backend.Services
             var feedback = new CustomerFeedback
             {
                 UserId = createFeedbackDTO.UserId,
+                VendorId =createFeedbackDTO.VendorId,
                 FirstName = createFeedbackDTO.FirstName,
                 LastName = createFeedbackDTO.LastName,
                 CustomerFeedbackText = createFeedbackDTO.CustomerFeedbackText,
@@ -58,5 +61,39 @@ namespace backend.Services
 
             return await _feedbackRepository.AddFeedbackAsync(feedback);
         }
+
+        // Update customer feedback
+
+         public async Task<CustomerFeedbackDTO> UpdateFeedbackAsync(string id, UpdateFeedbackDTO updateFeedbackDTO)
+         {
+            if (updateFeedbackDTO == null)
+                throw new ArgumentNullException(nameof(updateFeedbackDTO));
+
+            var feedback = await _feedbackRepository.GetFeedbackByIdAsync(id);
+            if (feedback == null)
+                throw new KeyNotFoundException($"Feddback with ID {updateFeedbackDTO.FeedbackId} not found.");
+
+            feedback.FeedbackId = updateFeedbackDTO.FeedbackId;
+            feedback.UserId = updateFeedbackDTO.UserId;
+            feedback.VendorId = updateFeedbackDTO.VendorId;
+            feedback.FirstName = updateFeedbackDTO.FirstName;
+            feedback.LastName = updateFeedbackDTO.LastName;
+            feedback.CustomerFeedbackText = updateFeedbackDTO.CustomerFeedbackText;
+            feedback.Rating = updateFeedbackDTO.Rating;
+
+            var updateFeedback = await _feedbackRepository.UpdateFeedbackAsync(id, feedback);
+
+            // Return the updated order as a DTO
+            return new CustomerFeedbackDTO
+            {
+                FeedbackId = updateFeedback.FeedbackId,
+                UserId = updateFeedback.UserId,
+                VendorId = updateFeedback.VendorId,
+                FirstName = updateFeedback.FirstName,
+                LastName = updateFeedback.LastName,
+                CustomerFeedbackText = updateFeedback.CustomerFeedbackText,
+                Rating = updateFeedback.Rating
+            };
+         }
     }
 }

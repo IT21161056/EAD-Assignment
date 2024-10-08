@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import VendorService from "../../../APIService/VendorService";
 
 const CustomerFeedbacks = () => {
-  const [vendors, setVendors] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const CustomerFeedbacks = () => {
     fetchVendorData();
   }, []);
 
-  console.log(vendors);
+  console.log(feedbacks);
 
   const calculateAverageRating = () => {
     //(sum += rating) / rating.count  5+7 = 12/2 = 6/2 * 100
@@ -44,22 +43,22 @@ const CustomerFeedbacks = () => {
       <table className="table table-hover text-center">
         <thead className="table-light">
           <tr>
-            <th>Customer Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Feedback</th>
             <th>Rating</th>
           </tr>
         </thead>
         <tbody className="table-light">
-          {vendors.length > 0 ? (
-            vendors.map((vendor) =>
-              vendor.feedbacks.map((feedback) => (
-                <tr key={feedback.customerId}>
-                  <td>Customer Name</td>
-                  <td>{feedback.customerFeedbackText}</td>
-                  <td>{feedback.rating}</td>
-                </tr>
-              ))
-            )
+          {feedbacks.length > 0 ? (
+            feedbacks.map((feedback) => (
+              <tr key={feedback.feedbackId}>
+                <td>{feedback.firstName}</td>
+                <td>{feedback.lastName}</td>
+                <td>{feedback.customerFeedbackText}</td>
+                <td>{feedback.rating}</td>
+              </tr>
+            ))
           ) : (
             <td colSpan="3">No feedback available.</td>
           )}
