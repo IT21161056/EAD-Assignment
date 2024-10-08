@@ -6,6 +6,10 @@ class VendorService {
   getCustomerFeedback() {
     return axiosAPI.get(`/feedback`);
   }
+
+  getUnapprovedVendors() {
+    return axiosAPI.get(`/user/vendors/unApproved`);
+  }
 }
 
 export default new VendorService();

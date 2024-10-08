@@ -5,8 +5,8 @@ class UserService {
     return axiosAPI.get(`/user`);
   }
 
-  updateUserStatus(userId, userObj) {
-    return axiosAPI.put(`/user/update/${userId}`, userObj);
+  updateUserStatus(userId) {
+    return axiosAPI.patch(`/user/approve/${userId}`);
   }
 }
 

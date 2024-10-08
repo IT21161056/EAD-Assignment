@@ -32,7 +32,13 @@ const VendorDashboard = () => {
     imageUrl: null,
     stock: 0,
     vendorId: user.userId,
+    venderName: user.userName,
   });
+
+  useEffect(() => {
+    console.log("user >>", user);
+  }, [user]);
+
   const [previewImage, setPreviewImage] = useState("");
 
   const getProductList = async () => {
@@ -42,6 +48,7 @@ const VendorDashboard = () => {
 
   useEffect(() => {
     getProductList();
+    setCurrentProduct((prv) => ({ ...prv, venderName: user.userName }));
   }, [user]);
 
   useEffect(() => {
@@ -59,6 +66,9 @@ const VendorDashboard = () => {
       productPrice: "",
       description: "",
       imageUrl: null,
+      stock: 0,
+      vendorId: user.userId,
+      venderName: user.userName,
     }
   ) => {
     setCurrentProduct(product);
@@ -73,7 +83,10 @@ const VendorDashboard = () => {
       productName: "",
       productPrice: "",
       description: "",
-      image: null,
+      imageUrl: null,
+      stock: 0,
+      vendorId: user.userId,
+      venderName: user.userName,
     });
     setPreviewImage("");
   };
@@ -104,6 +117,8 @@ const VendorDashboard = () => {
     formData.append("productPrice", currentProduct.productPrice);
     formData.append("description", currentProduct.description);
     formData.append("vendorId", user.userId);
+    formData.append("vendorName", currentProduct.venderName);
+
     if (currentProduct.image instanceof File) {
       formData.append("image", currentProduct.image);
     }
@@ -122,7 +137,6 @@ const VendorDashboard = () => {
   };
 
   const handleDelete = async (id) => {
-    console.log("id", id);
     if (id) {
       await ProductService.deleteVenderProduct(id);
     }
