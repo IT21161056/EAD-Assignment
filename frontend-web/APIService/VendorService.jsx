@@ -1,35 +1,34 @@
-import axios from "axios";
-import { BASE_URL } from "./BASEUrl";
+import { axiosAPI } from "../api";
 
 class VendorService {
   // Vendor end points
 
   getAllVendors(config = {}) {
-    return axios.get(`${BASE_URL}/api/vendor`, config);
+    return axiosAPI.get(`/vendor`, config);
   }
 
   getVendorById(id, config = {}) {
-    return axios.get(`${BASE_URL}/api/vendor/${id}`, config);
+    return axiosAPI.get(`/vendor/${id}`, config);
   }
 
   addVendor(vendor) {
-    return axios.post(`${BASE_URL}/api/vendor/register`, vendor);
+    return axiosAPI.post(`/vendor/register`, vendor);
   }
 
   loginVendor(credentials) {
-    return axios.post(`${BASE_URL}/api/vendor/login`, credentials);
+    return axiosAPI.post(`/auth/login`, credentials);
   }
 
-  updateVendorDetails(id, venodr) {
-    return axios.put(`${BASE_URL}/api/vendor/${id}`, venodr);
+  updateVendorDetails(id, vendor) {
+    return axiosAPI.put(`/vendor/${id}`, vendor);
   }
 
   // updateVendorStatus() {
-  //   return axios.put(`${BASE_URL}/api/vendor/${id}`);
+  //   return axiosAPI.put(`/vendor/${id}`);
   // }
 
   deleteVendor(id) {
-    return axios.delete(`${BASE_URL}/api/vendor/${id}`);
+    return axiosAPI.delete(`/vendor/${id}`);
   }
 }
 

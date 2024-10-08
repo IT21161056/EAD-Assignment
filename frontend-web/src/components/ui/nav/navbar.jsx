@@ -37,6 +37,10 @@ const MainNavbar = () => {
     }
   }, [user]);
 
+  const handelLogout = () => {
+    logout();
+  };
+
   return (
     <>
       <Navbar
@@ -116,16 +120,14 @@ const MainNavbar = () => {
                   href="/login"
                   className="d-flex align-items-center"
                 >
-                  {user ? (
-                    <span>
-                      <User size={18} className="me-2" onClick={logout} />{" "}
-                      Logout
-                    </span>
-                  ) : (
-                    <span>
-                      <User size={18} className="me-2" /> Login
-                    </span>
-                  )}
+                  <User size={18} className="me-2" /> Login
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  onClick={() => logout()}
+                  className="d-flex align-items-center"
+                >
+                  <User size={18} className="me-2" />
+                  Logout
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   href="/register"

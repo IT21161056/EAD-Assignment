@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+} from "react-bootstrap";
 import VendorService from "../../../APIService/VendorService";
 import k from "../../assets/k.png";
 
 const LoginForm = () => {
-  const [vendorEmail, setVendorEmail] = useState("");
-  const [hashedPassword, setHashedPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await VendorService.loginVendor({
+        email,
+        password,
+      });
 
-    const response = await VendorService.loginVendor({
-      vendorEmail,
-      hashedPassword,
-    });
-    if (response == 200) {
-      navigate(`/vendor`);
-    } else {
-      alert("login failed");
+      if (response.status == 200) {
+        navigate(`/vendor`);
+      }
+    } catch (error) {
+      setError(error.response.data);
     }
   };
-
-  console.log(vendorEmail, hashedPassword);
 
   return (
     <Container
@@ -50,6 +59,15 @@ const LoginForm = () => {
         </Col>
         <Col xs={12} md={6} lg={4}>
           <Card className="shadow-lg p-4 rounded">
+            {error && (
+              <Alert
+                variant="danger"
+                onClose={() => setError(null)}
+                dismissible
+              >
+                {error}
+              </Alert>
+            )}
             <Card.Body>
               <h2 className="text-center text-primary mb-4">Vendor Login</h2>
 
@@ -59,8 +77,8 @@ const LoginForm = () => {
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
-                    value={vendorEmail}
-                    onChange={(e) => setVendorEmail(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </Form.Group>
@@ -70,8 +88,8 @@ const LoginForm = () => {
                   <Form.Control
                     type="password"
                     placeholder="Password"
-                    value={hashedPassword}
-                    onChange={(e) => setHashedPassword(e.target.value)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </Form.Group>

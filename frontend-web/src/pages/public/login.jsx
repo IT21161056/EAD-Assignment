@@ -17,29 +17,45 @@ const LoginForm = () => {
   const { setAuthData } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
     try {
       const response = await AuthService.login({ email, password });
-      if (response.status === 200) {
+
+      if (response.data.isSuccess) {
         setAuthData(response.data);
         navigate("/");
-      }
-      if (response.status === 401) {
-        setError("Invalid Credentials");
+      } else {
+        setError(response.data.message);
       }
     } catch (error) {
-      setError(error.response.data);
+      if (error.response) {
+        switch (error.response.status) {
+          case 403:
+            setError(
+              "Your account is pending approval. Please try again later or contact support."
+            );
+            break;
+          case 401:
+            setError("Invalid email or password. Please try again.");
+            break;
+          default:
+            setError("An error occurred. Please try again later.");
+        }
+      } else {
+        setError(
+          "Unable to connect to the server. Please check your internet connection."
+        );
+      }
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (

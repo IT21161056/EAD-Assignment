@@ -34,19 +34,19 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(UserLoginDTO userLoginDTO)
     {
         var userLoginResponse = await _authService.Login(userLoginDTO);
-        if (userLoginResponse != null)
-        {
-            return Ok(new UserLoginResponseDTO
-            {
-                UserId = userLoginResponse.UserId,  // Convert ObjectId or Guid to string
-                Firstname = userLoginResponse.Firstname,
-                Lastname = userLoginResponse.Lastname,
-                Role = userLoginResponse.Role,
-                Token = userLoginResponse.Token
-            });
-        }
 
-        return Unauthorized("Invalid login attempt.");
+        if (userLoginResponse.IsSuccess)
+        {
+            return Ok(userLoginResponse);
+        }
+        else if (userLoginResponse.Message == "Your registration is still pending admin validation. Please try again later or contact support for assistance.")
+        {
+            return StatusCode(403, userLoginResponse); // Forbidden
+        }
+        else
+        {
+            return Unauthorized(userLoginResponse);
+        }
     }
 
     // Logout endpoint
