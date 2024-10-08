@@ -21,30 +21,53 @@ namespace backend.Service
         }
 
         // Method to get all users
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
         {
-            return await _userRepository.GetAllUsersAsync();
-        }
 
+            var users = await _userRepository.GetAllUsersAsync();
+            // Map Product to ProductDto
+            var userDtos = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                userDtos.Add(new UserDTO
+                {
+                    Id = user.Id.ToString(),
+                    Email = user.Email,
+                    Firstname = user.Firstname,
+                    IsApproved = user.IsApproved,
+                    Lastname = user.Lastname,
+                    Phone = user.Phone,
+                    Role = user.Role
+                });
+            }
+            return userDtos;
+
+        }
 
         // Method to get all vendors
-        public async Task<IEnumerable<User>> GetAllVendorsAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllVendorsAsync()
         {
-            return await _userRepository.GetAllVendorsAsync();
+
+            var users = await _userRepository.GetAllVendorsAsync();
+
+            var userDtos = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                userDtos.Add(new UserDTO
+                {
+                    Id = user.Id.ToString(),
+                    Email = user.Email,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    IsApproved = user.IsApproved,
+                    Phone = user.Phone,
+                    Role = user.Role
+                });
+            }
+            return userDtos;
+
         }
 
-        // public async Task<IdentityResult> ApproveUser(string id)
-        // {
-        //     var user = await _userRepository.FindByIdAsync(id);
-
-        //     if (user == null)
-        //     {
-        //         return IdentityResult.Failed(new IdentityError { Description = "User not found." });
-        //     }
-
-        //     user.IsApproved = true;
-        //     return await _userRepository.UpdateUserAsync(user);
-        // }
         public async Task<IdentityResult> ApproveUser(string id)
         {
             // Find the user by ID
@@ -78,14 +101,44 @@ namespace backend.Service
         }
 
 
-        public async Task<IEnumerable<User>> GetAllUnApprovedUsersAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllUnApprovedUsersAsync()
         {
-            return await _userRepository.GetUnapprovedUsersAsync();
+            var users = await _userRepository.GetUnapprovedUsersAsync();
+            var userDtos = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                userDtos.Add(new UserDTO
+                {
+                    Id = user.Id.ToString(),
+                    Email = user.Email,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    IsApproved = user.IsApproved,
+                    Phone = user.Phone,
+                    Role = user.Role
+                });
+            }
+            return userDtos;
         }
 
-        public async Task<IEnumerable<User>> GetAllUnApprovedVendorsAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllUnApprovedVendorsAsync()
         {
-            return await _userRepository.GetUnapprovedVendorsAsync();
+            var users = await _userRepository.GetUnapprovedVendorsAsync();
+            var userDtos = new List<UserDTO>();
+            foreach (var user in users)
+            {
+                userDtos.Add(new UserDTO
+                {
+                    Id = user.Id.ToString(),
+                    Email = user.Email,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    IsApproved = user.IsApproved,
+                    Phone = user.Phone,
+                    Role = user.Role
+                });
+            }
+            return userDtos;
         }
         public async Task SendEmail(EmailDTO emailDTO)
         {

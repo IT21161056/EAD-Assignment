@@ -11,14 +11,13 @@ namespace backend.Interfaces
     public interface IUserService
     {
         // User-related methods
-        Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<IEnumerable<UserDTO>> GetAllUsersAsync();
 
-
-        Task<IEnumerable<User>> GetAllVendorsAsync();
+        Task<IEnumerable<UserDTO>> GetAllVendorsAsync();
 
         Task<IdentityResult> ApproveUser(string id);
 
-        Task<IEnumerable<User>> GetAllUnApprovedUsersAsync();
-        Task<IEnumerable<User>> GetAllUnApprovedVendorsAsync();
+        Task<IEnumerable<UserDTO>> GetAllUnApprovedUsersAsync();
+        Task<IEnumerable<UserDTO>> GetAllUnApprovedVendorsAsync();
     }
 }

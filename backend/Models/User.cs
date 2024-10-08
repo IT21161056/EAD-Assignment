@@ -7,8 +7,10 @@ using MongoDB.Bson; // For Required and EnumDataType attributes
 namespace backend.Models
 {
     [CollectionName("Users")]
-    public class User : MongoIdentityUser<string>
+    public class User : MongoIdentityUser<ObjectId>
     {
+        [BsonRepresentation(BsonType.ObjectId)]
+        public override ObjectId Id { get; set; }
 
         [PersonalData]
         public string Firstname { get; set; }

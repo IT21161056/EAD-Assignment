@@ -18,7 +18,7 @@ namespace backend.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsers()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace backend.Controllers
 
         // GET: api/User/vendors
         [HttpGet("vendors")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllVendors()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllVendors()
         {
             try
             {
@@ -80,7 +80,7 @@ namespace backend.Controllers
 
         // GET: api/User/unApproved
         [HttpGet("unApproved")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUnApprovedUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUnApprovedUsers()
         {
             try
             {
@@ -101,7 +101,7 @@ namespace backend.Controllers
 
         // GET: api/User/unApproved
         [HttpGet("vendors/unApproved")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUnApprovedVendors()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUnApprovedVendors()
         {
             try
             {
