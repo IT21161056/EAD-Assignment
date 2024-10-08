@@ -24,12 +24,12 @@ class VendorService {
     return axios.put(`${BASE_URL}/api/vendor/${id}`, venodr);
   }
 
-  // updateVendorStatus() {
-  //   return axios.put(`${BASE_URL}/api/vendor/${id}`);
-  // }
-
   deleteVendor(id) {
     return axios.delete(`${BASE_URL}/api/vendor/${id}`);
+  }
+
+  getCustomerFeedback() {
+    return axios.get(`${BASE_URL}/api/feedback`);
   }
 }
 
