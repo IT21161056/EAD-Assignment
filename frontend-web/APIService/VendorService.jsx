@@ -32,7 +32,11 @@ class VendorService {
   }
 
   getCustomerFeedback() {
-    return axios.get(`${BASE_URL}/api/feedback`);
+    return axiosAPI.get(`/feedback`);
+  }
+
+  getUnapprovedVendors(){
+    return axiosAPI.get(`/user/vendors/unApproved`)
   }
 }
 
