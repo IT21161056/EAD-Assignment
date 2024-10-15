@@ -2,7 +2,7 @@ import { axiosAPI } from "../api";
 
 class UserService {
   getAllUsers() {
-    return axiosAPI.get(`/user`);
+    return axiosAPI.get(`/user/unApproved`);
   }
 
   updateUserStatus(userId) {
