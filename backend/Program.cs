@@ -34,6 +34,7 @@ builder.Services.AddScoped<IMongoDatabase>(provider =>
 builder.Services.AddIdentity<User, MongoIdentityRole<ObjectId>>(options =>
 {
     options.User.RequireUniqueEmail = true;
+
 })
 .AddMongoDbStores<User, MongoIdentityRole<ObjectId>, ObjectId>(mongoSettings.ConnectionString, mongoSettings.DatabaseName)
 .AddDefaultTokenProviders();
@@ -116,6 +117,19 @@ app.Use(async (context, next) =>
 });
 
 app.MapGet("/", () => "Hello World!");
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == "POST")
+    {
+        context.Request.EnableBuffering();
+        using var reader = new StreamReader(context.Request.Body, leaveOpen: true);
+        var body = await reader.ReadToEndAsync();
+        Console.WriteLine($"POST Request Body: {body}");
+        context.Request.Body.Position = 0;
+    }
+    await next();
+});
 
 // Add endpoints, middleware, etc.
 app.UseCors("AllowAll"); // Apply the "AllowAll" CORS policy
